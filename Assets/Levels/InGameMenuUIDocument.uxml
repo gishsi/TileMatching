@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Theme.uss?fileID=7433441132597879392&amp;guid=925e3dd8059d66b40b89b7a8ea4cbf55&amp;type=3#Theme" />
+    <ui:VisualElement name="Menu" style="max-width: initial; min-width: auto; width: 215px; align-self: flex-end; justify-content: center; align-items: stretch; flex-direction: column; height: 1020px; margin-right: 24px;">
+        <ui:Button text="Main" parse-escape-sequences="true" display-tooltip-when-elided="true" name="MainMenuButton" class="secondary-button" />
+        <ui:Button text="Restart" parse-escape-sequences="true" display-tooltip-when-elided="true" name="RestartButton" class="secondary-button" />
+        <ui:Button text="Level selection" parse-escape-sequences="true" display-tooltip-when-elided="true" name="LevelSelectionButton" class="secondary-button" />
+        <ui:Button text="Quit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="QuitButton" class="secondary-button" style="background-color: rgb(147, 0, 10); color: rgb(255, 218, 214);" />
+    </ui:VisualElement>
+</ui:UXML>

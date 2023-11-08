@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Common;
 using UnityEngine;
 
@@ -14,11 +12,14 @@ namespace Tiles
     
         public Vector3 initialPosition;
         [SerializeField] private string targetObjectTag;
-
+        
+        public delegate void SwitchPlacesAction();
+        public static event SwitchPlacesAction OnSwitch;
+        
         private void Awake()
         {
             _logger = new Logger<SwitchPlacesOfPickedUp>(gameObject);
-            initialPosition = transform.position;
+            initialPosition = transform.position; // todo: use local position instead
         }
 
         private void Update()
@@ -66,14 +67,20 @@ namespace Tiles
                 }
                 var isItself = raycastHit2D.collider.gameObject == gameObject;
                 var isHitAJewel = raycastHit2D.collider.gameObject.CompareTag(targetObjectTag);
+                
+                // todo: from colour matching this should compare sprites
+                var colourOfPickedUp = GetComponent<SpriteRenderer>().color;
+                var colourOfDroppedOn = raycastHit2D.collider.gameObject.GetComponent<SpriteRenderer>().color;
+                var areColoursMatching = colourOfPickedUp.Equals(colourOfDroppedOn);
             
-                if (raycastHit2D.collider is null || isItself || !isHitAJewel)
+                if (raycastHit2D.collider is null || isItself || !isHitAJewel || areColoursMatching)
                 {
                     transform.position = initialPosition;
                     continue;
                 }
 
                 var hitGameObject = raycastHit2D.collider.gameObject;
+                
                 // Temporary variable that stores the initial position of the target object
                 var hitGameObjectPosition = hitGameObject.transform.position;
             
@@ -93,16 +100,18 @@ namespace Tiles
 
                 swapped = true;
                 // todo: send an event that some objects have switched places (e.g. re-evaluate rows)
+                
+                // send the event here
+                OnSwitch?.Invoke();
+                
                 // todo: cast a ray between the two tiles a player tries to swap, if there is a tile between, break.
                 _logger.Log("New position of picked up: " + hitGameObjectPosition);
-                _logger.Log("New position of dropped on: " + detectComponent.initialPosition);
-                
+                _logger.Log("New position of dropped " + detectComponent.gameObject.name + " on: "  + detectComponent.initialPosition);
             }
         
             // During dragging the object should create collisions with other jewels
             gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
             _hasBeenPickedUp = false;
         }
-        
     }
 }

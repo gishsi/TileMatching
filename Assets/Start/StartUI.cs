@@ -25,11 +25,11 @@ namespace Start
         {
             _logger.Log("Quiting the game.");
             
-            #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-            #else
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
                 Application.Quit();
-            #endif
+#endif
         }
         
         private void GoToLevel1()

@@ -1,19 +1,16 @@
+using System;
 using UnityEngine;
 
 namespace Levels
 {
     public class LevelFinished : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-        
-        }
+        [SerializeField] private CurrentLevelScriptableObject currentLevel;
 
-        // Update is called once per frame
-        void Update()
+        private void Start()
         {
-        
+            // todo: remove
+            Debug.Log("Current level: " + currentLevel.nameOfLastLevelPlayed);
         }
     }
 }

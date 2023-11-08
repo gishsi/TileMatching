@@ -1,5 +1,6 @@
 using Tiles;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 namespace Levels
@@ -11,6 +12,8 @@ namespace Levels
     /// </summary>
     public class SwapLimit : MonoBehaviour
     {
+        [SerializeField] private CurrentLevelScriptableObject currentLevel; 
+        
         public int swaps = 5;
 
         private VisualElement _root;
@@ -18,6 +21,7 @@ namespace Levels
         private void Awake()
         {
             _root = GetComponent<UIDocument>().rootVisualElement;
+            _root.Q<Label>("SwapsLeft").text = swaps.ToString();
         }
 
         private void OnEnable()
@@ -42,11 +46,9 @@ namespace Levels
                 // todo: temp., remove later
                 Debug.Log("Player lost!");
                 
-#if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-#else
-                Application.Quit();
-#endif
+                currentLevel.nameOfLastLevelPlayed = "Levels/Level";
+
+                SceneManager.LoadScene("Levels/LevelFinished");
             }
         
             swapsLabel.text = swaps.ToString();

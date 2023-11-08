@@ -7,7 +7,11 @@ namespace Levels
 {
     public class MenuUI : MonoBehaviour
     {
+        [SerializeField] private CurrentLevelScriptableObject currentLevel;
+
+        
         private ILogger<MenuUI> _logger;
+        
         private void OnEnable()
         {
             _logger = new Logger<MenuUI>(gameObject);
@@ -37,7 +41,7 @@ namespace Levels
             if (restartButton != null)
             {
                 // todo: scriptable object to remember which level we last played
-                restartButton.clicked += () => _logger.Log("Restart");
+                restartButton.clicked += Restart;
             }
         }
 
@@ -57,6 +61,17 @@ namespace Levels
             _logger.Log("Going to start scene.");
             
             SceneManager.LoadScene("Start/Scene");
+        }
+
+        private void Restart()
+        {
+            if (currentLevel.nameOfLastLevelPlayed is null)
+            {
+                _logger.Log("Could not restart the level.");
+                return;
+            }
+            
+            SceneManager.LoadScene(currentLevel.nameOfLastLevelPlayed);
         }
     }
 }

@@ -225,7 +225,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1977021546}
   - component: {fileID: 1977021548}
-  - component: {fileID: 1977021547}
   - component: {fileID: 1977021549}
   m_Layer: 0
   m_Name: LevelFinished
@@ -249,18 +248,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2004470606}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1977021547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1977021545}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10b0e93fe073a204f9b5dcff9fe0d731, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1977021548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,6 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c2f6abcf8f416e4a92173ab56316521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentLevel: {fileID: 11400000, guid: 4e3cdcfb54ccaa44aa5cb0effe0f8de9, type: 2}
 --- !u!1 &2004470605
 GameObject:
   m_ObjectHideFlags: 0

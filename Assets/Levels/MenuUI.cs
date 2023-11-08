@@ -19,10 +19,26 @@ namespace Levels
             var levelSelectionButton = root.Q<Button>("LevelSelectionButton");
             var restartButton = root.Q<Button>("RestartButton");
 
-            mainMenuButton.clicked += GoToMenu;
-            quitButton.clicked += QuitGame;
-            levelSelectionButton.clicked += () => _logger.Log("Level selection");
-            restartButton.clicked += () => _logger.Log("Restart");
+            if (mainMenuButton != null)
+            {
+                mainMenuButton.clicked += GoToMenu;
+            }
+
+            if (quitButton != null)
+            {
+                quitButton.clicked += QuitGame;
+            }
+
+            if (levelSelectionButton != null)
+            {
+                levelSelectionButton.clicked += () => _logger.Log("Level selection");
+            }
+
+            if (restartButton != null)
+            {
+                // todo: scriptable object to remember which level we last played
+                restartButton.clicked += () => _logger.Log("Restart");
+            }
         }
 
         private void QuitGame()

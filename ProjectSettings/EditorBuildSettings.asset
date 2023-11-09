@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Levels/LevelFinished.unity
     guid: 7e6546621e7abb247af2de495e6e3c0f
+  - enabled: 1
+    path: Assets/HowToPlay/HowToPlay.unity
+    guid: 20f702d1b1198124eaeed316e4f2b337
   m_configObjects: {}

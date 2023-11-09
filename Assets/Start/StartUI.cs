@@ -16,9 +16,11 @@ namespace Start
 
             var level1Button = root.Q<Button>("Level_1");
             var quitButton = root.Q<Button>("Quit");
+            var howToPlayButton = root.Q<Button>("HowToPlay");
 
             level1Button.clicked += GoToLevel1;
             quitButton.clicked += QuitGame;
+            howToPlayButton.clicked += () => SceneManager.LoadScene("HowToPlay/HowToPlay");
         }
 
         private void QuitGame()

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 namespace HowToPlay
@@ -9,7 +8,7 @@ namespace HowToPlay
     ///     This class is responsible for setting up the UI for the How To Play help screen.
     ///     It utilizes JSON to read how to play data stored in JSON.
     /// </summary>
-    public class HowToPlay : MonoBehaviour
+    public class HowToPlayCarousel : MonoBehaviour
     {
         [System.Serializable]
         public class Card

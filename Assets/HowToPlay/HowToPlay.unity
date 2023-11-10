@@ -226,6 +226,7 @@ GameObject:
   - component: {fileID: 2009291945}
   - component: {fileID: 2009291944}
   - component: {fileID: 2009291946}
+  - component: {fileID: 2009291947}
   m_Layer: 5
   m_Name: HowToPlayUI
   m_TagString: Untagged
@@ -277,6 +278,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   howToPlayJson: {fileID: 4900000, guid: eed75dbd928e466e9c09a4710076033e, type: 3}
+  cards:
+    data: []
+--- !u!114 &2009291947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009291943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b63ffdbc1c4c4d37aef36348bea4a70f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -276,6 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57909d8893ff543458f09c4d6e879a77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  howToPlayJson: {fileID: 4900000, guid: eed75dbd928e466e9c09a4710076033e, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

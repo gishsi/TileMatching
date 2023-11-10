@@ -1,4 +1,4 @@
-﻿namespace Common
+﻿namespace Common.Utils
 {
     public interface ILogger<T>
     {

@@ -615,6 +615,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1125740835}
   - component: {fileID: 1125740834}
+  - component: {fileID: 1125740839}
+  - component: {fileID: 1125740838}
+  - component: {fileID: 1125740837}
   - component: {fileID: 1125740836}
   m_Layer: 5
   m_Name: MenuUI
@@ -663,10 +666,46 @@ MonoBehaviour:
   m_GameObject: {fileID: 1125740833}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c2f6abcf8f416e4a92173ab56316521, type: 3}
+  m_Script: {fileID: 11500000, guid: b63ffdbc1c4c4d37aef36348bea4a70f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1125740837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1125740833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45781a84de5d4d1496aa33e487a9f380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1125740838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1125740833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2119fc1e741648a38d646640e5fb1526, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   currentLevel: {fileID: 11400000, guid: 4e3cdcfb54ccaa44aa5cb0effe0f8de9, type: 2}
+--- !u!114 &1125740839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1125740833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bd2de55416540ea848d52a6ac3727fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1311822564
 PrefabInstance:
   m_ObjectHideFlags: 0

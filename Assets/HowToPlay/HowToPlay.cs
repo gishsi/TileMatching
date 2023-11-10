@@ -38,12 +38,10 @@ namespace HowToPlay
         private void OnEnable()
         {
             _root = GetComponent<UIDocument>().rootVisualElement;
-
-            var mainMenuButton = _root.Q<Button>("MainMenuButton");
+            
             var nextButton = _root.Q<Button>("NextButton");
             var previousButton = _root.Q<Button>("PreviousButton");
             
-            mainMenuButton.clicked += GoToMenu;
             nextButton.clicked += Next;
             previousButton.clicked += Previous;
             
@@ -80,11 +78,6 @@ namespace HowToPlay
             var index = cards.data.FindIndex((c) => c.Equals(_currentCard));
             
             SetupCardAtIndex((index - 1 + cards.data.Count) % cards.data.Count);
-        }
-        
-        private static void GoToMenu()
-        {
-            SceneManager.LoadScene("Start/Scene");
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using JetBrains.Annotations;
 using UnityEngine;
 
-namespace Common
+namespace Common.Utils
 {
     public class Logger<T> : ILogger<T>
     {

@@ -1,0 +1,3 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:Button text="Main" parse-escape-sequences="true" display-tooltip-when-elided="true" name="MainMenuButton" class="secondary-button" />
+</ui:UXML>

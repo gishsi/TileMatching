@@ -1,0 +1,3 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:Button text="Level selection" parse-escape-sequences="true" display-tooltip-when-elided="true" name="LevelSelectionButton" class="secondary-button" />
+</ui:UXML>

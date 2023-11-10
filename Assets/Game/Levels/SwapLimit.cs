@@ -1,9 +1,9 @@
-using Tiles;
+using Game.Tiles;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-namespace Levels
+namespace Game.Levels
 {
     /// <summary>
     ///     Script attached to the UI document that represents the moves left.
@@ -46,9 +46,9 @@ namespace Levels
                 // todo: temp., remove later
                 Debug.Log("Player lost!");
                 
-                currentLevel.nameOfLastLevelPlayed = "Levels/Level";
+                currentLevel.nameOfLastLevelPlayed = "Game/Levels/Level";
 
-                SceneManager.LoadScene("Levels/LevelFinished");
+                SceneManager.LoadScene("GameEnd/LevelFinished");
             }
         
             swapsLabel.text = swaps.ToString();

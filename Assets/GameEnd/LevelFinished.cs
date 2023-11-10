@@ -1,7 +1,7 @@
-using System;
+using Game.Levels;
 using UnityEngine;
 
-namespace Levels
+namespace GameEnd
 {
     public class LevelFinished : MonoBehaviour
     {

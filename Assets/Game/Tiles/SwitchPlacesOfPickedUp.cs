@@ -1,7 +1,7 @@
-using Common;
+using Common.Utils;
 using UnityEngine;
 
-namespace Tiles
+namespace Game.Tiles
 {
     public class SwitchPlacesOfPickedUp : MonoBehaviour
     {

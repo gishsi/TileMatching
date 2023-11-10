@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Levels
+namespace Game.Levels
 {
     [CreateAssetMenu(fileName = "CurrentLevel", menuName = "Levels/CurrentLevelScriptableObject")]
     public class CurrentLevelScriptableObject : ScriptableObject

@@ -1,0 +1,3 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:Button text="Quit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="QuitButton" class="secondary-button" style="background-color: rgb(147, 0, 10); color: rgb(255, 218, 214);" />
+</ui:UXML>

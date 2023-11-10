@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -33,36 +32,56 @@ namespace HowToPlay
 
         public CardList cards;
         private Card _currentCard;
+
+        private VisualElement _root;
         
         private void OnEnable()
         {
-            var root = GetComponent<UIDocument>().rootVisualElement;
+            _root = GetComponent<UIDocument>().rootVisualElement;
 
-            var mainMenuButton = root.Q<Button>("MainMenuButton");
-            var nextButton = root.Q<Button>("NextButton");
-            var previousButton = root.Q<Button>("PreviousButton");
+            var mainMenuButton = _root.Q<Button>("MainMenuButton");
+            var nextButton = _root.Q<Button>("NextButton");
+            var previousButton = _root.Q<Button>("PreviousButton");
             
             mainMenuButton.clicked += GoToMenu;
-            nextButton.clicked += () => Debug.Log("Next"); // todo: implement
-            previousButton.clicked += () => Debug.Log("Previous"); // todo: implement
+            nextButton.clicked += Next;
+            previousButton.clicked += Previous;
             
-            // Update the cards
+            // Get the cards
             cards = CardList.CreateFromJson(howToPlayJson.text);
 
-            SetupInitialCard(root);
+            // After loading the How To Play screen, load the first tutorial page
+            SetupCardAtIndex(0);
         }
 
-        private void SetupInitialCard(VisualElement root)
+        private void SetupCardAtIndex(int index)
         {
-            var cardTitleLabel = root.Q<Label>("CardTitle");
-            cardTitleLabel.text = cards.data.First().title;
+            _currentCard = cards.data[index];
             
-            var cardTextLabel  = root.Q<Label>("CardText");
-            cardTextLabel.text = cards.data.First().text;
-
-            _currentCard = cards.data.First();
+            var cardTitleLabel = _root.Q<Label>("CardTitle");
+            cardTitleLabel.text = _currentCard.title;
+            
+            var cardTextLabel  = _root.Q<Label>("CardText");
+            cardTextLabel.text = _currentCard.text;
         }
-
+        
+        /// <summary>
+        ///     Loop over the card's list if it goes above its length: circular arrays CS21120 (<see cref="Previous"/> also utilizes circular arrays)
+        /// </summary>
+        private void Next()
+        {
+            var index = cards.data.FindIndex((c) => c.Equals(_currentCard));
+            
+            SetupCardAtIndex((index + 1) % cards.data.Count);
+        }
+        
+        private void Previous()
+        {
+            var index = cards.data.FindIndex((c) => c.Equals(_currentCard));
+            
+            SetupCardAtIndex((index - 1 + cards.data.Count) % cards.data.Count);
+        }
+        
         private static void GoToMenu()
         {
             SceneManager.LoadScene("Start/Scene");

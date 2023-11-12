@@ -1,4 +1,5 @@
 using Common.Utils;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace Game.Tiles
@@ -40,6 +41,15 @@ namespace Game.Tiles
 
         private void OnMouseDown()
         {
+            // todo: coupling, rework
+            // e.g. have an event from Falling emit that this component could listen to, disable all mouse interaction.
+            var fallingComponent = gameObject.GetComponent<Falling>();
+            if (fallingComponent != null && fallingComponent.canFall == true)
+            {
+                _logger.Log("Game object belongs to the ignore mouse input layer.");
+                return;
+            }
+            
             _hasBeenPickedUp = true;
             _dragging = true;
             gameObject.GetComponent<BoxCollider2D>().isTrigger = true;

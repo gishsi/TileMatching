@@ -1,5 +1,4 @@
 using Common.Utils;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace Game.Tiles
@@ -44,9 +43,9 @@ namespace Game.Tiles
             // todo: coupling, rework
             // e.g. have an event from Falling emit that this component could listen to, disable all mouse interaction.
             var fallingComponent = gameObject.GetComponent<Falling>();
-            if (fallingComponent != null && fallingComponent.canFall == true)
+            if (fallingComponent != null && fallingComponent.canFall)
             {
-                _logger.Log("Game object belongs to the ignore mouse input layer.");
+                _logger.Log("Ignore mouse input.");
                 return;
             }
             

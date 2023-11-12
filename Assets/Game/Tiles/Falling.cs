@@ -21,15 +21,21 @@ namespace Game.Tiles
         {
             _logger = new Logger<Falling>(gameObject);
             _rigidbody2D = GetComponent<Rigidbody2D>();
-            
-            var l = LayerMask.LayerToName(gameObject.layer);
-            
-            _logger.Log("Layer mask: " + l);
         }
 
-        private void Update()
+        // TODO: ONLY TEMPORARY, HAVE THIS SUBSCRIBE TO THE MATCHING EVENT (GRID EVALUATION, WHATEVER)
+        private void OnEnable()
         {
-            Debug.DrawRay(transform.position,Vector2.down, Color.red);
+            SwitchPlacesOfPickedUp.OnSwitch += Fall;
+        }
+
+        private void OnDisable()
+        {
+            SwitchPlacesOfPickedUp.OnSwitch -= Fall;
+        }
+
+        private void Fall()
+        {
             var placedOfPickedUpComponent = GetComponent<SwitchPlacesOfPickedUp>();
             // The first hit is the collider of the tile that has the Falling component attached, the second one
             // is the tile below or the end of the grid. 
@@ -49,9 +55,6 @@ namespace Game.Tiles
                 }
 
                 // There is a block below the tile, disable falling
-                
-                
-                placedOfPickedUpComponent.initialPosition = transform.position;
                 canFall = false;
                 _rigidbody2D.gravityScale = 0f;
             }
@@ -59,13 +62,17 @@ namespace Game.Tiles
             
             if (!canFall)
             {
+                placedOfPickedUpComponent.initialPosition = transform.position;
                 return;
             }
             
             _logger.Log("Falling down");
             _rigidbody2D.gravityScale = 1f;
-            
-            placedOfPickedUpComponent.initialPosition = transform.position;
+        }
+
+        private void Update()
+        {
+            Debug.DrawRay(transform.position,Vector2.down, Color.red);
         }
     }
 }

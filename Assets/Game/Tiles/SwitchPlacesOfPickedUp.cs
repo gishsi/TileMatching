@@ -11,7 +11,7 @@ namespace Game.Tiles
         private bool _hasBeenPickedUp = false;
     
         public Vector3 initialPosition;
-        [SerializeField] private string targetObjectTag;
+        [SerializeField] private string targetObjectTag = "Tile";
         
         public delegate void SwitchPlacesAction();
         public static event SwitchPlacesAction OnSwitch;

@@ -14,7 +14,10 @@ namespace Game.Tiles
         [SerializeField] private string targetObjectTag = "Tile";
         
         public delegate void SwitchPlacesAction();
-        public static event SwitchPlacesAction OnSwitch;
+        public static event SwitchPlacesAction OnSwitch; 
+        
+        public delegate void PickedUpAction();
+        public static event PickedUpAction OnPickedUp;
         
         private void Awake()
         {
@@ -48,6 +51,9 @@ namespace Game.Tiles
                 _logger.Log("Ignore mouse input.");
                 return;
             }
+            
+            // Needs to be invoked before being picked up (so that the above tile does not fall)
+            OnPickedUp?.Invoke();
             
             _hasBeenPickedUp = true;
             _dragging = true;

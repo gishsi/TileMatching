@@ -27,11 +27,14 @@ namespace Game.Tiles
         private void OnEnable()
         {
             SwitchPlacesOfPickedUp.OnSwitch += Fall;
+            SwitchPlacesOfPickedUp.OnPickedUp += Fall;
         }
 
         private void OnDisable()
         {
             SwitchPlacesOfPickedUp.OnSwitch -= Fall;
+            // To disable falling again
+            SwitchPlacesOfPickedUp.OnPickedUp -= Fall;
         }
 
         private void Fall()

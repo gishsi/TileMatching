@@ -40,8 +40,21 @@ namespace Game.Grid
 
         private void Start()
         {
+            SetPositionOfGridBasedOnAmountOfColsAndRows();
             SetupGridBottom();
             SpawnTiles();
+        }
+
+        private void SetPositionOfGridBasedOnAmountOfColsAndRows()
+        {
+            // todo: put 0.4f in a const variable, accessible to the whole class'
+            // needs some spacing: for every tile that is not last add .4f, if last add .2f
+            var halfOfRows = rows / 2f;
+            var fullMarginRows = (halfOfRows - 1) * 0.4f;
+            var halfOfCols = cols / 2f;
+            var fullMarginCols = (halfOfCols - 1) * 0.4f;
+            
+            transform.position = new Vector3((rows / 2f + fullMarginRows + 0.2f) * -1, (cols / 2f + fullMarginCols + 0.2f) * -1, 0);
         }
 
         private void SetupGridBottom()

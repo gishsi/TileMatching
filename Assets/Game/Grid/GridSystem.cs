@@ -13,12 +13,11 @@ namespace Game.Grid
     {
         private ILogger<GridSystem> _logger;
         
-        
         [SerializeField] private GameObject jewel;
         [SerializeField] private GameObject blocker;
 
 
-        private const int MaxRows = 7;
+        private const int MaxRows = 6;
         private const int MaxColumns = 4;
         
         public int rows = MaxRows;
@@ -27,16 +26,40 @@ namespace Game.Grid
         
         private readonly Color _greenTileColor = new (0, 0.4235294f, 0.3098039f);
         private readonly Color _blueTileColor = new (0, 0.5381241f, 1);
-
+        
+        
         private void Awake()
         {
+            _logger = new Logger<GridSystem>(gameObject);
+            
             if (rows > MaxRows || cols > MaxColumns)
             {
                 throw new Exception($"Rows cannot exceed {MaxRows}, columns cannot exceed {MaxColumns}");
             }
-            
-            _logger = new Logger<GridSystem>(gameObject);
+        }
+
+        private void Start()
+        {
+            SetupGridBottom();
             SpawnTiles();
+        }
+
+        private void SetupGridBottom()
+        {
+            var gridBottom = GameObject.Find("GridBottom");
+
+            if (gridBottom == null)
+            {
+                throw new Exception("A grid bottom must be present as a child to the GridSystem.");
+            }
+            
+            // Every tile has a 0.4f margin to the right. Three tiles will add 1.2f margin, which is pretty close to an additional tile.
+            // Therefore for every triple of tiles we add an additional tile width to the scale of the grid bottom.
+            var offset = rows / 3;
+            
+            // The anchor of the grid bottom is the middle, that's why we only shift the position by half
+            gridBottom.transform.position = transform.position + new Vector3((rows + offset) / 2f, -0.5f, 0);
+            gridBottom.transform.localScale = new Vector3(rows + offset, 1, 1);
         }
 
         /// <summary>
@@ -47,9 +70,9 @@ namespace Game.Grid
         /// </remarks>
         private void SpawnTiles()
         {
-            for(var x = 0; x < 7; x++)
+            for(var x = 0; x < rows; x++)
             {
-                for (var y = 0; y < 2; y++)
+                for (var y = 0; y < cols; y++)
                 {
                     var rand = Random.value;
                     var color = rand > .5f ? _greenTileColor : _blueTileColor;

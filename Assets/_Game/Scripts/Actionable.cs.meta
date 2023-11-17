@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 03a54f8b9c2a41db8ede0679888fe73e
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - evaluateTrigger: {fileID: 11400000, guid: ab9de331293561a44b3e682513e67fe9, type: 2}
+  - swipeTrigger: {fileID: 11400000, guid: edd93e3d0c06d6f47b5073db4e6ebf3f, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,9 +1,13 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using _Game.Scripts.Events;
 using _Game.Scripts.Utils;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 namespace _Game.Scripts
@@ -13,6 +17,12 @@ namespace _Game.Scripts
     /// </summary>
     public class GridSystem : MonoBehaviour
     {
+        // *********** Constants *********** //
+        private const float TileSpawnDisplacement = 1.4f;
+        private const float SpacingBetweenTiles = 0.4f;
+        // This is so that the origin of the new sprite is aligned to the origin of parent
+        private const float MarginTopLeftOfTilesInGrid = 0.5f;
+        
         // *********** Events *********** //
         [Header("Events")]
         [SerializeField]
@@ -48,7 +58,6 @@ namespace _Game.Scripts
         // **************** MonoBehaviour **************
         private void Awake()
         {
-            
             _logger = new Logger<GridSystem>(gameObject);
         }
 
@@ -57,6 +66,8 @@ namespace _Game.Scripts
             updateSwap.Reset();
             SetPositionOfGridBasedOnAmountOfColsAndRows();
             SpawnTiles();
+            
+            EvaluateGrid(new Evaluate(new GameObject("0;2")));
         }
         
         private void OnEnable()
@@ -74,15 +85,24 @@ namespace _Game.Scripts
         }
 
         // **************** Private **************
-        
-        /// <summary>
-        ///     Listens for an event broadcast produced by a clicked tile and evaluates the matching rules for it.
-        /// </summary>
-        private void EvaluateGrid()
-        {
-            Debug.Log("Evaluate");
-        }
 
+        /// <summary>
+        ///     Listens for an event broadcast produced by a clicked tile. If there was an event it evaluates all matching zones, removes matched jewels, and restructures the grid.
+        /// </summary>
+        private static void EvaluateGrid(Evaluate data)
+        {
+            var matchingJewels = MatchingEvaluationHelper.GetMatchingJewels(ParseNameIntoVector2Int(data.Tile.name));
+
+            if (matchingJewels.Count == 0)
+            {
+                Debug.Log("Tile does not meet matching criteria.");
+            }
+            
+            matchingJewels.ForEach(Destroy);
+            
+            // todo: Restructure the grid
+        }
+        
         /// <summary>
         ///     After the player performs a Swipe action the grid system will evaluate whether that swipe will result in tiles being swiped by comparing the next tile in the direction of the swipe.
         /// </summary>
@@ -119,10 +139,10 @@ namespace _Game.Scripts
                 // if we swapped a tile at 0, 0 with a tile at 1, 0 the position would be 0.5f, 0.5f, and (1 * 1.4f) + 0.5f = 1.9f, 0.5f
                 
                 // Get new positions
-                var newPositionForTarget = new Vector2((1.4f * origin.x) + 0.5f, (1.4f * origin.y) + 0.5f);
+                var newPositionForTarget = GetLocalPositionForGridCoordinate(origin);
                 // Debug.Log("New position for target" + newPositionForTarget);
-                
-                var newPositionForOrigin = new Vector2((1.4f * target.x) + 0.5f, (1.4f * target.y) + 0.5f);
+
+                var newPositionForOrigin = GetLocalPositionForGridCoordinate(target);
                 // Debug.Log("New position for origin" + newPositionForOrigin);
                 
                 // Debug.Log("Old position of target: " + targetTile.transform.localPosition);
@@ -146,14 +166,13 @@ namespace _Game.Scripts
         
         private void SetPositionOfGridBasedOnAmountOfColsAndRows()
         {
-            // todo: put 0.4f in a const variable, accessible to the whole class'
             // needs some spacing: for every tile that is not last add .4f, if last add .2f
             var halfOfRows = rows / 2f;
-            var fullMarginRows = (halfOfRows - 1) * 0.4f;
+            var fullMarginRows = (halfOfRows - 1) * SpacingBetweenTiles;
             var halfOfCols = cols / 2f;
-            var fullMarginCols = (halfOfCols - 1) * 0.4f;
+            var fullMarginCols = (halfOfCols - 1) * SpacingBetweenTiles;
             
-            transform.position = new Vector3((rows / 2f + fullMarginRows + 0.2f) * -1, (cols / 2f + fullMarginCols + 0.2f) * -1, 0);
+            transform.position = new Vector3((rows / 2f + fullMarginRows + (SpacingBetweenTiles / 2f)) * -1, (cols / 2f + fullMarginCols + (SpacingBetweenTiles / 2f)) * -1, 0);
         }
         
         /// <summary>
@@ -172,14 +191,10 @@ namespace _Game.Scripts
                     var color = rand > .5f ? _greenTileColor : _blueTileColor;
                 
                     jewel.GetComponent<SpriteRenderer>().color = color;
-
-                    const float spacing = 1.4f;
-                    // This is so that the origin of the new sprite is aligned to the origin of parent
-                    const float marginTopLeft = 0.5f;
-
-                    var xDisplacement = x * spacing + marginTopLeft;
-                    var yDisplacement = y * spacing + marginTopLeft;
-                    var objectToSpawn = rand > .2f ? jewel : blocker;
+                    
+                    var xDisplacement = x * TileSpawnDisplacement + MarginTopLeftOfTilesInGrid;
+                    var yDisplacement = y * TileSpawnDisplacement + MarginTopLeftOfTilesInGrid;
+                    var objectToSpawn = rand > .0f ? jewel : blocker;
                     
                     var newJewel = Instantiate(objectToSpawn, transform.position + new Vector3(xDisplacement, yDisplacement, 0), Quaternion.identity);
                     newJewel.name = ParseVector2IntIntoNameString(new Vector2Int(x, y));
@@ -194,7 +209,7 @@ namespace _Game.Scripts
         ///     The name of the tile represents its position in the grid.
         /// </summary>
         /// <param name="coordinates">Coordinates of the tile in the grid.</param>
-        private static string ParseVector2IntIntoNameString(Vector2Int coordinates)
+        public static string ParseVector2IntIntoNameString(Vector2Int coordinates)
         {
             return $"{coordinates.x};{coordinates.y}";
         }
@@ -219,6 +234,21 @@ namespace _Game.Scripts
                 throw new ArgumentException("Could not parse the name of the tile into a position in a grid.",
                     nameof(name));
             }
+        }
+        
+        /// <summary>
+        ///     Translates a grid coordinate into a position in the world space.
+        /// </summary>
+        /// <param name="gridCoordinate">Grid coordinate, e.g. [0, 1]</param>
+        /// <returns>
+        ///     A Vector2 that represents the position in the world space.
+        /// </returns>
+        /// <remarks>
+        ///     We need to change the local position of the tile for it to be positioned correctly in the grid.
+        /// </remarks>
+        private static Vector2 GetLocalPositionForGridCoordinate(Vector2 gridCoordinate)
+        {
+            return new Vector2((TileSpawnDisplacement * gridCoordinate.x) + MarginTopLeftOfTilesInGrid, (TileSpawnDisplacement * gridCoordinate.y) + MarginTopLeftOfTilesInGrid);
         }
     }
 }

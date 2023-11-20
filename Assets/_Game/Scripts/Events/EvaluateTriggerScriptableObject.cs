@@ -4,21 +4,23 @@ using UnityEngine.Events;
 
 namespace _Game.Scripts.Events
 {
+    public record Evaluate(GameObject Tile);   
+    
     [CreateAssetMenu(fileName = "EvaluateTriggerScriptableObject", menuName = "Events/Trigger evaluate")]
-    public class EvaluateTriggerScriptableObject : ScriptableObject, IRaiseEvent
+    public class EvaluateTriggerScriptableObject : ScriptableObject, IRaiseEvent<Evaluate>
     {
         [NonSerialized] 
-        public UnityEvent EvaluateTriggerEvent;
+        public UnityEvent<Evaluate> EvaluateTriggerEvent;
         
         public void OnEnable()
         {
-            EvaluateTriggerEvent = new UnityEvent();
+            EvaluateTriggerEvent = new UnityEvent<Evaluate>();
         }
 
-        public void RaiseEvent()
+        public void RaiseEvent(Evaluate data)
         {
-            Debug.Log("[" + nameof(EvaluateTriggerScriptableObject) + "] Evaluate");
-            EvaluateTriggerEvent.Invoke();
+            // Debug.Log("[" + nameof(EvaluateTriggerScriptableObject) + "] Evaluate");
+            EvaluateTriggerEvent.Invoke(data);
         }
     }
 }

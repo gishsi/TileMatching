@@ -1,4 +1,6 @@
-﻿namespace _Game.Scripts
+﻿using System.ComponentModel;
+
+namespace _Game.Scripts
 {
     public enum Levels
     {

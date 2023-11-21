@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 namespace _Game.Scripts.UI
 {
@@ -8,8 +10,19 @@ namespace _Game.Scripts.UI
 
         private void Start()
         {
-            // todo: remove
-            Debug.Log("Current level: " + currentLevel.nameOfLastLevelPlayed);
+            var root = GetComponent<UIDocument>().rootVisualElement;
+            var mainMenuButton = root.Q<Button>("MainMenuButton");
+            var levelFinishedLabel = root.Q<Label>("LevelFinishedLabel");
+            
+            mainMenuButton.clicked += GoToMenu;
+            levelFinishedLabel.text = $"{currentLevel.nameOfLastLevelPlayed.ToString()} finished!";
+        }
+        
+        private void GoToMenu()
+        {
+            currentLevel.nameOfLastLevelPlayed = Levels.Level2;
+            
+            SceneManager.LoadScene("_Game/Scenes/StartScene");
         }
     }
 }

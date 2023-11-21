@@ -1029,6 +1029,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1651987440}
+  - component: {fileID: 1651987441}
   m_Layer: 0
   m_Name: Level_1
   m_TagString: Untagged
@@ -1052,6 +1053,21 @@ Transform:
   - {fileID: 1859601939}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1651987441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651987439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3965f6e0823da7438cd4044b7d51140, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentLevelScriptableObject: {fileID: 11400000, guid: 4e3cdcfb54ccaa44aa5cb0effe0f8de9, type: 2}
+  level1: {fileID: 11400000, guid: 7e6a338f7c3f05e4a81e0b071e14fad5, type: 2}
+  level2: {fileID: 11400000, guid: b2a762724748a554899b8026ae98ceb8, type: 2}
 --- !u!4 &1859601939 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 587773698747866490, guid: 81301252806ecfc449b79cfabd344e09, type: 3}
@@ -1349,11 +1365,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5409882796156367352, guid: 81301252806ecfc449b79cfabd344e09, type: 3}
       propertyPath: cols
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5409882796156367352, guid: 81301252806ecfc449b79cfabd344e09, type: 3}
       propertyPath: rows
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5409882796156367352, guid: 81301252806ecfc449b79cfabd344e09, type: 3}
       propertyPath: updateSwap

@@ -23,15 +23,9 @@ namespace _Game.UI.Components.Buttons.Restart
             restartButton.clicked += Restart;
         }
 
-        private void Restart()
+        private static void Restart()
         {
-            if (currentLevel.nameOfLastLevelPlayed is null)
-            {
-                _logger.Log("Could not restart the level.");
-                return;
-            }
-            
-            SceneManager.LoadScene(currentLevel.nameOfLastLevelPlayed);
+            SceneManager.LoadScene("_Game/Scenes/Level");
         }
     }
 }

@@ -1,8 +1,11 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using _Game.Scripts.Events;
 using _Game.Scripts.Utils;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace _Game.Scripts
 {
@@ -142,18 +145,36 @@ namespace _Game.Scripts
         /// <summary>
         ///     Listens for an event broadcast produced by a clicked tile. If there was an event it evaluates all matching zones, removes matched jewels, and restructures the grid.
         /// </summary>
-        private static void EvaluateGrid(Evaluate data)
+        private void EvaluateGrid(Evaluate data)
         {
             var matchingJewels = MatchingEvaluationHelper.GetMatchingJewels(ParseNameIntoVector2Int(data.Tile.name));
 
             if (matchingJewels.Count == 0)
             {
                 Debug.Log("Tile does not meet matching criteria.");
+                return;
             }
             
-            matchingJewels.ForEach(Destroy);
-            
+            // Needs to wait until the end of frame - this is when destroy will be finished.
+            StartCoroutine(DestroyJewels(matchingJewels));
+
+
+
             // todo: Restructure the grid
+        }
+
+        IEnumerator DestroyJewels(List<GameObject> jewels)
+        {
+            jewels.ForEach(Destroy);
+
+            yield return new WaitForEndOfFrame();
+            
+            var isLevelFinished = !DoesGridContainTilesToRemove();
+            if (isLevelFinished)
+            {
+                // load the level finished screen
+                SceneManager.LoadScene("_Game/Scenes/LevelFinished");
+            }    
         }
         
         /// <summary>
@@ -261,6 +282,24 @@ namespace _Game.Scripts
         private static Vector2 GetLocalPositionForGridCoordinate(Vector2 gridCoordinate)
         {
             return new Vector2((TileSpawnDisplacement * gridCoordinate.x) + MarginTopLeftOfTilesInGrid, (TileSpawnDisplacement * gridCoordinate.y) + MarginTopLeftOfTilesInGrid);
+        }
+        
+        /// <summary>
+        ///     
+        /// </summary>
+        private bool DoesGridContainTilesToRemove()
+        {
+            // Get all children of GridSystem, compare the tag. Rider converts a foreach into a nice, readable LINQ query.
+            var actionableTiles = new List<Transform>();
+            foreach (Transform child in transform)
+            {
+                if(child.CompareTag("Tile"))
+                {
+                    actionableTiles.Add(child);
+                }
+            }
+            
+            return actionableTiles.Count > 0;
         }
     }
 }

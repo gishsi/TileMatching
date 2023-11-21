@@ -162,20 +162,6 @@ namespace _Game.Scripts
 
             // todo: Restructure the grid
         }
-
-        IEnumerator DestroyJewels(List<GameObject> jewels)
-        {
-            jewels.ForEach(Destroy);
-
-            yield return new WaitForEndOfFrame();
-            
-            var isLevelFinished = !DoesGridContainTilesToRemove();
-            if (isLevelFinished)
-            {
-                // load the level finished screen
-                SceneManager.LoadScene("_Game/Scenes/LevelFinished");
-            }    
-        }
         
         /// <summary>
         ///     After the player performs a Swipe action the grid system will evaluate whether that swipe will result in tiles being swiped by comparing the next tile in the direction of the swipe.
@@ -285,7 +271,7 @@ namespace _Game.Scripts
         }
         
         /// <summary>
-        ///     
+        ///     Check if there are any tiles that the player can remove
         /// </summary>
         private bool DoesGridContainTilesToRemove()
         {
@@ -300,6 +286,25 @@ namespace _Game.Scripts
             }
             
             return actionableTiles.Count > 0;
+        }
+        
+        /// <summary>
+        ///     Destroy jewels and perform all actions that happen afterwards: destroying jewels, moving on to the level finished scene, restructuring the grid
+        /// </summary>
+        /// <param name="jewels"></param>
+        /// <remarks></remarks>
+        private IEnumerator DestroyJewels(List<GameObject> jewels)
+        {
+            jewels.ForEach(Destroy);
+
+            yield return new WaitForEndOfFrame();
+            
+            var isLevelFinished = !DoesGridContainTilesToRemove();
+            if (isLevelFinished)
+            {
+                // load the level finished screen
+                SceneManager.LoadScene("_Game/Scenes/LevelFinished");
+            }    
         }
     }
 }

@@ -10,8 +10,8 @@ namespace _Game.Scripts
     [CreateAssetMenu(fileName = "Level", menuName = "Levels/Level data")]
     public class LevelDataScriptableObject : ScriptableObject
     {
-        [SerializeField]
-        private LevelScriptableObject[] levels;
+        [SerializeField] 
+        public LevelScriptableObject[] levels;
 
         private int currentLevelIndex = 0;
         

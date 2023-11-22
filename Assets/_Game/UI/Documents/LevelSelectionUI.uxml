@@ -4,9 +4,6 @@
     <ui:VisualElement name="Container" style="flex-grow: 1;">
         <ui:Label tabindex="-1" text="Level selection" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" style="font-size: 48px; -unity-font-style: bold; -unity-text-align: upper-center; color: rgb(225, 227, 223);" />
         <ui:Instance template="MainMenuButton" name="MainMenuButton" style="position: absolute; left: 8px; top: 8px;" />
-        <ui:ScrollView name="LevelsContainer" style="margin-top: 72px; margin-right: 128px; margin-bottom: 72px; margin-left: 128px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
-            <ui:Button text="Level 1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Level1" class="action-button" style="white-space: normal; text-overflow: ellipsis; font-size: 16px;" />
-            <ui:Button text="Level 2" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Level2" class="action-button" style="white-space: normal; text-overflow: ellipsis; font-size: 16px;" />
-        </ui:ScrollView>
+        <ui:ScrollView name="LevelsContainer" style="margin-top: 72px; margin-right: 128px; margin-bottom: 72px; margin-left: 128px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
     </ui:VisualElement>
 </ui:UXML>

@@ -5,14 +5,16 @@ namespace _Game.Scripts.UI
 {
     public class Header : MonoBehaviour
     {
-        public string headerText = "Header";
+        [SerializeField] 
+        private LevelDataScriptableObject _levelDataScriptableObject;
+        
         private void OnEnable()
         {
             var root = GetComponent<UIDocument>().rootVisualElement;
 
             var headerTitle = root.Q<Label>("Header");
 
-            headerTitle.text = headerText;
+            headerTitle.text = _levelDataScriptableObject.GetNameOfCurrentLevel();
         }
     }
 }

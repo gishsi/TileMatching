@@ -11,8 +11,6 @@ namespace _Game.Scripts.UI
     /// </summary>
     public class SwapsLabelUpdater : MonoBehaviour
     {
-        [SerializeField] private CurrentLevelScriptableObject currentLevel; 
-        
         private VisualElement _root;
 
         [SerializeField]

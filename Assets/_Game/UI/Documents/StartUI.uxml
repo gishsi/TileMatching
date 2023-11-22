@@ -1,12 +1,16 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:Template name="QuitButton" src="project://database/Assets/Common/UIComponents/Buttons/Quit/QuitButton.uxml?fileID=9197481963319205126&amp;guid=9a20fcdb93258b0478df4f4103a32035&amp;type=3#QuitButton" />
-    <ui:Template name="HowToPlay" src="project://database/Assets/Common/UIComponents/Buttons/HowToPlay/HowToPlay.uxml?fileID=9197481963319205126&amp;guid=c8610dc5bd0dfa6449a3ea72a3b6f6d1&amp;type=3#HowToPlay" />
-    <Style src="project://database/Assets/Common/Theme.uss?fileID=7433441132597879392&amp;guid=925e3dd8059d66b40b89b7a8ea4cbf55&amp;type=3#Theme" />
-    <ui:Label tabindex="-1" text="Tile Matching" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" style="font-size: 64px; -unity-font-style: bold; white-space: normal; -unity-text-align: middle-center; color: rgb(225, 227, 223); align-self: center; justify-content: center; align-items: center; margin-top: 96px; margin-bottom: 96px;" />
-    <ui:VisualElement name="MenuButtonContainter" style="flex-grow: 1; align-self: center; align-items: stretch; justify-content: flex-start; margin-top: 64px; width: 333px; margin-bottom: 0; height: 34px;">
-        <ui:Button text="Level 1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Level_1" style="background-color: rgb(0, 56, 40); color: rgb(104, 219, 176); font-size: 20px; -unity-font-style: bold; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; margin-top: 10px; margin-bottom: 10px;" />
-        <ui:Instance template="HowToPlay" name="HowToPlay" />
-        <ui:Instance template="QuitButton" name="QuitButton" />
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="LevelSelectionButton" src="project://database/Assets/_Game/UI/Components/Buttons/LevelSelection/LevelSelectionButton.uxml?fileID=9197481963319205126&amp;guid=e9b2f19a65c5cf1499cd78437d479b73&amp;type=3#LevelSelectionButton" />
+    <ui:Template name="HowToPlay" src="project://database/Assets/_Game/UI/Components/Buttons/HowToPlay/HowToPlay.uxml?fileID=9197481963319205126&amp;guid=c8610dc5bd0dfa6449a3ea72a3b6f6d1&amp;type=3#HowToPlay" />
+    <ui:Template name="QuitButton" src="project://database/Assets/_Game/UI/Components/Buttons/Quit/QuitButton.uxml?fileID=9197481963319205126&amp;guid=9a20fcdb93258b0478df4f4103a32035&amp;type=3#QuitButton" />
+    <Style src="project://database/Assets/_Game/UI/Theme.uss?fileID=7433441132597879392&amp;guid=925e3dd8059d66b40b89b7a8ea4cbf55&amp;type=3#Theme" />
+    <ui:VisualElement style="flex-grow: 1; align-items: center; justify-content: center; min-width: 100%; min-height: 100%; background-color: rgb(25, 28, 26);">
+        <ui:VisualElement name="VisualElement" style="max-width: 600px; min-height: 281px;">
+            <ui:Label tabindex="-1" text="Tile matching" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" style="color: rgb(225, 227, 223); -unity-text-align: upper-center; font-size: 48px; -unity-font-style: bold; position: relative;" />
+            <ui:Button text="Start" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StartButton" class="action-button" style="font-size: 20px;" />
+            <ui:Instance template="LevelSelectionButton" name="LevelSelectionButton" />
+            <ui:Instance template="HowToPlay" name="HowToPlay" />
+            <ui:Instance template="QuitButton" name="QuitButton" />
+        </ui:VisualElement>
     </ui:VisualElement>
-    <ui:Label tabindex="-1" text="by Julia Drozdz [jud28]" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Author" style="color: rgb(225, 227, 223); -unity-text-align: upper-right; -unity-font-style: normal; font-size: 12px;" />
+    <ui:Label tabindex="-1" text="by Julia Drozdz [jud28]" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Author" style="-unity-text-align: upper-right; color: rgb(64, 73, 68); position: absolute; right: 0; bottom: 0; font-size: 10px;" />
 </ui:UXML>

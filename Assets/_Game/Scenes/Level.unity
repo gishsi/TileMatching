@@ -508,7 +508,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eb7803f285194a4a907e643bcb548df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentLevel: {fileID: 11400000, guid: 4e3cdcfb54ccaa44aa5cb0effe0f8de9, type: 2}
   updateSwap: {fileID: 11400000, guid: b141624e996f7b94abb02c1e738bb7c7, type: 2}
 --- !u!114 &608447092
 MonoBehaviour:
@@ -538,7 +537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b024fe993883cb45b2d96824087b999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  headerText: Level 1
+  _levelDataScriptableObject: {fileID: 11400000, guid: d0ac5f04835968043aebd93baceb1308, type: 2}
 --- !u!1 &771967396
 GameObject:
   m_ObjectHideFlags: 0
@@ -875,7 +874,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2119fc1e741648a38d646640e5fb1526, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentLevel: {fileID: 11400000, guid: 4e3cdcfb54ccaa44aa5cb0effe0f8de9, type: 2}
 --- !u!114 &1125740839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1065,9 +1063,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3965f6e0823da7438cd4044b7d51140, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentLevelScriptableObject: {fileID: 11400000, guid: 4e3cdcfb54ccaa44aa5cb0effe0f8de9, type: 2}
-  level1: {fileID: 11400000, guid: 7e6a338f7c3f05e4a81e0b071e14fad5, type: 2}
-  level2: {fileID: 11400000, guid: b2a762724748a554899b8026ae98ceb8, type: 2}
+  levelDataScriptableObject: {fileID: 11400000, guid: d0ac5f04835968043aebd93baceb1308, type: 2}
 --- !u!4 &1859601939 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 587773698747866490, guid: 81301252806ecfc449b79cfabd344e09, type: 3}

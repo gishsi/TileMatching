@@ -5,24 +5,22 @@ using UnityEngine.UIElements;
 
 namespace _Game.Scripts.UI
 {
-    public class NavigateToLevel : MonoBehaviour
+    public class Start : MonoBehaviour
     {
-        private ILogger<NavigateToLevel> _logger;
+        private ILogger<Start> _logger;
         private void OnEnable()
         {
-            _logger = new Logger<NavigateToLevel>(gameObject);
+            _logger = new Logger<Start>(gameObject);
             
             var root = GetComponent<UIDocument>().rootVisualElement;
 
-            var level1Button = root.Q<Button>("Level_1");
+            var startButton = root.Q<Button>("StartButton");
 
-            level1Button.clicked += GoToLevel1;
+            startButton.clicked += StartGame;
         }
         
-        private void GoToLevel1()
+        private void StartGame()
         {
-            _logger.Log("Going to level 1.");
-            
             SceneManager.LoadScene("_Game/Scenes/Level");
         }
     }

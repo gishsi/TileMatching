@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dba2d526c0b64f938dcf3b0fa27450ba, type: 3}
   m_Name: Level1
   m_EditorClassIdentifier: 
-  levelName: Level 1
+  levelName: Swipe and eliminate
   amountOfSwipes: 1
   rowsAmount: 2
   colsAmount: 4

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c97d7e7661840829313efd22fb49f76, type: 3}
   m_Name: UpdateSwap
   m_EditorClassIdentifier: 
-  maxSwaps: 10
+  _levelDataScriptableObject: {fileID: 11400000, guid: d0ac5f04835968043aebd93baceb1308, type: 2}

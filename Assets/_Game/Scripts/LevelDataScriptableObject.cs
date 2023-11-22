@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace _Game.Scripts
 {
@@ -11,7 +12,7 @@ namespace _Game.Scripts
     {
         [SerializeField]
         private LevelScriptableObject[] levels;
-        
+
         private int currentLevelIndex = 0;
         
         public LevelScriptableObject GetCurrentLevel()
@@ -27,6 +28,25 @@ namespace _Game.Scripts
         public void MoveUpALevel()
         {
             currentLevelIndex = GetNextLevelIndex();
+        }
+
+        /// <summary>
+        ///     Move to the level specified, e.g. First level = 1, Second level = 2
+        /// </summary>
+        /// <param name="level">Level you want to navigate to</param>
+        /// <exception cref="ArgumentOutOfRangeException">If the level does not exist in the levels array</exception>
+        public void MoveCurrentLevelIndexToNewIndex(int level)
+        {
+            var index = level - 1;
+            
+            if (index >= levels.Length)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(index), 
+                    $"This level index does not exist. Ensure the level you are trying to access has been added to the {nameof(levels)} list.");
+            }
+
+            currentLevelIndex = index;
         }
         
         /// <summary>

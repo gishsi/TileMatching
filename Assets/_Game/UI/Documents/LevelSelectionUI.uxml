@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="MainMenuButton" src="project://database/Assets/_Game/UI/Components/Buttons/MainMenu/MainMenuButton.uxml?fileID=9197481963319205126&amp;guid=53878f702fc87be4dba29229b69282a3&amp;type=3#MainMenuButton" />
+    <Style src="project://database/Assets/_Game/UI/Theme.uss?fileID=7433441132597879392&amp;guid=925e3dd8059d66b40b89b7a8ea4cbf55&amp;type=3#Theme" />
+    <ui:VisualElement name="Container" style="flex-grow: 1;">
+        <ui:Label tabindex="-1" text="Level selection" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" style="font-size: 48px; -unity-font-style: bold; -unity-text-align: upper-center; color: rgb(225, 227, 223);" />
+        <ui:Instance template="MainMenuButton" name="MainMenuButton" style="position: absolute; left: 8px; top: 8px;" />
+        <ui:ScrollView name="LevelsContainer" style="margin-top: 72px; margin-right: 128px; margin-bottom: 72px; margin-left: 128px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
+            <ui:Button text="Level 1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Level1" class="action-button" style="white-space: normal; text-overflow: ellipsis; font-size: 16px;" />
+            <ui:Button text="Level 2" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Level2" class="action-button" style="white-space: normal; text-overflow: ellipsis; font-size: 16px;" />
+        </ui:ScrollView>
+    </ui:VisualElement>
+</ui:UXML>

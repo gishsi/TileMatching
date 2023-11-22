@@ -14,9 +14,9 @@ namespace _Game.Scripts.UI
             
             var root = GetComponent<UIDocument>().rootVisualElement;
 
-            var startButton = root.Q<Button>("Start");
+            //var startButton = root.Q<Button>("Start");
 
-            startButton.clicked += StartGame;
+            //startButton.clicked += StartGame;
         }
         
         private void StartGame()

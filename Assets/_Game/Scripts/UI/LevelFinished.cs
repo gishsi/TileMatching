@@ -15,7 +15,7 @@ namespace _Game.Scripts.UI
             var levelFinishedLabel = root.Q<Label>("LevelFinishedLabel");
             
             mainMenuButton.clicked += GoToMenu;
-            levelFinishedLabel.text = $"{levelDataScriptableObject.GetCurrentLevel().name} finished!";
+            levelFinishedLabel.text = $"{levelDataScriptableObject.GetNameOfCurrentLevel()} finished!";
         }
         
         private void GoToMenu()

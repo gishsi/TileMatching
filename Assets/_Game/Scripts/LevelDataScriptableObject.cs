@@ -53,6 +53,11 @@ namespace _Game.Scripts
         {
             return levels[currentLevelIndex].levelName;
         }
+            
+        public int GetAmountOfSwipesOfCurrentLevel()
+        {
+            return levels[currentLevelIndex].amountOfSwipes;
+        }
         
         /// <summary>
         ///     Get next level index

@@ -17,7 +17,7 @@ namespace _Game.Scripts.Events
     [CreateAssetMenu(fileName = "UpdateSwapScriptableObject", menuName = "Events/Update Swap")]
     public class UpdateSwapScriptableObject : ScriptableObject, IRaiseEvent<int>
     {
-        [SerializeField] private int maxSwaps = 5;
+        [SerializeField] private LevelDataScriptableObject _levelDataScriptableObject;
         
         [NonSerialized] 
         public UnityEvent<int> SwapsChangeEvent;
@@ -30,7 +30,7 @@ namespace _Game.Scripts.Events
         
         public void OnEnable()
         {
-            Swaps = maxSwaps;
+            Swaps = _levelDataScriptableObject.GetAmountOfSwipesOfCurrentLevel();
             SwapsChangeEvent ??= new UnityEvent<int>();
             SwapsBelowZeroEvent = new UnityEvent();
         }
@@ -38,24 +38,12 @@ namespace _Game.Scripts.Events
         /// <summary>
         ///     Invokes events related to the swap amount.
         /// </summary>
-        /// <remarks>
-        ///     Needs to invoke two types of events: one to the score label UI script and one to the game over evaluator
-        /// </remarks>
         /// <param name="data">Amount to decrease the swaps by</param>
         public void RaiseEvent(int data)
         {
             Swaps -= data;
 
             SwapsChangeEvent.Invoke(Swaps);
-            
-            if (Swaps > 0)
-            {
-                return;
-            }
-            
-            // Part of the game over condition
-            Debug.Log("Game Over");
-            SwapsBelowZeroEvent.Invoke();
         }
         
         /// <summary>
@@ -64,7 +52,7 @@ namespace _Game.Scripts.Events
         /// </summary>
         public void Reset()
         {
-            Swaps = maxSwaps;
+            Swaps = _levelDataScriptableObject.GetAmountOfSwipesOfCurrentLevel();
             SwapsChangeEvent.Invoke(Swaps);
         }
     }

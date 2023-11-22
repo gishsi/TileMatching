@@ -35,9 +35,19 @@ namespace _Game.Scripts
         /// </summary>
         /// <param name="level">Level you want to navigate to</param>
         /// <exception cref="ArgumentOutOfRangeException">If the level does not exist in the levels array</exception>
+        /// <remarks>
+        ///     It is more intuitive for a game designer to count levels from 1, That is the assumption made by this method.
+        /// </remarks>.
         public void MoveCurrentLevelIndexToNewIndex(int level)
         {
             var index = level - 1;
+            
+            if (index < 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(index), 
+                    $"This level index does not exist. The level counts begins from 1.");
+            }
             
             if (index >= levels.Length)
             {

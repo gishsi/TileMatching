@@ -48,6 +48,11 @@ namespace _Game.Scripts
 
             currentLevelIndex = index;
         }
+
+        public string GetNameOfCurrentLevel()
+        {
+            return levels[currentLevelIndex].levelName;
+        }
         
         /// <summary>
         ///     Get next level index

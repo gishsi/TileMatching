@@ -37,11 +37,20 @@ namespace _Game.Scripts
             }
             
             var mousePosition = (Vector2) Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            var difference = (mousePosition - (Vector2)transform.position);
+            var magnitude = difference.magnitude;
+            
+            // To prevent swiping with minimal movement, 0.9f feels appropriate during gameplay
+            if (magnitude < 0.9f)
+            {
+                _hasBeenPickedUp = false;
+                return;
+            }
+            
             // Vector2Int wil result in a vector whose values are only 1, 0, or -1
-            var direction = Vector2Int.RoundToInt((mousePosition - (Vector2) transform.position).normalized);
+            var direction = Vector2Int.RoundToInt(difference.normalized);
             
             // Send an event to the Grid system that an evaluation should take place.
-            // todo: Decouple using ScriptableObjects
             // The name of the tile is the position in the grid.
             swipeTrigger.RaiseEvent(new Swipe(gameObject.name, direction));
             

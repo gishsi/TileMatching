@@ -6,7 +6,7 @@ namespace _Game.Scripts.UI
 {
     public class LevelFinished : MonoBehaviour
     {
-        [SerializeField] private CurrentLevelScriptableObject currentLevel;
+        [SerializeField] private LevelDataScriptableObject levelDataScriptableObject;
 
         private void Start()
         {
@@ -15,12 +15,12 @@ namespace _Game.Scripts.UI
             var levelFinishedLabel = root.Q<Label>("LevelFinishedLabel");
             
             mainMenuButton.clicked += GoToMenu;
-            levelFinishedLabel.text = $"{currentLevel.nameOfLastLevelPlayed.ToString()} finished!";
+            levelFinishedLabel.text = $"{levelDataScriptableObject.GetCurrentLevel().name} finished!";
         }
         
         private void GoToMenu()
         {
-            currentLevel.nameOfLastLevelPlayed = Levels.Level2;
+            levelDataScriptableObject.MoveUpALevel();
             
             SceneManager.LoadScene("_Game/Scenes/StartScene");
         }

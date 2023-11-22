@@ -290,7 +290,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2119fc1e741648a38d646640e5fb1526, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentLevel: {fileID: 11400000, guid: 4e3cdcfb54ccaa44aa5cb0effe0f8de9, type: 2}
 --- !u!114 &1977021552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,7 +302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10b0e93fe073a204f9b5dcff9fe0d731, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentLevel: {fileID: 11400000, guid: 4e3cdcfb54ccaa44aa5cb0effe0f8de9, type: 2}
+  levelDataScriptableObject: {fileID: 11400000, guid: d0ac5f04835968043aebd93baceb1308, type: 2}
 --- !u!1 &2004470605
 GameObject:
   m_ObjectHideFlags: 0

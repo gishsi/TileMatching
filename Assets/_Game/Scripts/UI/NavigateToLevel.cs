@@ -14,15 +14,13 @@ namespace _Game.Scripts.UI
             
             var root = GetComponent<UIDocument>().rootVisualElement;
 
-            var level1Button = root.Q<Button>("Level_1");
+            var startButton = root.Q<Button>("Start");
 
-            level1Button.clicked += GoToLevel1;
+            startButton.clicked += StartGame;
         }
         
-        private void GoToLevel1()
+        private void StartGame()
         {
-            _logger.Log("Going to level 1.");
-            
             SceneManager.LoadScene("_Game/Scenes/Level");
         }
     }

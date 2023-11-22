@@ -8,8 +8,6 @@ namespace _Game.UI.Components.Buttons.Restart
 {
     public class RestartComponent: MonoBehaviour 
     {
-        [SerializeField] private CurrentLevelScriptableObject currentLevel;
-        
         private ILogger<RestartComponent> _logger;
         
         private void OnEnable()

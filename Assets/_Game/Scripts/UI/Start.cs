@@ -5,18 +5,18 @@ using UnityEngine.UIElements;
 
 namespace _Game.Scripts.UI
 {
-    public class NavigateToLevel : MonoBehaviour
+    public class Start : MonoBehaviour
     {
-        private ILogger<NavigateToLevel> _logger;
+        private ILogger<Start> _logger;
         private void OnEnable()
         {
-            _logger = new Logger<NavigateToLevel>(gameObject);
+            _logger = new Logger<Start>(gameObject);
             
             var root = GetComponent<UIDocument>().rootVisualElement;
 
-            //var startButton = root.Q<Button>("Start");
+            var startButton = root.Q<Button>("StartButton");
 
-            //startButton.clicked += StartGame;
+            startButton.clicked += StartGame;
         }
         
         private void StartGame()

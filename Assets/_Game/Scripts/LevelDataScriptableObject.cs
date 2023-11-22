@@ -13,7 +13,7 @@ namespace _Game.Scripts
         [SerializeField] 
         public LevelScriptableObject[] levels;
 
-        private int currentLevelIndex = 0;
+        public int currentLevelIndex { get; private set; } = 0;
         
         public LevelScriptableObject GetCurrentLevel()
         {
@@ -77,15 +77,7 @@ namespace _Game.Scripts
         {
             var i = currentLevelIndex + 1;
 
-            if (i < levels.Length)
-            {
-                return i;
-            }
-            
-            i = currentLevelIndex;
-            Debug.Log("Reached the final level");
-
-            return i;
+            return i < levels.Length ? i : currentLevelIndex;
         }
 
         /// <summary>

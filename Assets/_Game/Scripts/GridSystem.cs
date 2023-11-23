@@ -308,6 +308,9 @@ namespace _Game.Scripts
             RepositionGrid();
         }
 
+        /// <summary>
+        ///     Repositions the grid after tiles have been removed. 
+        /// </summary>
         private void RepositionGrid()
         {
             var tiles = GetAllTilesInGrid();

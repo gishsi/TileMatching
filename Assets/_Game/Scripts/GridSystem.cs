@@ -341,7 +341,7 @@ namespace _Game.Scripts
 
                     if (tileBelow != null)
                     {
-                        // Since we are going from top to bottom, this can return immediately
+                        // Since we are going from top to bottom (on tiles below the tile being evaluated), this can break immediately
                         break;
                     }
 

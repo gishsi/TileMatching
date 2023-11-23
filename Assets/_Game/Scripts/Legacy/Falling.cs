@@ -10,6 +10,12 @@ namespace _Game.Scripts.Legacy
     ///     The player is not allowed to pick up a tile during that time.
     ///     Falling is enabled/disabled using the "Gravity scale" property on the Rigidbody2D.
     /// </summary>
+    /// <remarks>
+    ///     This approach resulted in a lot of edge cases that were growing as I was adding features.
+    ///     The final solution I created for my grid is a lot simpler and easier to work with because
+    ///     of the mathematical constraints put upon it.
+    ///     However, it is worth mentioning that I think it was worth looking at this method as well.
+    /// </remarks>
     [Obsolete]
     public class Falling : MonoBehaviour
     {

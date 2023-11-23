@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 
 namespace _Game.Scripts
 {
-    public class MatchingEvaluationHelper
+    public abstract class MatchingEvaluationHelper
     {
         /// <summary>
         ///     This object represents all of the possible matching zones for a jewel.
@@ -116,82 +115,5 @@ namespace _Game.Scripts
 
             return countOfMatchedJewels == jewels.Count;
         }
-        
-        
-        // /// <summary>
-        // ///     Takes a row and counts how many
-        // /// </summary>
-        // /// <param name="tile">A position of the tile</param>
-        // private int GetAmountOfTilesAboveTile(Vector2Int tile)
-        // {
-        //     var amount = 0;
-        //     
-        //     foreach (Transform child in transform)
-        //     {
-        //         if (!child.CompareTag("Tile"))
-        //         {
-        //             continue;
-        //         }
-        //         var isInTheSameRow = child.name.StartsWith(tile.x.ToString());
-        //         var isAboveTheStartingTile = ParseNameIntoVector2Int(child.name).y > tile.y;
-        //         var exists = GameObject.Find(child.name) != null;
-        //         
-        //         if (isInTheSameRow && isAboveTheStartingTile && exists)
-        //         {
-        //             amount++;
-        //         }
-        //     }
-        //     
-        //     return amount;
-        // }
-        //
-        // private void RestructureGrid(IEnumerable<GameObject> tilesToDelete)
-        // {
-        //     Debug.Log("");
-        //     Debug.Log("--------------- Restructuring --------------------");
-        //
-        //     foreach (var tileToDelete in tilesToDelete)
-        //     {
-        //         var tileToDeleteInGridPosition = ParseNameIntoVector2Int(tileToDelete.name);
-        //         var toDestroy = GameObject.Find(tileToDelete.name);
-        //         var amountOfTilesAboveTile = GetAmountOfTilesAboveTile(tileToDeleteInGridPosition);
-        //
-        //         if (amountOfTilesAboveTile == 0)
-        //         {
-        //             Debug.Log("No tiles above: " + tileToDelete.name);
-        //             Destroy(toDestroy);
-        //             return;
-        //         }
-        //         
-        //         var i = 0;
-        //
-        //         Destroy(toDestroy);
-        //         
-        //         while (i < amountOfTilesAboveTile)
-        //         {
-        //             var tileAbovePosition =
-        //                 new Vector2Int(tileToDeleteInGridPosition.x, tileToDeleteInGridPosition.y + i + 1);
-        //             
-        //             var tileToReplace =
-        //                 new Vector2Int(tileAbovePosition.x, tileAbovePosition.y - 1);
-        //             
-        //             var newPosition = GetNewPositionFromTileBelow(tileAbovePosition.x, tileToReplace.y);
-        //             
-        //             
-        //             var nameOfTile = ParseVector2IntIntoNameString(tileAbovePosition);
-        //             var tileToMove = GameObject.Find(nameOfTile);
-        //             
-        //             tileToMove.transform.localPosition = newPosition;
-        //             tileToMove.gameObject.name = ParseVector2IntIntoNameString(tileToReplace);
-        //             
-        //             i++;
-        //         }
-        //
-        //         
-        //     }
-        //     
-        //     Debug.Log("---------------------------------------------------");
-        //     Debug.Log("");
-        // }
     }
 }

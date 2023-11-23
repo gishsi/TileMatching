@@ -101,13 +101,17 @@ namespace _Game.Scripts
         
         public void SetPositionOfGridBasedOnAmountOfColsAndRows(int rows, int cols)
         {
-            // needs some spacing: for every tile that is not last ad   d .4f, if last add .2f
+            // Needs spacing. For every tile, except the last one add .4f margin to right, if last add .2f,
+            //      so that the grid is exactly in the middle, no matter how many tiles it has.
             var halfOfRows = rows / 2f;
             var fullMarginRows = (halfOfRows - 1) * SpacingBetweenTiles;
             var halfOfCols = cols / 2f;
             var fullMarginCols = (halfOfCols - 1) * SpacingBetweenTiles;
-            
-            transform.position = new Vector3((rows / 2f + fullMarginRows + (SpacingBetweenTiles / 2f)) * -1, (cols / 2f + fullMarginCols + (SpacingBetweenTiles / 2f)) * -1, 0);
+
+            var verticalOffset = (rows / 2f + (fullMarginRows + (SpacingBetweenTiles / 2f))) * -1;
+            var horizontalOffset = (cols / 2f + (fullMarginCols + (SpacingBetweenTiles / 2f))) * -1;
+
+            transform.position = new Vector3(horizontalOffset, verticalOffset, 0);
         }
         
         // **************** Private **************

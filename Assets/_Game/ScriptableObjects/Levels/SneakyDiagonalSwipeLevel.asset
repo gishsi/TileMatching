@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dba2d526c0b64f938dcf3b0fa27450ba, type: 3}
   m_Name: SneakyDiagonalSwipeLevel
   m_EditorClassIdentifier: 
-  levelName: Can I do this?..
+  levelName: Sneaky swipe
   amountOfSwipes: 1
-  rowsAmount: 6
-  colsAmount: 2
+  rowsAmount: 2
+  colsAmount: 6
   rows:
   - tilesInRow: 000000000000000001000000020000000200000002000000
   - tilesInRow: 020000000200000002000000000000000100000001000000

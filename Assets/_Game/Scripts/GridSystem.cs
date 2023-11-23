@@ -275,7 +275,6 @@ namespace _Game.Scripts
         /// </summary>
         private bool DoesGridContainTilesToRemove()
         {
-            // Get all children of GridSystem, compare the tag. Rider converts a foreach into a nice, readable LINQ query.
             var actionableTiles = new List<Transform>();
             foreach (Transform child in transform)
             {

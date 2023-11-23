@@ -156,7 +156,7 @@ namespace _Game.Scripts
             }
             
             // Needs to wait until the end of frame - this is when destroy will be finished.
-            StartCoroutine(DestroyJewels(matchingJewels));
+            StartCoroutine(HandleDestroyJewels(matchingJewels));
 
 
 
@@ -293,7 +293,7 @@ namespace _Game.Scripts
         /// </summary>
         /// <param name="jewels"></param>
         /// <remarks></remarks>
-        private IEnumerator DestroyJewels(List<GameObject> jewels)
+        private IEnumerator HandleDestroyJewels(List<GameObject> jewels)
         {
             jewels.ForEach(Destroy);
 
@@ -305,6 +305,65 @@ namespace _Game.Scripts
                 // load the level finished screen
                 SceneManager.LoadScene("_Game/Scenes/LevelFinished");
             }    
+            
+            RepositionGrid();
+        }
+
+        private void RepositionGrid()
+        {
+            var tiles = GetAllTilesInGrid();
+
+            // For all children, move them down
+            foreach (var tile in tiles)
+            {
+                // unless they are already in the bottom row.
+                if (tile.name.EndsWith('0'))
+                {
+                    Debug.Log("Don't need ot reposition the bottom row.");
+                    continue;
+                }
+
+                var positionInGrid = ParseNameIntoVector2Int(tile.name);
+
+                // If a tile is at (0;2), it can have two tiles below. If they disappear that's how far the tile needs to fall.
+                var maximumThatTheTileCanMove = positionInGrid.y;
+
+                // If we start from one we will not evaluate the tile that needs to move
+                for (var i = 1; i <= maximumThatTheTileCanMove; i++)
+                {
+                    // E.g.: for a tile that sits at (0;2) this will be (0;1), and (0;0)
+                    var positionOfTheTileBelow = new Vector2Int(positionInGrid.x, positionInGrid.y - i);
+                    var nameOfTheTileBelow = ParseVector2IntIntoNameString(positionOfTheTileBelow);
+
+                    var tileBelow = GameObject.Find(nameOfTheTileBelow);
+
+                    if (tileBelow != null)
+                    {
+                        // Since we are going from top to bottom, this can return immediately
+                        break;
+                    }
+
+                    // If tile below does not exist, move down.
+                    tile.name = nameOfTheTileBelow;
+                    tile.transform.localPosition = GetLocalPositionForGridCoordinate(positionOfTheTileBelow);
+                }
+            }
+            
+        }
+        
+        private List<GameObject> GetAllTilesInGrid()
+        {
+            var tiles = new List<GameObject>();
+            
+            foreach (Transform child in transform)
+            {
+                if (child.CompareTag("Tile"))
+                {
+                    tiles.Add(child.gameObject);
+                }
+            }
+
+            return tiles.OrderBy(t => t.name).ToList();
         }
     }
 }

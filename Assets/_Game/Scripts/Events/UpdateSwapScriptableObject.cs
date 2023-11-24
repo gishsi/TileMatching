@@ -25,8 +25,7 @@ namespace _Game.Scripts.Events
         [NonSerialized] 
         public UnityEvent SwapsBelowZeroEvent;
         
-        [NonSerialized]
-        public int Swaps = 5;
+        public int Swaps { get; private set; }= 5;
         
         public void OnEnable()
         {
@@ -41,8 +40,16 @@ namespace _Game.Scripts.Events
         /// <param name="data">Amount to decrease the swaps by</param>
         public void RaiseEvent(int data)
         {
-            Swaps -= data;
+            var swaps = Swaps - data;
 
+            if (swaps < 0)
+            {
+                SwapsBelowZeroEvent.Invoke();
+                return;
+            }
+            
+            Swaps = swaps;
+            
             SwapsChangeEvent.Invoke(Swaps);
         }
         

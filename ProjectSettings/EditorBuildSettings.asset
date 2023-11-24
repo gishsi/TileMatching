@@ -44,4 +44,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Game/Scenes/LevelSelection.unity
     guid: 4d590635a2f269549883e58c6d894ea4
+  - enabled: 1
+    path: Assets/_Game/Scenes/PlayerLost.unity
+    guid: 9ecb18333f7cb464e800088e575071a5
   m_configObjects: {}

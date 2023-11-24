@@ -58,12 +58,14 @@ namespace _Game.Scripts
             // Subscribing to OnEvaluate first will trigger this method first if both get triggered
             evaluateTrigger.EvaluateTriggerEvent.AddListener(EvaluateGrid);
             swipeTrigger.SwipeTriggerEvent.AddListener(SwitchPlaces);
+            updateSwap.SwapsBelowZeroEvent.AddListener(IsGameOver);
         }
         
         private void OnDisable()
         {
             evaluateTrigger.EvaluateTriggerEvent.RemoveListener(EvaluateGrid);
             swipeTrigger.SwipeTriggerEvent.RemoveListener(SwitchPlaces);
+            updateSwap.SwapsBelowZeroEvent.RemoveListener(IsGameOver);
         }
 
         // **************** Init *******************
@@ -116,6 +118,26 @@ namespace _Game.Scripts
         
         // **************** Private **************
 
+        /// <summary>
+        ///     Triggered when swipe reach below or equal 0, and when the player performs an elimination. If conditions are met, navigates to the player lost screen.
+        /// </summary>
+        private void IsGameOver()
+        {
+            var CanPlayerEliminate = AreThereAnyMatchingSets();
+            
+            // Automatic game over if there are no swaps or eliminations left.
+            var tilesLeftThatCannotBeEliminated = GetAllTilesInGrid().Count > 0 && !CanPlayerEliminate;
+            
+            var isGameOver = tilesLeftThatCannotBeEliminated && updateSwap.Swaps <= 0;
+
+            if (!isGameOver)
+            {
+                return;
+            }
+
+            SceneManager.LoadScene("_Game/Scenes/PlayerLost");
+        }
+        
         /// <summary>
         ///     Resolve the type of tile into a game object
         /// </summary>
@@ -173,8 +195,6 @@ namespace _Game.Scripts
         /// <param name="swipe">The name of the tile corresponds to its position in the grid, e.g. [1, 1] and the direction of the swipe</param>
         private void SwitchPlaces(Swipe swipe)
         {
-            Debug.Log("Swipe starting at [" + swipe.TileName + "]. In the direction of [" + swipe.DirectionOfTheSwipe + "]");
-            
             // Find the first tile in the direction of the swipe
             var origin = ParseNameIntoVector2Int(swipe.TileName);
             var target = origin + swipe.DirectionOfTheSwipe;
@@ -188,8 +208,6 @@ namespace _Game.Scripts
                 // Find out if its okay to swipe (same colour)
                 var originSpriteColour = originTile.GetComponent<SpriteRenderer>().color;
                 var targetSpriteColour = targetTile.GetComponent<SpriteRenderer>().color;
-                
-                // Debug.Log("Comparing origin's colour [" + originSpriteColour + "] with target's colour [" + targetSpriteColour + "]");
 
                 // todo: Is this really a good idea? What if we add more rules, e.g. blockers?
                 if (originSpriteColour == targetSpriteColour || targetTile.GetComponent<Actionable>() == null)
@@ -199,19 +217,15 @@ namespace _Game.Scripts
                     return;
                 }
                 
-                // Position of the first one is (0.5f, 0.5f)
+                updateSwap.RaiseEvent(1);
+                
+                // E.g.: Position of the first one is (0.5f, 0.5f),
                 // if we swapped a tile at 0, 0 with a tile at 1, 0 the position would be 0.5f, 0.5f, and (1 * 1.4f) + 0.5f = 1.9f, 0.5f
                 
                 // Get new positions
                 var newPositionForTarget = GetLocalPositionForGridCoordinate(origin);
-                // Debug.Log("New position for target" + newPositionForTarget);
-
                 var newPositionForOrigin = GetLocalPositionForGridCoordinate(target);
-                // Debug.Log("New position for origin" + newPositionForOrigin);
-                
-                // Debug.Log("Old position of target: " + targetTile.transform.localPosition);
-                // Debug.Log("Old position of origin: " + originTile.transform.localPosition);
-                
+
                 targetTile.transform.localPosition = newPositionForTarget;
                 targetTile.name = swipe.TileName;
                 
@@ -219,8 +233,6 @@ namespace _Game.Scripts
                 originTile.name = ParseVector2IntIntoNameString(new Vector2Int((int)target.x, (int)target.y));
                 
                 Debug.Log("Successful swap between [" + targetTile.name + "] and [" + originTile.name + "]");
-                
-                updateSwap.RaiseEvent(1);
             }
             catch (Exception e)
             {
@@ -310,6 +322,7 @@ namespace _Game.Scripts
             }    
             
             RepositionGrid();
+            IsGameOver();
         }
 
         /// <summary>
@@ -370,6 +383,25 @@ namespace _Game.Scripts
             }
 
             return tiles.OrderBy(t => t.name).ToList();
+        }
+        
+        private bool AreThereAnyMatchingSets()
+        {
+            var tiles = GetAllTilesInGrid();
+
+            foreach (var tile in tiles)
+            {
+                var jewelToMatchPosition = ParseNameIntoVector2Int(tile.name);
+
+                var result = MatchingEvaluationHelper.GetMatchingJewels(jewelToMatchPosition);
+
+                if (result.Count != 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

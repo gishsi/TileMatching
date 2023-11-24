@@ -126,6 +126,7 @@ namespace _Game.Scripts
             var CanPlayerEliminate = AreThereAnyMatchingSets();
             
             // Automatic game over if there are no swaps or eliminations left.
+            // todo: also needs to check if all remaining tiles are the same
             var tilesLeftThatCannotBeEliminated = GetAllTilesInGrid().Count > 0 && !CanPlayerEliminate;
             
             var isGameOver = tilesLeftThatCannotBeEliminated && updateSwap.Swaps <= 0;

@@ -33,7 +33,7 @@ namespace _Game.Scripts
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            PowerUp = PowerUps.Fragile; // todo: dummy data
+            PowerUp = PowerUps.Bomb; // todo: dummy data
         }
     }
 }

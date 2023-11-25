@@ -27,6 +27,13 @@ namespace _Game.Scripts
             new List<Vector2Int>() { new(0, 2), new(0, 1), new(0, 0) }, // 1x3 bottom
         };
 
+        public static readonly List<Vector2Int> PowerUpMatchZone = new List<Vector2Int>()
+        {
+            new(-1, 1), new(0, 1), new(1, 1),
+            new(-1, 0), new(0, 0), new(1, 0),
+            new(-1, -1), new(0, -1), new(1, -1),
+        };
+
         /// <summary>
         ///     Iterates over all possible match zones <see cref="MatchZones"/> and returns a list of game objects if there is a match.
         /// </summary>

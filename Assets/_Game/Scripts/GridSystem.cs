@@ -6,6 +6,7 @@ using _Game.Scripts.Events;
 using _Game.Scripts.Utils;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
 
 namespace _Game.Scripts
@@ -182,9 +183,66 @@ namespace _Game.Scripts
                 Debug.Log("Tile does not meet matching criteria.");
                 return;
             }
+
+            var jewelsRemovedFromPowerUp = new List<GameObject>();
+            
+            foreach (var matchingJewel in matchingJewels)
+            {
+                try
+                {
+                    // This is bad. Grid system is doing too much.
+                    var powerUp = matchingJewel.GetComponent<PowerUpSlot>().PowerUp;
+                    
+                    if (powerUp == PowerUps.Bomb)
+                    {
+                        foreach (var offset in MatchingEvaluationHelper.PowerUpMatchZone)
+                        {
+                            var gridCoordinateOfTileInMatchZone = ParseNameIntoVector2Int(matchingJewel.name) + offset;
+                            var nameOfTileInMatchZone =
+                                GridSystem.ParseVector2IntIntoNameString(gridCoordinateOfTileInMatchZone);
+
+                            GameObject tile;
+                    
+                            try
+                            {
+                                tile = GameObject.Find(nameOfTileInMatchZone);
+                            }
+                            catch (Exception e)
+                            {
+                                continue;
+                            }
+         
+                            if (tile == null)
+                            {
+                                continue;
+                            }
+
+                            if (!tile.CompareTag("Tile"))
+                            {
+                                continue;
+                            }
+
+                            jewelsRemovedFromPowerUp.Add(tile);
+                        }
+                       
+                    }
+
+                    if (powerUp == PowerUps.ColourBomb)
+                    {
+                        
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("No power up on that fellow.");
+                }
+            }
+
+            // Hash set so that we don't try to remove two of the same tiles twice
+            var allMatched = matchingJewels.Concat(jewelsRemovedFromPowerUp).ToHashSet();
             
             // Needs to wait until the end of frame - this is when destroy will be finished.
-            StartCoroutine(HandleDestroyJewels(matchingJewels));
+            StartCoroutine(HandleDestroyJewels(allMatched.ToList()));
         }
         
         /// <summary>
@@ -417,8 +475,6 @@ namespace _Game.Scripts
             Destroy(jewel);
             
             yield return new WaitForEndOfFrame();
-            
-            Debug.Log("asd");
         }
         
         private List<GameObject> GetAllTilesInGrid()

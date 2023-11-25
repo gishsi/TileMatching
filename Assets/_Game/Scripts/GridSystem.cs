@@ -369,7 +369,7 @@ namespace _Game.Scripts
 
                 // If a tile is at (0;2), it can have two tiles below. If they disappear that's how far the tile needs to fall.
                 var maximumThatTheTileCanMove = positionInGrid.y;
-
+                
                 // If we start from one we will not evaluate the tile that needs to move
                 for (var i = 1; i <= maximumThatTheTileCanMove; i++)
                 {
@@ -385,12 +385,40 @@ namespace _Game.Scripts
                         break;
                     }
 
-                    // If tile below does not exist, move down.
+                    // Fall down
+                     
+                    // This is where the Fragile power up should execute, but StartCoroutine is not being waited on, and when the jewel
+                    // above the jewel with the Fragile power up attached tried to fall down, it still exists (Destroy only marked it, and not destroyed the actual object yet)
+                    // try
+                    // {
+                    //     var powerUp = tile.GetComponent<PowerUpSlot>().PowerUp;
+                    //     if (powerUp == PowerUps.Fragile)
+                    //     {
+                    //         StartCoroutine(DestroyJewel(tile));
+                    //         break;
+                    //     }
+                    // }
+                    // catch (Exception e)
+                    // {
+                    //     Debug.Log("No power up on that fellow.");
+                    // }
+                    
+                    
                     tile.name = nameOfTheTileBelow;
                     tile.transform.localPosition = GetLocalPositionForGridCoordinate(positionOfTheTileBelow);
                 }
             }
             
+        }
+        
+        
+        private IEnumerator DestroyJewel(GameObject jewel)
+        {
+            Destroy(jewel);
+            
+            yield return new WaitForEndOfFrame();
+            
+            Debug.Log("asd");
         }
         
         private List<GameObject> GetAllTilesInGrid()

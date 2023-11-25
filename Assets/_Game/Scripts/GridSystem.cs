@@ -196,6 +196,13 @@ namespace _Game.Scripts
         /// <param name="swipe">The name of the tile corresponds to its position in the grid, e.g. [1, 1] and the direction of the swipe</param>
         private void SwitchPlaces(Swipe swipe)
         {
+            if (updateSwap.Swaps <= 0)
+            {
+                Debug.Log("No swaps left.");
+                IsGameOver();
+                return;
+            }
+            
             // Find the first tile in the direction of the swipe
             var origin = ParseNameIntoVector2Int(swipe.TileName);
             var target = origin + swipe.DirectionOfTheSwipe;

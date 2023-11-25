@@ -10,7 +10,7 @@ namespace _Game.Scripts
     {
         None,
         Bomb,
-        ColouredBomb,
+        ColourBomb,
         Concretion,
         Fragile
     }

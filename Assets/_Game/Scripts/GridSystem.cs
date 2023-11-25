@@ -229,7 +229,16 @@ namespace _Game.Scripts
 
                     if (powerUp == PowerUps.ColourBomb)
                     {
-                        
+                        var allTiles = GetAllTilesInGrid();
+ 
+                        foreach (var tile in allTiles)
+                        {
+                            if (tile.GetComponent<SpriteRenderer>().color ==
+                                matchingJewel.GetComponent<SpriteRenderer>().color)
+                            {
+                                jewelsRemovedFromPowerUp.Add(tile);
+                            }
+                        }
                     }
                 }
                 catch (Exception e)

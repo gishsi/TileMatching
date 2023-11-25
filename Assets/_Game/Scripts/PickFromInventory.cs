@@ -1,7 +1,5 @@
-using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
 
 namespace _Game.Scripts
 {
@@ -11,52 +9,6 @@ namespace _Game.Scripts
         
         [SerializeField]
         private PickedUpItemScriptableObject _pickedUpItemScriptableObject;
-        
-        // private void Start()
-        // {
-        //     try
-        //     {
-        //         var root = GetComponent<UIDocument>().rootVisualElement;
-        //         var itemButton = root.Q<Button>("ItemButton");
-        //     
-        //
-        //         // itemButton.clicked += () => Debug.Log("Clicked on item");
-        //         
-        //         itemButton.RegisterCallback<PointerDownEvent>(
-        //             e => {
-        //                 Debug.Log("Button pointer down!");
-        //             },
-        //             TrickleDown.TrickleDown);
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         return;
-        //     }
-        //    
-        // }
-        
-        // /// <summary>
-        // ///     Pick an item from the inventory
-        // /// </summary>
-        // public void On(PointerEventData eventData)
-        // {
-        //     Debug.Log($"======{nameof(PickFromInventory)}=======");
-        //     Debug.Log("Picking up bomb");
-        //     _pickedUpItemScriptableObject.PowerUp = PowerUps.Bomb; // todo: dummy data
-        //     Debug.Log($"=================================");
-        // }
-
-        // private void Update()
-        // {
-        //     if (Input.GetMouseButtonDown(0))
-        //     {
-        //         Debug.Log($"======{nameof(PickFromInventory)}=======");
-        //         Debug.Log("Picking up bomb");
-        //         _pickedUpItemScriptableObject.PowerUp = PowerUps.Bomb; // todo: dummy data
-        //         Debug.Log($"=================================");
-        //     }
-        // }
-        
         
         public void OnPointerUp(PointerEventData eventData)
         {

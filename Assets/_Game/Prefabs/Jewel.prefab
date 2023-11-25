@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3753264224216582439}
   - component: {fileID: 4624669747543325128}
   - component: {fileID: 6540836341378441597}
+  - component: {fileID: 393705547363958659}
   m_Layer: 0
   m_Name: Jewel
   m_TagString: Tile
@@ -173,3 +174,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   evaluateTrigger: {fileID: 11400000, guid: ab9de331293561a44b3e682513e67fe9, type: 2}
   swipeTrigger: {fileID: 11400000, guid: edd93e3d0c06d6f47b5073db4e6ebf3f, type: 2}
+--- !u!114 &393705547363958659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2294205601888927180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3b25f2e03fc456fbf6da9fc592cd9d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pickedUpItemScriptableObject: {fileID: 11400000, guid: cb54bcf626990f84da419e2bb7f42dbf, type: 2}

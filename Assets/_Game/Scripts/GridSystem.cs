@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using _Game.Scripts.Events;
 using _Game.Scripts.Utils;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -184,10 +185,6 @@ namespace _Game.Scripts
             
             // Needs to wait until the end of frame - this is when destroy will be finished.
             StartCoroutine(HandleDestroyJewels(matchingJewels));
-
-
-
-            // todo: Restructure the grid
         }
         
         /// <summary>
@@ -318,6 +315,24 @@ namespace _Game.Scripts
         /// <remarks></remarks>
         private IEnumerator HandleDestroyJewels(List<GameObject> jewels)
         {
+            foreach (var jewel in jewels)
+            {
+                try
+                {
+                    var powerUp = jewel.GetComponent<PowerUpSlot>().PowerUp;
+                    if (powerUp == PowerUps.Concretion)
+                    {
+                        var blockerToSpawn = Instantiate(blocker, jewel.transform.position, Quaternion.identity);
+                        blockerToSpawn.gameObject.name = jewel.gameObject.name;
+                        blockerToSpawn.transform.parent = transform;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("No power up on that fellow.");
+                }
+            }
+            
             jewels.ForEach(Destroy);
 
             yield return new WaitForEndOfFrame();

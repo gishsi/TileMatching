@@ -4,9 +4,9 @@ using UnityEngine.UI;
 
 namespace _Game.Scripts
 {
-    public class PickFromInventory : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
+    public class PickFromInventory : MonoBehaviour, IPointerUpHandler
     {
-        private PowerUps PowerUp = PowerUps.None;
+        public PowerUps PowerUp = PowerUps.None;
         
         [SerializeField]
         private PickedUpItemScriptableObject _pickedUpItemScriptableObject;
@@ -29,11 +29,6 @@ namespace _Game.Scripts
             var data = new ItemDropped(hit.collider.gameObject.name, PowerUp);
                 
             _pickedUpItemScriptableObject.RaiseEvent(data);
-        }
-
-        public void OnPointerDown(PointerEventData eventData)
-        {
-            PowerUp = PowerUps.Fragile; // todo: dummy data
         }
     }
 }

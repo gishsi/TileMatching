@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dba2d526c0b64f938dcf3b0fa27450ba, type: 3}
-  m_Name: SwipeAndEliminateLevel
+  m_Name: 1_SwipeAndEliminateLevel
   m_EditorClassIdentifier: 
   levelName: Swipe and eliminate
   amountOfSwipes: 1
   rowsAmount: 2
   colsAmount: 4
+  powerUps: 0100000002000000
   rows:
   - tilesInRow: 01000000010000000000000000000000
   - tilesInRow: 01000000000000000100000000000000

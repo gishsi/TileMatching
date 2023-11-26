@@ -10,10 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dba2d526c0b64f938dcf3b0fa27450ba, type: 3}
-  m_Name: Fragile
+  m_Name: 7_ColourBomb
   m_EditorClassIdentifier: 
-  levelName: 
+  levelName: ColourBomb
   amountOfSwipes: 0
   rowsAmount: 4
-  colsAmount: 6
-  rows: []
+  colsAmount: 3
+  powerUps: 02000000
+  rows:
+  - tilesInRow: 000000000000000000000000
+  - tilesInRow: 000000000200000000000000
+  - tilesInRow: 020000000000000000000000
+  - tilesInRow: 000000000200000002000000

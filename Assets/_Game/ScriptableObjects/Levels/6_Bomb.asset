@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dba2d526c0b64f938dcf3b0fa27450ba, type: 3}
-  m_Name: IllustrateFallingLevel
+  m_Name: 6_Bomb
   m_EditorClassIdentifier: 
-  levelName: Falling in reverse
+  levelName: Bomb
   amountOfSwipes: 0
-  rowsAmount: 4
+  rowsAmount: 3
   colsAmount: 3
+  powerUps: 01000000
   rows:
-  - tilesInRow: 010000000100000000000000
-  - tilesInRow: 020000000200000000000000
-  - tilesInRow: 020000000200000000000000
-  - tilesInRow: 020000000200000001000000
+  - tilesInRow: 020000000000000000000000
+  - tilesInRow: 010000000100000001000000
+  - tilesInRow: 000000000000000002000000

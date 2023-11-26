@@ -24,10 +24,14 @@ namespace _Game.Scripts
         [Range(0, MaxColumns)]
         public int colsAmount = MaxColumns;
         
+        [Header("PowerUps")]
+        [SerializeField]
+        public PowerUps[] powerUps;
+        
         [Header("Tiles")]
         [SerializeField] 
         public Rows[] rows;
-
+        
         /// <summary>
         ///     Ensures that the Tiles match the specified rows and columns amount.
         /// </summary>

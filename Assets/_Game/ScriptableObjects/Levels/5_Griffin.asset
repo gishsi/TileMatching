@@ -10,12 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dba2d526c0b64f938dcf3b0fa27450ba, type: 3}
-  m_Name: SneakyDiagonalSwipeLevel
+  m_Name: 5_Griffin
   m_EditorClassIdentifier: 
-  levelName: Sneaky swipe
-  amountOfSwipes: 1
-  rowsAmount: 2
+  levelName: Griffin
+  amountOfSwipes: 2
+  rowsAmount: 4
   colsAmount: 6
   rows:
-  - tilesInRow: 000000000000000001000000020000000200000002000000
-  - tilesInRow: 020000000200000002000000000000000100000001000000
+  - tilesInRow: 000000000200000001000000010000000000000000000000
+  - tilesInRow: 000000000100000001000000000000000100000000000000
+  - tilesInRow: 010000000000000001000000010000000200000002000000
+  - tilesInRow: 020000000100000001000000010000000200000002000000

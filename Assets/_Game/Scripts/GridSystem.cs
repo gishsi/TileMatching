@@ -451,37 +451,68 @@ namespace _Game.Scripts
                         // Since we are going from top to bottom (on tiles below the tile being evaluated), this can break immediately
                         break;
                     }
+                    
+                    try
+                    {
+                        var powerUp = tile.GetComponent<PowerUpSlot>().PowerUp;
+                        if (powerUp == PowerUps.Fragile)
+                        {
+                            MarkJewelAsFragile(tile);
+                            continue;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.Log("No power up on that fellow.");
+                    }
+                    
+                    Debug.Log($"If fragile, shouldn't get here: {tile.name}");
 
                     // Fall down
-                     
-                    // This is where the Fragile power up should execute, but StartCoroutine is not being waited on, and when the jewel
-                    // above the jewel with the Fragile power up attached tried to fall down, it still exists (Destroy only marked it, and not destroyed the actual object yet)
-                    // try
-                    // {
-                    //     var powerUp = tile.GetComponent<PowerUpSlot>().PowerUp;
-                    //     if (powerUp == PowerUps.Fragile)
-                    //     {
-                    //         StartCoroutine(DestroyJewel(tile));
-                    //         break;
-                    //     }
-                    // }
-                    // catch (Exception e)
-                    // {
-                    //     Debug.Log("No power up on that fellow.");
-                    // }
-                    
-                    
                     tile.name = nameOfTheTileBelow;
                     tile.transform.localPosition = GetLocalPositionForGridCoordinate(positionOfTheTileBelow);
                 }
             }
             
         }
-        
-        
-        private IEnumerator DestroyJewel(GameObject jewel)
+
+        private void MarkJewelAsFragile(GameObject fragileJewel)
         {
-            Destroy(jewel);
+            try
+            {
+                var powerUp = fragileJewel.GetComponent<PowerUpSlot>().PowerUp;
+                if (powerUp == PowerUps.Fragile)
+                {
+                    fragileJewel.name = "fragile";
+                    var fragileContainer = GameObject.Find(("Fragile"));
+                    fragileJewel.transform.parent = fragileContainer.transform;
+                    
+                    fragileJewel.GetComponent<BoxCollider2D>().enabled = false;
+                    fragileJewel.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+                    fragileJewel.GetComponent<SpriteRenderer>().enabled = false;
+                    fragileJewel.tag = "Untagged";
+                    
+                    
+                    StartCoroutine(RemoveFragile(fragileJewel, fragileContainer));
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Log("No power up on that fellow.");
+            }
+        }
+        
+        
+        private IEnumerator RemoveFragile(GameObject fragileJewel, GameObject fragileContainer)
+        {
+            var fragileJewels = new List<GameObject>();
+            
+            foreach (Transform child in fragileContainer.transform)
+            {
+                fragileJewels.Add(child.gameObject);
+            }
+            
+            fragileJewels.ForEach(Destroy);
             
             yield return new WaitForEndOfFrame();
         }

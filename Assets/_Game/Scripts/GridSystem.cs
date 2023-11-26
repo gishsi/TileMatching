@@ -39,7 +39,7 @@ namespace _Game.Scripts
         
         private readonly Color _blueTileColor = new (0, 0.5381241f, 1);
         private readonly Color _greenTileColor = new (0, 0.4235294f, 0.3098039f);
-
+        
         // *********** Serializable *********** //
         [Header("Tiles")]
         [SerializeField] private GameObject jewel;
@@ -191,55 +191,22 @@ namespace _Game.Scripts
             {
                 try
                 {
-                    // This is bad. Grid system is doing too much.
                     var powerUp = matchingJewel.GetComponent<PowerUpSlot>().PowerUp;
                     
                     if (powerUp == PowerUps.Bomb)
                     {
-                        foreach (var offset in MatchingEvaluationHelper.PowerUpMatchZone)
-                        {
-                            var gridCoordinateOfTileInMatchZone = ParseNameIntoVector2Int(matchingJewel.name) + offset;
-                            var nameOfTileInMatchZone =
-                                GridSystem.ParseVector2IntIntoNameString(gridCoordinateOfTileInMatchZone);
+                        var powerUpCommand = new BombCommand(matchingJewel);
 
-                            GameObject tile;
-                    
-                            try
-                            {
-                                tile = GameObject.Find(nameOfTileInMatchZone);
-                            }
-                            catch (Exception e)
-                            {
-                                continue;
-                            }
-         
-                            if (tile == null)
-                            {
-                                continue;
-                            }
-
-                            if (!tile.CompareTag("Tile"))
-                            {
-                                continue;
-                            }
-
-                            jewelsRemovedFromPowerUp.Add(tile);
-                        }
-                       
+                        jewelsRemovedFromPowerUp.AddRange(powerUpCommand.Execute());
                     }
 
                     if (powerUp == PowerUps.ColourBomb)
                     {
                         var allTiles = GetAllTilesInGrid();
  
-                        foreach (var tile in allTiles)
-                        {
-                            if (tile.GetComponent<SpriteRenderer>().color ==
-                                matchingJewel.GetComponent<SpriteRenderer>().color)
-                            {
-                                jewelsRemovedFromPowerUp.Add(tile);
-                            }
-                        }
+                        var powerUpCommand = new ColourBombCommand(matchingJewel, allTiles);
+
+                        jewelsRemovedFromPowerUp.AddRange(powerUpCommand.Execute());
                     }
                 }
                 catch (Exception e)
@@ -327,7 +294,7 @@ namespace _Game.Scripts
         /// </summary>
         /// <param name="name">Position of the tile</param>
         /// <returns>A vector representing the position in the grid</returns>
-        private static Vector2Int ParseNameIntoVector2Int(string name)
+        public static Vector2Int ParseNameIntoVector2Int(string name)
         {
             try
             {
@@ -381,19 +348,22 @@ namespace _Game.Scripts
         /// </summary>
         /// <param name="jewels"></param>
         /// <remarks></remarks>
-        private IEnumerator HandleDestroyJewels(List<GameObject> jewels)
+        private IEnumerator HandleDestroyJewels(List<GameObject> jewelsToDestroys)
         {
-            foreach (var jewel in jewels)
+            foreach (var jewelToDestroy in jewelsToDestroys)
             {
                 try
                 {
-                    var powerUp = jewel.GetComponent<PowerUpSlot>().PowerUp;
-                    if (powerUp == PowerUps.Concretion)
+                    var powerUp = jewelToDestroy.GetComponent<PowerUpSlot>().PowerUp;
+
+                    if (powerUp != PowerUps.Concretion)
                     {
-                        var blockerToSpawn = Instantiate(blocker, jewel.transform.position, Quaternion.identity);
-                        blockerToSpawn.gameObject.name = jewel.gameObject.name;
-                        blockerToSpawn.transform.parent = transform;
+                        continue;
                     }
+                    
+                    var powerUpCommand = new ConcretionCommand(blocker, jewelToDestroy, transform);
+
+                    powerUpCommand.Execute();
                 }
                 catch (Exception e)
                 {
@@ -401,7 +371,7 @@ namespace _Game.Scripts
                 }
             }
             
-            jewels.ForEach(Destroy);
+            jewelsToDestroys.ForEach(Destroy);
 
             yield return new WaitForEndOfFrame();
             
@@ -458,7 +428,11 @@ namespace _Game.Scripts
                         var powerUp = tile.GetComponent<PowerUpSlot>().PowerUp;
                         if (powerUp == PowerUps.Fragile)
                         {
-                            MarkJewelAsFragile(tile);
+                            var powerUpCommand = new FragileCommand(tile);
+
+                            var fragileJewels = powerUpCommand.Execute();
+                
+                            StartCoroutine(RemoveFragile(fragileJewels));
                             continue;
                         }
                     }
@@ -471,43 +445,9 @@ namespace _Game.Scripts
             }
             
         }
-
-        private void MarkJewelAsFragile(GameObject fragileJewel)
-        {
-            try
-            {
-                var powerUp = fragileJewel.GetComponent<PowerUpSlot>().PowerUp;
-                if (powerUp == PowerUps.Fragile)
-                {
-                    fragileJewel.name = "fragile";
-                    var fragileContainer = GameObject.Find(("Fragile"));
-                    fragileJewel.transform.parent = fragileContainer.transform;
-                    
-                    fragileJewel.GetComponent<BoxCollider2D>().enabled = false;
-                    fragileJewel.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-                    fragileJewel.GetComponent<SpriteRenderer>().enabled = false;
-                    fragileJewel.tag = "Untagged";
-                    
-                    
-                    StartCoroutine(RemoveFragile(fragileJewel, fragileContainer));
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.Log("No power up on that fellow.");
-            }
-        }
         
-        
-        private IEnumerator RemoveFragile(GameObject fragileJewel, GameObject fragileContainer)
+        private IEnumerator RemoveFragile(List<GameObject> fragileJewels)
         {
-            var fragileJewels = new List<GameObject>();
-            
-            foreach (Transform child in fragileContainer.transform)
-            {
-                fragileJewels.Add(child.gameObject);
-            }
-            
             fragileJewels.ForEach(Destroy);
             
             yield return new WaitForEndOfFrame();

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using _Game.Scripts.Events;
 using _Game.Scripts.Inventory;
+using _Game.Scripts.Inventory.PowerUpCommand;
 using _Game.Scripts.Utils;
 using UnityEditor;
 using UnityEngine;

@@ -1,7 +1,6 @@
 using System;
 using _Game.Scripts.Inventory;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace _Game.Scripts

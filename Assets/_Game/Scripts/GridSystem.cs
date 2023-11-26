@@ -461,13 +461,8 @@ namespace _Game.Scripts
                             continue;
                         }
                     }
-                    catch (Exception e)
-                    {
-                        Debug.Log("No power up on that fellow.");
-                    }
+                    catch (Exception e) {}
                     
-                    Debug.Log($"If fragile, shouldn't get here: {tile.name}");
-
                     // Fall down
                     tile.name = nameOfTheTileBelow;
                     tile.transform.localPosition = GetLocalPositionForGridCoordinate(positionOfTheTileBelow);

@@ -2,7 +2,7 @@
     <ui:Template name="MainMenuButton" src="project://database/Assets/_Game/UI/Components/Buttons/MainMenu/MainMenuButton.uxml?fileID=9197481963319205126&amp;guid=53878f702fc87be4dba29229b69282a3&amp;type=3#MainMenuButton" />
     <Style src="project://database/Assets/_Game/UI/Theme.uss?fileID=7433441132597879392&amp;guid=925e3dd8059d66b40b89b7a8ea4cbf55&amp;type=3#Theme" />
     <ui:VisualElement name="Container" style="flex-grow: 1;">
-        <ui:Label tabindex="-1" text="Level selection" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" style="font-size: 48px; -unity-font-style: bold; -unity-text-align: upper-center; color: rgb(225, 227, 223);" />
+        <ui:Label tabindex="-1" text="Level selection" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" style="font-size: 72px; -unity-font-style: bold; -unity-text-align: upper-center; color: rgb(237, 224, 220); margin-top: 4px; -unity-font-definition: url(&apos;project://database/Assets/_Game/Art/m5x7%20SDF.asset?fileID=11400000&amp;guid=8450b22f617731e42b77b710ede9e668&amp;type=2#m5x7 SDF&apos;);" />
         <ui:Instance template="MainMenuButton" name="MainMenuButton" style="position: absolute; left: 8px; top: 8px;" />
         <ui:ScrollView name="LevelsContainer" style="margin-top: 72px; margin-right: 128px; margin-bottom: 72px; margin-left: 128px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
     </ui:VisualElement>

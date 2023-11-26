@@ -1,4 +1,4 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/_Game/UI/Theme.uss?fileID=7433441132597879392&amp;guid=925e3dd8059d66b40b89b7a8ea4cbf55&amp;type=3#Theme" />
-    <ui:Button text="Level" parse-escape-sequences="true" display-tooltip-when-elided="true" name="LevelButton" class="action-button" style="white-space: normal; text-overflow: ellipsis; font-size: 16px;" />
+    <ui:Button text="Level" parse-escape-sequences="true" display-tooltip-when-elided="true" name="LevelButton" class="action-button" style="white-space: normal; text-overflow: ellipsis; font-size: 32px; -unity-font-definition: url(&apos;project://database/Assets/_Game/Art/m5x7%20SDF.asset?fileID=11400000&amp;guid=8450b22f617731e42b77b710ede9e668&amp;type=2#m5x7 SDF&apos;); -unity-font-style: normal;" />
 </ui:UXML>

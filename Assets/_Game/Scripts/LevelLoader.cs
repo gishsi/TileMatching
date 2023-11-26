@@ -39,31 +39,39 @@ namespace _Game.Scripts
         /// <exception cref="Exception">Thrown if there was a critical failure and the inventory item could not be instantiated.</exception>
         private void InitializeInventory(LevelScriptableObject levelToPlay)
         {
-            var inventoryContainer = GameObject.Find("InventoryContainer");
-            
-            foreach (var powerUp in levelToPlay.powerUps)
+            try
             {
-                if (powerUp == PowerUps.None)
-                {
-                    continue;
-                }
-
-                try
-                {
-                    var item = Instantiate(inventoryItem, inventoryContainer.transform.position, Quaternion.identity);
-
-                    var pickFromInventory = item.GetComponent<InventoryPickable>();
-                    pickFromInventory.PowerUp = powerUp;
-
-                   item.GetComponent<Image>().sprite = powerUpSpritesResolverScriptableObject.GetSpriteForPowerUpType(powerUp);
+                var inventoryContainer = GameObject.Find("InventoryContainer");
                 
-                    item.transform.parent = inventoryContainer.transform;
-                }
-                catch (Exception e)
+                foreach (var powerUp in levelToPlay.powerUps)
                 {
-                    Debug.Log(e);
-                    throw new Exception("Critical failure during inventory initialization.");
+                    if (powerUp == PowerUps.None)
+                    {
+                        continue;
+                    }
+
+                    try
+                    {
+                        var item = Instantiate(inventoryItem, inventoryContainer.transform.position, Quaternion.identity);
+
+                        var pickFromInventory = item.GetComponent<InventoryPickable>();
+                        pickFromInventory.PowerUp = powerUp;
+
+                        item.GetComponent<Image>().sprite = powerUpSpritesResolverScriptableObject.GetSpriteForPowerUpType(powerUp);
+                
+                        item.transform.parent = inventoryContainer.transform;
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.Log(e);
+                        throw new Exception("Critical failure during inventory initialization.");
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                Debug.Log($"Could not initialize inventory for level [{levelToPlay.levelName}]");
+                return;
             }
         }
     }

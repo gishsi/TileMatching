@@ -118,6 +118,12 @@ namespace _Game.Scripts
             var horizontalOffset = (cols / 2f + (fullMarginCols + (SpacingBetweenTiles / 2f))) * -1;
 
             transform.position = new Vector3(horizontalOffset, verticalOffset, 0);
+            
+            var background = GameObject.Find("GridBackground");
+            background.transform.localScale = new Vector3(
+                cols + (float)Math.Floor(halfOfCols) + SpacingBetweenTiles, 
+                rows + (float)Math.Floor(halfOfRows)+ SpacingBetweenTiles, 
+                1);
         }
         
         // **************** Private **************

@@ -1,14 +1,16 @@
+using _Game.Scripts.Events;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
-namespace _Game.Scripts
+namespace _Game.Scripts.Inventory
 {
-    public class PickFromInventory : MonoBehaviour, IPointerUpHandler
+    public class InventoryPickable : MonoBehaviour, IPointerUpHandler
     {
         public PowerUps PowerUp = PowerUps.None;
         
-        [SerializeField]
-        private PickedUpItemScriptableObject _pickedUpItemScriptableObject;
+        [FormerlySerializedAs("_pickedUpItemScriptableObject")] [SerializeField]
+        private PickedUpPowerUpScriptableObject pickedUpPowerUpScriptableObject;
         
         public void OnPointerUp(PointerEventData eventData)
         {
@@ -25,9 +27,9 @@ namespace _Game.Scripts
                 return;
             }
             
-            var data = new ItemDropped(hit.collider.gameObject.name, PowerUp);
+            var data = new PowerUpDropped(hit.collider.gameObject.name, PowerUp);
             
-            _pickedUpItemScriptableObject.RaiseEvent(data);
+            pickedUpPowerUpScriptableObject.RaiseEvent(data);
             
             Destroy(gameObject);
         }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _Game.Scripts
+namespace _Game.Scripts.Inventory
 {
     /// <summary>
     ///  This probably should no be attached from the beginning,

@@ -650,7 +650,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Inventory
+  m_text: 'Power Ups:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -776,7 +776,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelDataScriptableObject: {fileID: 11400000, guid: d0ac5f04835968043aebd93baceb1308, type: 2}
   inventoryItem: {fileID: 5755797246983463968, guid: ac5316e86a202f446935da97b6c0591c, type: 3}
-  _powerUpSprites:
+  powerUpSpritesResolver:
     noneSpriteAsset: {fileID: 21300000, guid: c2bfeb1226dec6145a4f6c8f2c21fe50, type: 3}
     bombSpriteAsset: {fileID: 21300000, guid: 8311634679381b74bbee4ebf57c5c522, type: 3}
     concretionSpriteAsset: {fileID: 21300000, guid: 9a3e48d5847d85c429b6cf816b2ee845, type: 3}

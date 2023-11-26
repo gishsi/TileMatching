@@ -1,26 +1,28 @@
-﻿using UnityEngine;
+﻿using _Game.Scripts.Events;
+using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace _Game.Scripts
+namespace _Game.Scripts.Inventory
 {
     /// <summary>
     ///     Receives an item dropped on a tile.
     /// </summary>
     public class ReceiveItem : MonoBehaviour
     {
-        [SerializeField]
-        private PickedUpItemScriptableObject _pickedUpItemScriptableObject;
+        [FormerlySerializedAs("_pickedUpItemScriptableObject")] [SerializeField]
+        private PickedUpPowerUpScriptableObject pickedUpPowerUpScriptableObject;
         
         private void OnEnable()
         {
-            _pickedUpItemScriptableObject.ItemDroppedEvent.AddListener(ReceivedItem);
+            pickedUpPowerUpScriptableObject.ItemDroppedEvent.AddListener(ReceivedItem);
         }
         
         private void OnDisable()
         {
-            _pickedUpItemScriptableObject.ItemDroppedEvent.RemoveListener(ReceivedItem);
+            pickedUpPowerUpScriptableObject.ItemDroppedEvent.RemoveListener(ReceivedItem);
         }
         
-        private void ReceivedItem(ItemDropped data)
+        private void ReceivedItem(PowerUpDropped data)
         {
             if (data.NameOfTile != gameObject.name)
             {

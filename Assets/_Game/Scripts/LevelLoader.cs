@@ -1,48 +1,11 @@
 using System;
-using TMPro;
-using UnityEditor.VersionControl;
+using _Game.Scripts.Inventory;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace _Game.Scripts
 {
-    [Serializable]
-    class PowerUpSprites
-    {
-        [Tooltip("None power up sprite")]
-        [SerializeField]    
-        private Sprite noneSpriteAsset;
-        
-        [Tooltip("Bomb power up sprite")]
-        [SerializeField]    
-        private Sprite bombSpriteAsset;
-        
-        [Tooltip("Concretion power up sprite")]
-        [SerializeField]    
-        private Sprite concretionSpriteAsset;
-        
-        [Tooltip("Fragile power up sprite")]
-        [SerializeField]    
-        private Sprite fragileSpriteAsset;
-        
-        [Tooltip("Colour bomb power up sprite")]
-        [SerializeField]    
-        private Sprite colourBombSpriteAsset;
-        
-        public Sprite GetSpriteForPowerUpType(PowerUps powerUp)
-        {
-            return powerUp switch
-            {
-                PowerUps.None => noneSpriteAsset,
-                PowerUps.Bomb => bombSpriteAsset,
-                PowerUps.ColourBomb => colourBombSpriteAsset,
-                PowerUps.Concretion => concretionSpriteAsset,
-                PowerUps.Fragile => fragileSpriteAsset,
-                _ => noneSpriteAsset
-            };
-        }
-    }
-    
     public class LevelLoader : MonoBehaviour
     {
         [Header("Levels data")]
@@ -53,9 +16,10 @@ namespace _Game.Scripts
         [SerializeField]
         private GameObject inventoryItem;
 
+        [FormerlySerializedAs("_powerUpSprites")]
         [Header("Sprites for power ups")] 
         [SerializeField]
-        private PowerUpSprites _powerUpSprites;
+        private PowerUpSpritesResolver powerUpSpritesResolver;
        
         
         private void Awake()
@@ -90,10 +54,10 @@ namespace _Game.Scripts
                 {
                     var item = Instantiate(inventoryItem, inventoryContainer.transform.position, Quaternion.identity);
 
-                    var pickFromInventory = item.GetComponent<PickFromInventory>();
+                    var pickFromInventory = item.GetComponent<InventoryPickable>();
                     pickFromInventory.PowerUp = powerUp;
 
-                   item.GetComponent<Image>().sprite = _powerUpSprites.GetSpriteForPowerUpType(powerUp);
+                   item.GetComponent<Image>().sprite = powerUpSpritesResolver.GetSpriteForPowerUpType(powerUp);
                 
                     item.transform.parent = inventoryContainer.transform;
                 }

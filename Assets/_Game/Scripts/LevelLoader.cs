@@ -1,9 +1,48 @@
 using System;
 using TMPro;
+using UnityEditor.VersionControl;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace _Game.Scripts
 {
+    [Serializable]
+    class PowerUpSprites
+    {
+        [Tooltip("None power up sprite")]
+        [SerializeField]    
+        private Sprite noneSpriteAsset;
+        
+        [Tooltip("Bomb power up sprite")]
+        [SerializeField]    
+        private Sprite bombSpriteAsset;
+        
+        [Tooltip("Concretion power up sprite")]
+        [SerializeField]    
+        private Sprite concretionSpriteAsset;
+        
+        [Tooltip("Fragile power up sprite")]
+        [SerializeField]    
+        private Sprite fragileSpriteAsset;
+        
+        [Tooltip("Colour bomb power up sprite")]
+        [SerializeField]    
+        private Sprite colourBombSpriteAsset;
+        
+        public Sprite GetSpriteForPowerUpType(PowerUps powerUp)
+        {
+            return powerUp switch
+            {
+                PowerUps.None => noneSpriteAsset,
+                PowerUps.Bomb => bombSpriteAsset,
+                PowerUps.ColourBomb => colourBombSpriteAsset,
+                PowerUps.Concretion => concretionSpriteAsset,
+                PowerUps.Fragile => fragileSpriteAsset,
+                _ => noneSpriteAsset
+            };
+        }
+    }
+    
     public class LevelLoader : MonoBehaviour
     {
         [Header("Levels data")]
@@ -13,7 +52,11 @@ namespace _Game.Scripts
         [Tooltip("Inventory item prefab")]
         [SerializeField]
         private GameObject inventoryItem;
-        
+
+        [Header("Sprites for power ups")] 
+        [SerializeField]
+        private PowerUpSprites _powerUpSprites;
+       
         
         private void Awake()
         {
@@ -49,10 +92,8 @@ namespace _Game.Scripts
 
                     var pickFromInventory = item.GetComponent<PickFromInventory>();
                     pickFromInventory.PowerUp = powerUp;
-                
-                
-                    var textComponent = item.GetComponentInChildren<TextMeshProUGUI>();
-                    textComponent.text = powerUp.ToString();
+
+                   item.GetComponent<Image>().sprite = _powerUpSprites.GetSpriteForPowerUpType(powerUp);
                 
                     item.transform.parent = inventoryContainer.transform;
                 }

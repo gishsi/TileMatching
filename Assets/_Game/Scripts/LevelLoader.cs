@@ -1,6 +1,7 @@
 using System;
 using _Game.Scripts.Inventory;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace _Game.Scripts
@@ -17,8 +18,7 @@ namespace _Game.Scripts
         
         [Header("Sprites for power ups")] 
         [SerializeField]
-        private PowerUpSpritesResolver powerUpSpritesResolver;
-       
+        private PowerUpSpritesResolverScriptableObject powerUpSpritesResolverScriptableObject;
         
         private void Awake()
         {
@@ -55,7 +55,7 @@ namespace _Game.Scripts
                     var pickFromInventory = item.GetComponent<InventoryPickable>();
                     pickFromInventory.PowerUp = powerUp;
 
-                   item.GetComponent<Image>().sprite = powerUpSpritesResolver.GetSpriteForPowerUpType(powerUp);
+                   item.GetComponent<Image>().sprite = powerUpSpritesResolverScriptableObject.GetSpriteForPowerUpType(powerUp);
                 
                     item.transform.parent = inventoryContainer.transform;
                 }

@@ -31,7 +31,7 @@ namespace _Game.Scripts.Inventory
             
             Debug.Log($"Tile {gameObject.name} received {data.PowerUp} power up.");
             
-            GetComponent<PowerUpSlot>().PowerUp = data.PowerUp;
+            GetComponent<PowerUpSlot>().SetPowerUp(data.PowerUp);
         }
     }
 }

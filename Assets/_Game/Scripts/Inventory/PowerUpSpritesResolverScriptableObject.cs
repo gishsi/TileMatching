@@ -6,8 +6,8 @@ namespace _Game.Scripts.Inventory
     /// <summary>
     ///     Stores information about sprites for power ups and resolves a power up type into a sprite for the UI to render.
     /// </summary>
-    [Serializable]
-    class PowerUpSpritesResolver
+    [CreateAssetMenu(fileName = "Power Up Sprites", menuName = "Inventory/Power Ups/Power Up Sprites")]
+    public class PowerUpSpritesResolverScriptableObject : ScriptableObject
     {
         [Tooltip("None power up sprite")]
         [SerializeField]    

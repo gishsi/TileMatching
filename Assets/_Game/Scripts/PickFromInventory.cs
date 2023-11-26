@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace _Game.Scripts
 {
@@ -27,8 +26,10 @@ namespace _Game.Scripts
             }
             
             var data = new ItemDropped(hit.collider.gameObject.name, PowerUp);
-                
+            
             _pickedUpItemScriptableObject.RaiseEvent(data);
+            
+            Destroy(gameObject);
         }
     }
 }

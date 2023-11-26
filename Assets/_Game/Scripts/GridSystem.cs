@@ -3,8 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using _Game.Scripts.Events;
+using _Game.Scripts.Inventory;
+using _Game.Scripts.Inventory.PowerUpCommand;
 using _Game.Scripts.Utils;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
 
 namespace _Game.Scripts
@@ -36,7 +40,7 @@ namespace _Game.Scripts
         
         private readonly Color _blueTileColor = new (0, 0.5381241f, 1);
         private readonly Color _greenTileColor = new (0, 0.4235294f, 0.3098039f);
-
+        
         // *********** Serializable *********** //
         [Header("Tiles")]
         [SerializeField] private GameObject jewel;
@@ -181,13 +185,42 @@ namespace _Game.Scripts
                 Debug.Log("Tile does not meet matching criteria.");
                 return;
             }
+
+            var jewelsRemovedFromPowerUp = new List<GameObject>();
+            
+            foreach (var matchingJewel in matchingJewels)
+            {
+                try
+                {
+                    var powerUp = matchingJewel.GetComponent<PowerUpSlot>().PowerUp;
+                    
+                    if (powerUp == PowerUps.Bomb)
+                    {
+                        var powerUpCommand = new BombCommand(matchingJewel);
+
+                        jewelsRemovedFromPowerUp.AddRange(powerUpCommand.Execute());
+                    }
+
+                    if (powerUp == PowerUps.ColourBomb)
+                    {
+                        var allTiles = GetAllTilesInGrid();
+ 
+                        var powerUpCommand = new ColourBombCommand(matchingJewel, allTiles);
+
+                        jewelsRemovedFromPowerUp.AddRange(powerUpCommand.Execute());
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("No power up on that fellow.");
+                }
+            }
+
+            // Hash set so that we don't try to remove two of the same tiles twice
+            var allMatched = matchingJewels.Concat(jewelsRemovedFromPowerUp).ToHashSet();
             
             // Needs to wait until the end of frame - this is when destroy will be finished.
-            StartCoroutine(HandleDestroyJewels(matchingJewels));
-
-
-
-            // todo: Restructure the grid
+            StartCoroutine(HandleDestroyJewels(allMatched.ToList()));
         }
         
         /// <summary>
@@ -262,7 +295,7 @@ namespace _Game.Scripts
         /// </summary>
         /// <param name="name">Position of the tile</param>
         /// <returns>A vector representing the position in the grid</returns>
-        private static Vector2Int ParseNameIntoVector2Int(string name)
+        public static Vector2Int ParseNameIntoVector2Int(string name)
         {
             try
             {
@@ -316,9 +349,30 @@ namespace _Game.Scripts
         /// </summary>
         /// <param name="jewels"></param>
         /// <remarks></remarks>
-        private IEnumerator HandleDestroyJewels(List<GameObject> jewels)
+        private IEnumerator HandleDestroyJewels(List<GameObject> jewelsToDestroys)
         {
-            jewels.ForEach(Destroy);
+            foreach (var jewelToDestroy in jewelsToDestroys)
+            {
+                try
+                {
+                    var powerUp = jewelToDestroy.GetComponent<PowerUpSlot>().PowerUp;
+
+                    if (powerUp != PowerUps.Concretion)
+                    {
+                        continue;
+                    }
+                    
+                    var powerUpCommand = new ConcretionCommand(blocker, jewelToDestroy, transform);
+
+                    powerUpCommand.Execute();
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("No power up on that fellow.");
+                }
+            }
+            
+            jewelsToDestroys.ForEach(Destroy);
 
             yield return new WaitForEndOfFrame();
             
@@ -354,7 +408,7 @@ namespace _Game.Scripts
 
                 // If a tile is at (0;2), it can have two tiles below. If they disappear that's how far the tile needs to fall.
                 var maximumThatTheTileCanMove = positionInGrid.y;
-
+                
                 // If we start from one we will not evaluate the tile that needs to move
                 for (var i = 1; i <= maximumThatTheTileCanMove; i++)
                 {
@@ -369,13 +423,35 @@ namespace _Game.Scripts
                         // Since we are going from top to bottom (on tiles below the tile being evaluated), this can break immediately
                         break;
                     }
+                    
+                    try
+                    {
+                        var powerUp = tile.GetComponent<PowerUpSlot>().PowerUp;
+                        if (powerUp == PowerUps.Fragile)
+                        {
+                            var powerUpCommand = new FragileCommand(tile);
 
-                    // If tile below does not exist, move down.
+                            var fragileJewels = powerUpCommand.Execute();
+                
+                            StartCoroutine(RemoveFragile(fragileJewels));
+                            continue;
+                        }
+                    }
+                    catch (Exception e) {}
+                    
+                    // Fall down
                     tile.name = nameOfTheTileBelow;
                     tile.transform.localPosition = GetLocalPositionForGridCoordinate(positionOfTheTileBelow);
                 }
             }
             
+        }
+        
+        private IEnumerator RemoveFragile(List<GameObject> fragileJewels)
+        {
+            fragileJewels.ForEach(Destroy);
+            
+            yield return new WaitForEndOfFrame();
         }
         
         private List<GameObject> GetAllTilesInGrid()

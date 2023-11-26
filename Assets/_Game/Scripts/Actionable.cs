@@ -24,8 +24,7 @@ namespace _Game.Scripts
         private void OnMouseDown()
         {
             _hasBeenPickedUp = true;
-            // todo: visually pick an object uo
-            
+     
             evaluateTrigger.RaiseEvent(new Evaluate(gameObject));
         }
 

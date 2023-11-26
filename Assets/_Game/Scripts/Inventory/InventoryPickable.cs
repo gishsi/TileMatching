@@ -9,7 +9,7 @@ namespace _Game.Scripts.Inventory
     {
         public PowerUps PowerUp = PowerUps.None;
         
-        [FormerlySerializedAs("_pickedUpItemScriptableObject")] [SerializeField]
+        [SerializeField]
         private PickedUpPowerUpScriptableObject pickedUpPowerUpScriptableObject;
         
         public void OnPointerUp(PointerEventData eventData)

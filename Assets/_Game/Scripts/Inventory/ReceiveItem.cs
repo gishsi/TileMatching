@@ -9,7 +9,7 @@ namespace _Game.Scripts.Inventory
     /// </summary>
     public class ReceiveItem : MonoBehaviour
     {
-        [FormerlySerializedAs("_pickedUpItemScriptableObject")] [SerializeField]
+        [SerializeField]
         private PickedUpPowerUpScriptableObject pickedUpPowerUpScriptableObject;
         
         private void OnEnable()
@@ -30,8 +30,7 @@ namespace _Game.Scripts.Inventory
             }
             
             Debug.Log($"Tile {gameObject.name} received {data.PowerUp} power up.");
-
-            // todo: Could attach the power up slot here and instantiate it with a type that the effect returns!
+            
             GetComponent<PowerUpSlot>().PowerUp = data.PowerUp;
         }
     }

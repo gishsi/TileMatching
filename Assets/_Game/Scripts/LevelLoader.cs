@@ -15,8 +15,7 @@ namespace _Game.Scripts
         [Tooltip("Inventory item prefab")]
         [SerializeField]
         private GameObject inventoryItem;
-
-        [FormerlySerializedAs("_powerUpSprites")]
+        
         [Header("Sprites for power ups")] 
         [SerializeField]
         private PowerUpSpritesResolver powerUpSpritesResolver;

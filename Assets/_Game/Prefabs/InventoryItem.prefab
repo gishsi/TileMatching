@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PowerUp: 0
-  _pickedUpItemScriptableObject: {fileID: 11400000, guid: cb54bcf626990f84da419e2bb7f42dbf, type: 2}
+  pickedUpPowerUpScriptableObject: {fileID: 11400000, guid: cb54bcf626990f84da419e2bb7f42dbf, type: 2}
 --- !u!61 &2531281838084911491
 BoxCollider2D:
   m_ObjectHideFlags: 0

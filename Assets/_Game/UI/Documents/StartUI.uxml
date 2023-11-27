@@ -3,14 +3,14 @@
     <ui:Template name="HowToPlay" src="project://database/Assets/_Game/UI/Components/Buttons/HowToPlay/HowToPlay.uxml?fileID=9197481963319205126&amp;guid=c8610dc5bd0dfa6449a3ea72a3b6f6d1&amp;type=3#HowToPlay" />
     <ui:Template name="QuitButton" src="project://database/Assets/_Game/UI/Components/Buttons/Quit/QuitButton.uxml?fileID=9197481963319205126&amp;guid=9a20fcdb93258b0478df4f4103a32035&amp;type=3#QuitButton" />
     <Style src="project://database/Assets/_Game/UI/Theme.uss?fileID=7433441132597879392&amp;guid=925e3dd8059d66b40b89b7a8ea4cbf55&amp;type=3#Theme" />
-    <ui:VisualElement style="flex-grow: 1; align-items: center; justify-content: center; min-width: 100%; min-height: 100%; background-color: rgb(25, 28, 26);">
+    <ui:VisualElement style="flex-grow: 1; align-items: center; justify-content: center; min-width: 100%; min-height: 100%; background-color: rgb(32, 26, 24);">
         <ui:VisualElement name="VisualElement" style="max-width: 600px; min-height: 281px;">
-            <ui:Label tabindex="-1" text="Tile matching" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" style="color: rgb(225, 227, 223); -unity-text-align: upper-center; font-size: 48px; -unity-font-style: bold; position: relative;" />
-            <ui:Button text="Start" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StartButton" class="action-button" style="font-size: 20px;" />
+            <ui:Label tabindex="-1" text="Match&apos;Em All" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" style="color: rgb(237, 224, 220); -unity-text-align: upper-right; font-size: 72px; -unity-font-style: bold; position: relative; -unity-font-definition: url(&apos;project://database/Assets/_Game/Art/m5x7%20SDF.asset?fileID=11400000&amp;guid=8450b22f617731e42b77b710ede9e668&amp;type=2#m5x7 SDF&apos;);" />
+            <ui:Button text="Start" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StartButton" class="action-button" style="font-size: 32px; -unity-font-definition: url(&apos;project://database/Assets/_Game/Art/m5x7%20SDF.asset?fileID=11400000&amp;guid=8450b22f617731e42b77b710ede9e668&amp;type=2#m5x7 SDF&apos;); cursor: url(&apos;project://database/Assets/_Game/Art/cursor_select.png?fileID=2800000&amp;guid=27ff32675e2684b4b93b467f5bc5cbfb&amp;type=3#cursor_select&apos;);" />
             <ui:Instance template="LevelSelectionButton" name="LevelSelectionButton" />
             <ui:Instance template="HowToPlay" name="HowToPlay" />
             <ui:Instance template="QuitButton" name="QuitButton" />
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:Label tabindex="-1" text="by Julia Drozdz [jud28]" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Author" style="-unity-text-align: upper-right; color: rgb(64, 73, 68); position: absolute; right: 0; bottom: 0; font-size: 10px;" />
+    <ui:Label tabindex="-1" text="by Julia Drozdz [jud28]" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Author" style="-unity-text-align: upper-right; color: rgb(160, 141, 134); position: absolute; right: 0; bottom: 0; font-size: 20px; -unity-font-definition: url(&apos;project://database/Assets/_Game/Art/m5x7%20SDF.asset?fileID=11400000&amp;guid=8450b22f617731e42b77b710ede9e668&amp;type=2#m5x7 SDF&apos;);" />
 </ui:UXML>

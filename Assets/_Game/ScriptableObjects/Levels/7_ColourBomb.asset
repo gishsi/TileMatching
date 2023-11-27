@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dba2d526c0b64f938dcf3b0fa27450ba, type: 3}
   m_Name: 7_ColourBomb
   m_EditorClassIdentifier: 
-  levelName: ColourBomb
+  levelName: Colour Bomb
   amountOfSwipes: 0
   rowsAmount: 4
   colsAmount: 3

@@ -1,9 +1,9 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:VisualElement style="flex-grow: 1; margin-left: 10px;">
-        <ui:Label tabindex="-1" text="Header" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Header" style="font-size: 64px; -unity-font-style: bold; color: rgb(255, 255, 255); margin-bottom: 0;" />
-        <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
-            <ui:Label tabindex="-1" text="Swaps left:" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 24px; -unity-font-style: bold; color: rgb(225, 227, 223); margin-top: 0; margin-bottom: 0;" />
-            <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SwapsLeft" style="font-size: 24px; -unity-font-style: bold; color: rgb(225, 227, 223); margin-bottom: 0; margin-top: 0;" />
+        <ui:Label tabindex="-1" text="Header" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Header" style="font-size: 72px; -unity-font-style: bold; color: rgb(237, 224, 220); margin-bottom: 0; -unity-font-definition: url(&apos;project://database/Assets/_Game/Art/m5x7%20SDF.asset?fileID=11400000&amp;guid=8450b22f617731e42b77b710ede9e668&amp;type=2#m5x7 SDF&apos;); -unity-text-align: upper-center;" />
+        <ui:VisualElement style="flex-grow: 1; flex-direction: row; position: absolute; margin-top: 18px;">
+            <ui:Label tabindex="-1" text="Swaps left:" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" style="font-size: 32px; -unity-font-style: normal; color: rgb(237, 224, 220); margin-top: 0; margin-bottom: 0; -unity-font-definition: url(&apos;project://database/Assets/_Game/Art/m5x7%20SDF.asset?fileID=11400000&amp;guid=8450b22f617731e42b77b710ede9e668&amp;type=2#m5x7 SDF&apos;); margin-left: 22px;" />
+            <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SwapsLeft" style="font-size: 32px; -unity-font-style: normal; color: rgb(237, 224, 220); margin-bottom: 0; margin-top: 0; -unity-font-definition: url(&apos;project://database/Assets/_Game/Art/m5x7%20SDF.asset?fileID=11400000&amp;guid=8450b22f617731e42b77b710ede9e668&amp;type=2#m5x7 SDF&apos;);" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

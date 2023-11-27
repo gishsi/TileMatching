@@ -1,13 +1,18 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:Template name="MainMenuButton" src="project://database/Assets/Common/UIComponents/Buttons/MainMenu/MainMenuButton.uxml?fileID=9197481963319205126&amp;guid=53878f702fc87be4dba29229b69282a3&amp;type=3#MainMenuButton" />
-    <ui:Template name="RestartButton" src="project://database/Assets/Common/UIComponents/Buttons/Restart/RestartButton.uxml?fileID=9197481963319205126&amp;guid=4b5962bbc9b56434e9a0556f99f38563&amp;type=3#RestartButton" />
-    <ui:Template name="LevelSelectionButton" src="project://database/Assets/Common/UIComponents/Buttons/LevelSelection/LevelSelectionButton.uxml?fileID=9197481963319205126&amp;guid=e9b2f19a65c5cf1499cd78437d479b73&amp;type=3#LevelSelectionButton" />
-    <ui:Template name="QuitButton" src="project://database/Assets/Common/UIComponents/Buttons/Quit/QuitButton.uxml?fileID=9197481963319205126&amp;guid=9a20fcdb93258b0478df4f4103a32035&amp;type=3#QuitButton" />
-    <Style src="project://database/Assets/Common/Theme.uss?fileID=7433441132597879392&amp;guid=925e3dd8059d66b40b89b7a8ea4cbf55&amp;type=3#Theme" />
-    <ui:VisualElement name="Menu" style="max-width: initial; min-width: auto; width: 215px; align-self: flex-end; justify-content: center; align-items: stretch; flex-direction: column; height: 1020px; margin-right: 24px;">
-        <ui:Instance template="MainMenuButton" name="MainMenuButton" />
-        <ui:Instance template="RestartButton" name="RestartButton" />
-        <ui:Instance template="LevelSelectionButton" name="LevelSelectionButton" />
-        <ui:Instance template="QuitButton" name="QuitButton" />
+    <Style src="project://database/Assets/_Game/UI/Theme.uss?fileID=7433441132597879392&amp;guid=925e3dd8059d66b40b89b7a8ea4cbf55&amp;type=3#Theme" />
+    <ui:VisualElement name="Menu" style="max-width: initial; min-width: auto; width: 88px; align-self: flex-end; justify-content: flex-start; align-items: stretch; flex-direction: column; height: 100%; position: relative; margin-right: 16px; margin-bottom: 0; margin-top: 16px;">
+        <ui:VisualElement name="MainMenuButton" style="-unity-font-style: normal; font-size: 10px; cursor: url(&apos;project://database/Assets/_Game/Art/cursor_select.png?fileID=2800000&amp;guid=27ff32675e2684b4b93b467f5bc5cbfb&amp;type=3#cursor_select&apos;);">
+            <ui:Button text="Main" parse-escape-sequences="true" display-tooltip-when-elided="true" name="MainMenuButton" class="secondary-button" style="font-size: 16px; cursor: url(&apos;project://database/Assets/_Game/Art/cursor_select.png?fileID=2800000&amp;guid=27ff32675e2684b4b93b467f5bc5cbfb&amp;type=3#cursor_select&apos;);" />
+        </ui:VisualElement>
+        <ui:VisualElement name="RestartButton" style="cursor: url(&apos;project://database/Assets/_Game/Art/cursor_select.png?fileID=2800000&amp;guid=27ff32675e2684b4b93b467f5bc5cbfb&amp;type=3#cursor_select&apos;);">
+            <Style src="project://database/Assets/_Game/UI/Theme.uss?fileID=7433441132597879392&amp;guid=925e3dd8059d66b40b89b7a8ea4cbf55&amp;type=3#Theme" />
+            <ui:Button text="Restart" parse-escape-sequences="true" display-tooltip-when-elided="true" name="RestartButton" class="secondary-button" style="font-size: 16px; cursor: url(&apos;project://database/Assets/_Game/Art/cursor_select.png?fileID=2800000&amp;guid=27ff32675e2684b4b93b467f5bc5cbfb&amp;type=3#cursor_select&apos;);" />
+        </ui:VisualElement>
+        <ui:VisualElement name="LevelSelectionButton" style="cursor: url(&apos;project://database/Assets/_Game/Art/cursor_select.png?fileID=2800000&amp;guid=27ff32675e2684b4b93b467f5bc5cbfb&amp;type=3#cursor_select&apos;);">
+            <ui:Button text="Level selection" parse-escape-sequences="true" display-tooltip-when-elided="true" name="LevelSelectionButton" class="secondary-button" style="white-space: normal; font-size: 16px; cursor: url(&apos;project://database/Assets/_Game/Art/cursor_select.png?fileID=2800000&amp;guid=27ff32675e2684b4b93b467f5bc5cbfb&amp;type=3#cursor_select&apos;);" />
+        </ui:VisualElement>
+        <ui:VisualElement name="QuitButton" style="cursor: url(&apos;project://database/Assets/_Game/Art/cursor_select.png?fileID=2800000&amp;guid=27ff32675e2684b4b93b467f5bc5cbfb&amp;type=3#cursor_select&apos;);">
+            <ui:Button text="Quit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="QuitButton" class="secondary-button" style="background-color: rgb(147, 0, 10); color: rgb(255, 218, 214); font-size: 16px; cursor: url(&apos;project://database/Assets/_Game/Art/cursor_select.png?fileID=2800000&amp;guid=27ff32675e2684b4b93b467f5bc5cbfb&amp;type=3#cursor_select&apos;);" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

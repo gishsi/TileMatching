@@ -42,7 +42,7 @@ namespace _Game.Scripts.Events
         {
             Swaps -= data;
 
-            if (Swaps < 0)
+            if (Swaps <= 0)
             {
                 SwapsChangeEvent.Invoke(0);
                 SwapsBelowZeroEvent.Invoke();

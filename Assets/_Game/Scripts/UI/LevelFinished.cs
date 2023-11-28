@@ -43,12 +43,16 @@ namespace _Game.Scripts.UI
         {
             levelDataScriptableObject.MoveUpALevel();
 
+            Debug.Log("Got to next level " + levelDataScriptableObject.GetNameOfCurrentLevel());
+            
             SceneManager.LoadScene("_Game/Scenes/Level");
         }
         
         private void PlayFromBeginning()
         {
             levelDataScriptableObject.MoveCurrentLevelIndexToNewIndex(1);
+            
+            Debug.Log("Play from beginning" + levelDataScriptableObject.GetNameOfCurrentLevel());
             
             SceneManager.LoadScene("_Game/Scenes/Level");
         }
@@ -63,7 +67,7 @@ namespace _Game.Scripts.UI
 
         private bool WasFinalLevelCompleted()
         {
-            var currentLevel = levelDataScriptableObject.currentLevelIndex;
+            var currentLevel = levelDataScriptableObject.GetCurrentLevelIndex();
             var amountOfLevels = levelDataScriptableObject.levels;
 
             return currentLevel == (amountOfLevels.Length - 1);

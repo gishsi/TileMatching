@@ -16,6 +16,7 @@ MonoBehaviour:
   amountOfSwipes: 1
   rowsAmount: 2
   colsAmount: 6
+  powerUps: 
   rows:
   - tilesInRow: 000000000000000001000000020000000200000002000000
   - tilesInRow: 020000000200000002000000000000000100000001000000

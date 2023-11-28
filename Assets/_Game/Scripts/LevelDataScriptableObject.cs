@@ -13,18 +13,21 @@ namespace _Game.Scripts
         [SerializeField] 
         public LevelScriptableObject[] levels;
 
-        public int currentLevelIndex { get; private set; } = 0;
+        private int currentLevelIndex;
         
         public LevelScriptableObject GetCurrentLevel()
         {
             return levels[currentLevelIndex];
         }
-
-        public void MoveDownALevel()
+        
+        /// <remarks>
+        ///     Need to do this here instead of { get; private set; }so that current level index gets serialized correctly.
+        /// </remarks>
+        public int GetCurrentLevelIndex()
         {
-            currentLevelIndex = GetPreviousLevelIndex();
+            return currentLevelIndex;
         }
-
+        
         public void MoveUpALevel()
         {
             currentLevelIndex = GetNextLevelIndex();

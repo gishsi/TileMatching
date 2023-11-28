@@ -47,6 +47,9 @@ public class LevelsSelectionActions : MonoBehaviour
     {
         _levelDataScriptableObject.MoveCurrentLevelIndexToNewIndex(levelToPlayIndex);
         
+        Debug.Log("StartGameAtLevel " + _levelDataScriptableObject.GetNameOfCurrentLevel());
+
+        
         SceneManager.LoadScene("_Game/Scenes/Level");
     }
 }

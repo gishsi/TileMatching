@@ -1,5 +1,6 @@
 using System;
 using _Game.Scripts.Inventory;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -22,6 +23,10 @@ namespace _Game.Scripts
         
         private void Awake()
         {
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(levelDataScriptableObject);    
+#endif
+
             var levelToPlay = levelDataScriptableObject.GetCurrentLevel();
 
             InitializeInventory(levelToPlay);
@@ -39,39 +44,36 @@ namespace _Game.Scripts
         /// <exception cref="Exception">Thrown if there was a critical failure and the inventory item could not be instantiated.</exception>
         private void InitializeInventory(LevelScriptableObject levelToPlay)
         {
-            try
+            var inventoryContainer = GameObject.Find("InventoryContainer");
+
+            if (levelToPlay.powerUps == null)
             {
-                var inventoryContainer = GameObject.Find("InventoryContainer");
-                
-                foreach (var powerUp in levelToPlay.powerUps)
-                {
-                    if (powerUp == PowerUps.None)
-                    {
-                        continue;
-                    }
-
-                    try
-                    {
-                        var item = Instantiate(inventoryItem, inventoryContainer.transform.position, Quaternion.identity);
-
-                        var pickFromInventory = item.GetComponent<InventoryPickable>();
-                        pickFromInventory.PowerUp = powerUp;
-
-                        item.GetComponent<Image>().sprite = powerUpSpritesResolverScriptableObject.GetSpriteForPowerUpType(powerUp);
-                
-                        item.transform.parent = inventoryContainer.transform;
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.Log(e);
-                        throw new Exception("Critical failure during inventory initialization.");
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.Log($"Could not initialize inventory for level [{levelToPlay.levelName}]");
                 return;
+            }
+            
+            foreach (var powerUp in levelToPlay.powerUps)
+            {
+                if (powerUp == PowerUps.None)
+                {
+                    continue;
+                }
+
+                try
+                {
+                    var item = Instantiate(inventoryItem, inventoryContainer.transform.position, Quaternion.identity);
+
+                    var pickFromInventory = item.GetComponent<InventoryPickable>();
+                    pickFromInventory.PowerUp = powerUp;
+
+                    item.GetComponent<Image>().sprite = powerUpSpritesResolverScriptableObject.GetSpriteForPowerUpType(powerUp);
+            
+                    item.transform.parent = inventoryContainer.transform;
+                }
+                catch (Exception e)
+                {
+                    Debug.Log(e);
+                    throw new Exception("Critical failure during inventory initialization.");
+                }
             }
         }
     }

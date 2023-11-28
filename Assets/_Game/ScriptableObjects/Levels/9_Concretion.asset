@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 9_Concretion
   m_EditorClassIdentifier: 
   levelName: Concretion
-  amountOfSwipes: 100
+  amountOfSwipes: 0
   rowsAmount: 3
   colsAmount: 3
   powerUps: 0300000003000000

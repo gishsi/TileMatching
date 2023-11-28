@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 8_Fragile
   m_EditorClassIdentifier: 
   levelName: Fragile
-  amountOfSwipes: 1
+  amountOfSwipes: 0
   rowsAmount: 4
   colsAmount: 1
   powerUps: 04000000

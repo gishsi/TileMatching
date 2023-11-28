@@ -133,11 +133,25 @@ namespace _Game.Scripts
         /// </summary>
         private void IsGameOver()
         {
+            var isLevelFinished = !DoesGridContainTilesToRemove();
+            if (isLevelFinished)
+            {
+                // load the level finished screen
+                SceneManager.LoadScene("_Game/Scenes/LevelFinished");
+            }    
+            
             var CanPlayerEliminate = AreThereAnyMatchingSets();
             
+            if (CanPlayerEliminate)
+            {
+                // can still play
+                return;
+            }
+
+            var allTiles = GetAllTilesInGrid();
+            
             // Automatic game over if there are no swaps or eliminations left.
-            // todo: also needs to check if all remaining tiles are the same
-            var tilesLeftThatCannotBeEliminated = GetAllTilesInGrid().Count > 0 && !CanPlayerEliminate;
+            var tilesLeftThatCannotBeEliminated = allTiles.Count > 0 && !CanPlayerEliminate;
             
             var isGameOver = tilesLeftThatCannotBeEliminated && updateSwap.Swaps <= 0;
 
@@ -264,7 +278,6 @@ namespace _Game.Scripts
                     return;
                 }
                 
-                updateSwap.RaiseEvent(1);
                 
                 // E.g.: Position of the first one is (0.5f, 0.5f),
                 // if we swapped a tile at 0, 0 with a tile at 1, 0 the position would be 0.5f, 0.5f, and (1 * 1.4f) + 0.5f = 1.9f, 0.5f
@@ -279,6 +292,8 @@ namespace _Game.Scripts
                 originTile.transform.localPosition = newPositionForOrigin;
                 originTile.name = ParseVector2IntIntoNameString(new Vector2Int((int)target.x, (int)target.y));
                 
+                updateSwap.RaiseEvent(1);
+
                 Debug.Log("Successful swap between [" + targetTile.name + "] and [" + originTile.name + "]");
             }
             catch (Exception e)
@@ -381,13 +396,6 @@ namespace _Game.Scripts
             jewelsToDestroys.ForEach(Destroy);
 
             yield return new WaitForEndOfFrame();
-            
-            var isLevelFinished = !DoesGridContainTilesToRemove();
-            if (isLevelFinished)
-            {
-                // load the level finished screen
-                SceneManager.LoadScene("_Game/Scenes/LevelFinished");
-            }    
             
             RepositionGrid();
             IsGameOver();

@@ -1105,6 +1105,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5409882796156367352, guid: 81301252806ecfc449b79cfabd344e09, type: 3}
+      propertyPath: sandPrefab
+      value: 
+      objectReference: {fileID: 8753496743329586749, guid: d21bb6cc1c3b2254283f7aadaa9ac182, type: 3}
+    - target: {fileID: 5409882796156367352, guid: 81301252806ecfc449b79cfabd344e09, type: 3}
       propertyPath: updateSwap
       value: 
       objectReference: {fileID: 11400000, guid: b141624e996f7b94abb02c1e738bb7c7, type: 2}

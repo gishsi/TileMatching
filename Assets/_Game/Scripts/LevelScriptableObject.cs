@@ -77,7 +77,8 @@ namespace _Game.Scripts
     {
         BlueTile,
         GreenTile,
-        Blocker
+        Blocker,
+        Sand
     }
     
     [Serializable]

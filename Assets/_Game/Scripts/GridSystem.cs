@@ -45,6 +45,7 @@ namespace _Game.Scripts
         [Header("Tiles")]
         [SerializeField] private GameObject jewel;
         [SerializeField] private GameObject blocker;
+        [SerializeField] private GameObject sandPrefab;
         
         // **************** MonoBehaviour **************
         private void Awake()
@@ -147,11 +148,11 @@ namespace _Game.Scripts
                 // can still play
                 return;
             }
-
-            var allTiles = GetAllTilesInGrid();
             
+            var jewels = GetAllJewelsInGrid();
+
             // Automatic game over if there are no swaps or eliminations left.
-            var tilesLeftThatCannotBeEliminated = allTiles.Count > 0 && !CanPlayerEliminate;
+            var tilesLeftThatCannotBeEliminated = jewels.Count > 0 && !CanPlayerEliminate;
             
             var isGameOver = tilesLeftThatCannotBeEliminated && updateSwap.Swaps <= 0;
 
@@ -185,6 +186,9 @@ namespace _Game.Scripts
                     break;
                 case Tiles.Blocker:
                     objectToSpawn = blocker;
+                    break;
+                case Tiles.Sand:
+                    objectToSpawn = sandPrefab;
                     break;
                 default:
                     throw new ArgumentException($"There is no game object representation for type [{tileType}]", nameof(tileType));
@@ -223,7 +227,7 @@ namespace _Game.Scripts
 
                     if (powerUp == PowerUps.ColourBomb)
                     {
-                        var allTiles = GetAllTilesInGrid();
+                        var allTiles = GetAllJewelsInGrid();
  
                         var powerUpCommand = new ColourBombCommand(matchingJewel, allTiles);
 
@@ -406,7 +410,7 @@ namespace _Game.Scripts
         /// </summary>
         private void RepositionGrid()
         {
-            var tiles = GetAllTilesInGrid();
+            var tiles = GetAllThatCanFall();
 
             // For all children, move them down
             foreach (var tile in tiles)
@@ -422,6 +426,53 @@ namespace _Game.Scripts
 
                 // If a tile is at (0;2), it can have two tiles below. If they disappear that's how far the tile needs to fall.
                 var maximumThatTheTileCanMove = positionInGrid.y;
+                
+                // todo: Handle the sand case.
+
+                if (tile.CompareTag("Sand"))
+                {
+                    // Remark: bigger matching kernels need to go first.
+                    var sandMovesKernels = new List<List<Vector2Int>>()
+                    {
+                        new List<Vector2Int>() { new(1, 0), new(1, -1) },           // one to te right and down
+                        new List<Vector2Int>() { new(-1, 0), new(-1, -1) },         // one to the left, and down
+                        // new List<Vector2Int>() { new(-1, 0) },                          // to the left
+                        // new List<Vector2Int>() { new(1, 0) },                           // to the right
+                        new List<Vector2Int>() { new(0, -1) },                          // one below
+                    };
+
+                    var fell = false;
+
+                    var initialNameOfSande = tile.name;
+                    
+                    foreach (var sandMovesKernel in sandMovesKernels)
+                    {
+                        foreach (var move in sandMovesKernel)
+                        {
+                            var nameOfPossibleMoveSpace =
+                                ParseVector2IntIntoNameString(move + ParseNameIntoVector2Int(initialNameOfSande));
+
+                            var moveSpace = GameObject.Find(nameOfPossibleMoveSpace);
+
+                            if (moveSpace != null)
+                            {
+                                continue;
+                            }
+                                
+                            Debug.Log($"Else move {move}");
+                            tile.name = ParseVector2IntIntoNameString(move + ParseNameIntoVector2Int(initialNameOfSande));
+                            tile.transform.localPosition = GetLocalPositionForGridCoordinate(ParseNameIntoVector2Int(tile.name));
+                            fell = true;
+                        }
+
+                        if (fell)
+                        {
+                            break;
+                        }
+                    }
+                        
+                }
+                
                 
                 // If we start from one we will not evaluate the tile that needs to move
                 for (var i = 1; i <= maximumThatTheTileCanMove; i++)
@@ -468,7 +519,7 @@ namespace _Game.Scripts
             yield return new WaitForEndOfFrame();
         }
         
-        private List<GameObject> GetAllTilesInGrid()
+        private List<GameObject> GetAllJewelsInGrid()
         {
             var tiles = new List<GameObject>();
             
@@ -483,9 +534,40 @@ namespace _Game.Scripts
             return tiles.OrderBy(t => t.name).ToList();
         }
         
+        private List<GameObject> GetAllSandsInGrid()
+        {
+            var tiles = new List<GameObject>();
+            
+            foreach (Transform child in transform)
+            {
+                if (child.CompareTag("Sand"))
+                {
+                    tiles.Add(child.gameObject);
+                }
+            }
+
+            return tiles.OrderBy(t => t.name).ToList();
+        }
+        
+        // todo: Attach a CanFall and a Removable components instead of doing tag comparisons
+        private List<GameObject> GetAllThatCanFall()
+        {
+            var tiles = new List<GameObject>();
+            
+            foreach (Transform child in transform)
+            {
+                if (child.CompareTag("Sand") || child.CompareTag("Tile"))
+                {
+                    tiles.Add(child.gameObject);
+                }
+            }
+
+            return tiles.OrderBy(t => t.name).ToList();
+        }
+        
         private bool AreThereAnyMatchingSets()
         {
-            var tiles = GetAllTilesInGrid();
+            var tiles = GetAllJewelsInGrid();
 
             foreach (var tile in tiles)
             {

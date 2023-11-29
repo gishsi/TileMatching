@@ -13,11 +13,13 @@ namespace _Game.Scripts
         [SerializeField] 
         public LevelScriptableObject[] levels;
 
-        private int currentLevelIndex;
-        
+        private int _currentLevelIndex;
+
+        private void OnEnable() => hideFlags = HideFlags.DontUnloadUnusedAsset;
+
         public LevelScriptableObject GetCurrentLevel()
         {
-            return levels[currentLevelIndex];
+            return levels[_currentLevelIndex];
         }
         
         /// <remarks>
@@ -25,12 +27,12 @@ namespace _Game.Scripts
         /// </remarks>
         public int GetCurrentLevelIndex()
         {
-            return currentLevelIndex;
+            return _currentLevelIndex;
         }
         
         public void MoveUpALevel()
         {
-            currentLevelIndex = GetNextLevelIndex();
+            _currentLevelIndex = GetNextLevelIndex();
         }
 
         /// <summary>
@@ -59,17 +61,17 @@ namespace _Game.Scripts
                     $"This level index does not exist. Ensure the level you are trying to access has been added to the {nameof(levels)} list.");
             }
 
-            currentLevelIndex = index;
+            _currentLevelIndex = index;
         }
 
         public string GetNameOfCurrentLevel()
         {
-            return levels[currentLevelIndex].levelName;
+            return levels[_currentLevelIndex].levelName;
         }
             
         public int GetAmountOfSwipesOfCurrentLevel()
         {
-            return levels[currentLevelIndex].amountOfSwipes;
+            return levels[_currentLevelIndex].amountOfSwipes;
         }
         
         /// <summary>
@@ -78,9 +80,9 @@ namespace _Game.Scripts
         /// <returns>Index of the next level if it exists, current level otherwise (final)</returns>
         private int GetNextLevelIndex()
         {
-            var i = currentLevelIndex + 1;
+            var i = _currentLevelIndex + 1;
 
-            return i < levels.Length ? i : currentLevelIndex;
+            return i < levels.Length ? i : _currentLevelIndex;
         }
 
         /// <summary>
@@ -89,14 +91,14 @@ namespace _Game.Scripts
         /// <returns>Index of the previous level if it exists, current level otherwise (first)</returns>
         private int GetPreviousLevelIndex()
         {
-            var i = currentLevelIndex - 1;
+            var i = _currentLevelIndex - 1;
 
             if (i < 0)
             {
                 return i;
             }
             
-            i = currentLevelIndex;
+            i = _currentLevelIndex;
             Debug.Log("Reached the first level");
 
             return i;

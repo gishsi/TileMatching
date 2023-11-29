@@ -23,10 +23,6 @@ namespace _Game.Scripts
         
         private void Awake()
         {
-#if UNITY_EDITOR
-            EditorUtility.SetDirty(levelDataScriptableObject);    
-#endif
-
             var levelToPlay = levelDataScriptableObject.GetCurrentLevel();
 
             InitializeInventory(levelToPlay);

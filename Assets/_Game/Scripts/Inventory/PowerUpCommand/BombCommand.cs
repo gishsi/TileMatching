@@ -50,7 +50,7 @@ namespace _Game.Scripts.Inventory.PowerUpCommand
                     continue;
                 }
 
-                if (!tile.CompareTag("Tile"))
+                if (!tile.CompareTag("Jewel"))
                 {
                     continue;
                 }

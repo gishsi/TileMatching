@@ -15,9 +15,11 @@ GameObject:
   - component: {fileID: 6540836341378441597}
   - component: {fileID: 393705547363958659}
   - component: {fileID: 6334806268213145675}
+  - component: {fileID: 8695028825830560580}
+  - component: {fileID: 738339090244782032}
   m_Layer: 0
   m_Name: Jewel
-  m_TagString: Tile
+  m_TagString: Jewel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -81,7 +83,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 83bb6b343c61d5846a200f1d2250afa3, type: 3}
-  m_Color: {r: 0, g: 0.4235294, b: 0.3098039, a: 1}
+  m_Color: {r: 0, g: 0.62352943, b: 0.7176471, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -204,6 +206,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _powerUpSpritesResolverScriptableObject: {fileID: 11400000, guid: af63ca44af4a52d49b4fbc1c8b929264, type: 2}
   powerUpAttachedToJewelSprite: {fileID: 5809748856983255933}
+--- !u!114 &8695028825830560580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2294205601888927180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e4c05cb3ea668945aed51526f850e3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &738339090244782032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2294205601888927180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45609281a534ec74384534e565cdf8a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4108283811207799721
 GameObject:
   m_ObjectHideFlags: 0

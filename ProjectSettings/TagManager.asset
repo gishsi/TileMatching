@@ -4,9 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Tile
   - Blocker
   - Sand
+  - Jewel
   layers:
   - Default
   - TransparentFX

@@ -17,13 +17,8 @@ namespace _Game.Scripts.Inventory
         {
             var ray = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
             var hit = Physics2D.Raycast(ray, ray);
-
-            if (hit.collider == null)
-            {
-                return;
-            }
-
-            if (!hit.collider.gameObject.CompareTag("Tile"))
+            
+            if (hit.collider == null || hit.collider.gameObject.GetComponent<ReceiveItem>() == null)
             {
                 return;
             }

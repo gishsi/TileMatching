@@ -4,6 +4,12 @@ using UnityEngine;
 
 namespace _Game.Scripts
 {
+    /// <summary>
+    ///     Level data
+    /// </summary>
+    /// <remarks>
+    ///     If columns or rows in the grid do not match the rows and columns the designer will be notified in the debug window.
+    /// </remarks>.
     [CreateAssetMenu(fileName = "New level", menuName = "Levels/New Level")]
     public class LevelScriptableObject : ScriptableObject
     {
@@ -14,7 +20,6 @@ namespace _Game.Scripts
         [SerializeField] public string levelName;
 
         [SerializeField] public int amountOfSwipes;
-        
         
         [Header("Grid size")]
         [Tooltip("This needs to match Rows.")]
@@ -72,15 +77,9 @@ namespace _Game.Scripts
         }
     }
     
-    [Serializable]
-    public enum Tiles
-    {
-        BlueTile,
-        GreenTile,
-        Blocker,
-        Sand
-    }
-    
+    /// <summary>
+    ///     A list of these makes up a grid.
+    /// </summary>
     [Serializable]
     public class Rows
     {

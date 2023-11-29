@@ -2,7 +2,7 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 32
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: Tile Types
   m_EditorClassIdentifier: Assembly-CSharp:_Game.Scripts:TileTypesConfigurationScriptableObject
-  jewel: {fileID: 0}
-  blocker: {fileID: 0}
-  sandPrefab: {fileID: 0}
+  jewel: {fileID: 2294205601888927180, guid: 07aa417bce9147e45a582c089e74ea8b, type: 3}
+  blocker: {fileID: 2294205601888927180, guid: df0e575aa88780743b7ac904cff50657, type: 3}
+  sandPrefab: {fileID: 8753496743329586749, guid: d21bb6cc1c3b2254283f7aadaa9ac182, type: 3}
+  blueJewelColour: {r: 0, g: 0.62352943, b: 0.7176471, a: 1}
+  greenJewelColour: {r: 0.62352943, g: 0.827451, b: 0.3372549, a: 1}
+  redJewelColour: {r: 0.61960787, g: 0.16470589, b: 0.16862746, a: 1}
+  orangeJewelColour: {r: 0.94509804, g: 0.56078434, b: 0.003921569, a: 1}

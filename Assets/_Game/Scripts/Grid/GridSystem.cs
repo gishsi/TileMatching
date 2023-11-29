@@ -5,6 +5,7 @@ using System.Linq;
 using _Game.Scripts.Events;
 using _Game.Scripts.Inventory;
 using _Game.Scripts.Inventory.PowerUpCommand;
+using _Game.Scripts.TileComponents;
 using _Game.Scripts.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,9 +15,13 @@ namespace _Game.Scripts.Grid
     /// <summary>
     ///     This class represents the system that manages all tiles.
     /// </summary>
+    /// <remarks>
+    ///     It listens to events produced by tiles. In response to those events evaluation or swiping is performed.
+    /// </remarks>
     public class GridSystem : MonoBehaviour
     {
         private ILogger<GridSystem> _logger;
+        
         private GridConfiguration _gridConfiguration;
         
         public GridConfiguration GridConfiguration
@@ -30,7 +35,6 @@ namespace _Game.Scripts.Grid
             }
         }
         
-        // *********** Events *********** //
         [Header("Events")]
         [SerializeField]
         private UpdateSwapScriptableObject updateSwap;
@@ -80,7 +84,7 @@ namespace _Game.Scripts.Grid
                 return;
             }
             
-            var jewels = GetAllJewelsInGrid();
+            var jewels = GetAllActionableTiles();
 
             // Automatic game over if there are no swaps or eliminations left.
             var tilesLeftThatCannotBeEliminated = jewels.Count > 0;
@@ -96,8 +100,11 @@ namespace _Game.Scripts.Grid
         }
         
         /// <summary>
-        ///     Listens for an event broadcast produced by a clicked tile. If there was an event it evaluates all matching zones, removes matched jewels, and restructures the grid.
+        ///     Elimination action
         /// </summary>
+        /// <remarks>
+        ///     Listens for an event broadcast produced by a clicked tile. If there was an event it evaluates all matching zones, removes matched jewels, and restructures the grid.
+        /// </remarks>
         private void EvaluateGrid(Evaluate data)
         {
             var matchingJewels = MatchingEvaluationHelper.GetMatchingJewels(GridHelpers.ParseNameIntoVector2Int(data.Tile.name));
@@ -125,7 +132,7 @@ namespace _Game.Scripts.Grid
 
                     if (powerUp == PowerUps.ColourBomb)
                     {
-                        var allTiles = GetAllJewelsInGrid();
+                        var allTiles = GetAllActionableTiles();
  
                         var powerUpCommand = new ColourBombCommand(matchingJewel, allTiles);
 
@@ -146,8 +153,11 @@ namespace _Game.Scripts.Grid
         }
         
         /// <summary>
-        ///     After the player performs a Swipe action the grid system will evaluate whether that swipe will result in tiles being swiped by comparing the next tile in the direction of the swipe.
+        ///     Swipe action
         /// </summary>
+        /// <remarks>
+        ///     After the player performs a Swipe action the grid system will evaluate whether that swipe will result in tiles being swiped by comparing the next tile in the direction of the swipe.
+        /// </remarks>
         /// <param name="swipe">The name of the tile corresponds to its position in the grid, e.g. [1, 1] and the direction of the swipe</param>
         private void SwitchPlaces(Swipe swipe)
         {
@@ -180,7 +190,6 @@ namespace _Game.Scripts.Grid
                     return;
                 }
                 
-                
                 // E.g.: Position of the first one is (0.5f, 0.5f),
                 // if we swapped a tile at 0, 0 with a tile at 1, 0 the position would be 0.5f, 0.5f, and (1 * 1.4f) + 0.5f = 1.9f, 0.5f
                 
@@ -212,10 +221,11 @@ namespace _Game.Scripts.Grid
             var actionableTiles = new List<Transform>();
             foreach (Transform child in transform)
             {
-                if(child.CompareTag("Tile"))
+                if(child.GetComponent<CanBeEliminated>() == null)
                 {
-                    actionableTiles.Add(child);
+                    continue;
                 }
+                actionableTiles.Add(child);
             }
             
             return actionableTiles.Count > 0;
@@ -237,7 +247,7 @@ namespace _Game.Scripts.Grid
                         continue;
                     }
                     
-                    var powerUpCommand = new ConcretionCommand(_gridConfiguration.TileTypes.blocker, jewelToDestroy, transform);
+                    var powerUpCommand = new ConcretionCommand(_gridConfiguration.TileTypes.blockerPrefab, jewelToDestroy, transform);
 
                     powerUpCommand.Execute();
                 }
@@ -375,6 +385,12 @@ namespace _Game.Scripts.Grid
             
         }
         
+        /// <summary>
+        ///     If a tile is fragile we move under a separate parent (not the grid system). This method clears out all fragile tiles.
+        /// </summary>
+        /// <remarks>
+        ///     This is a trick to avoid using coroutines. The method that handles the elimination event is of type void. To use IEnumerator, and StartCoroutine we would have to change the signature of that method.
+        /// </remarks>
         private IEnumerator RemoveFragile(List<GameObject> fragileJewels)
         {
             fragileJewels.ForEach(Destroy);
@@ -382,40 +398,46 @@ namespace _Game.Scripts.Grid
             yield return new WaitForEndOfFrame();
         }
         
-        private List<GameObject> GetAllJewelsInGrid()
+        private List<GameObject> GetAllActionableTiles()
         {
             var tiles = new List<GameObject>();
             
             foreach (Transform child in transform)
             {
-                if (child.CompareTag("Tile"))
+                if (child.GetComponent<Actionable>() == null)
                 {
-                    tiles.Add(child.gameObject);
+                    continue;
                 }
+                tiles.Add(child.gameObject);
             }
 
             return tiles.OrderBy(t => t.name).ToList();
         }
         
-        // todo: Attach a CanFall and a Removable components instead of doing tag comparisons
         private List<GameObject> GetAllThatCanFall()
         {
             var tiles = new List<GameObject>();
             
             foreach (Transform child in transform)
             {
-                if (child.CompareTag("Sand") || child.CompareTag("Tile"))
+                if (child.GetComponent<CanFall>() == null)
                 {
-                    tiles.Add(child.gameObject);
+                    continue;
                 }
+                
+                tiles.Add(child.gameObject);
             }
 
             return tiles.OrderBy(t => t.name).ToList();
         }
         
+        /// <summary>
+        ///     Goes through all  tiles in the grid to find matching sets.
+        /// </summary>
+        /// <returns>True if there are matching sets, false otherwise</returns>
         private bool AreThereAnyMatchingSets()
         {
-            var tiles = GetAllJewelsInGrid();
+            var tiles = GetAllActionableTiles();
 
             foreach (var tile in tiles)
             {

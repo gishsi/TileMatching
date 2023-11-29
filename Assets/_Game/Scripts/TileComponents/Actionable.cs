@@ -1,9 +1,7 @@
-﻿using System;
-using _Game.Scripts.Events;
+﻿using _Game.Scripts.Events;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace _Game.Scripts
+namespace _Game.Scripts.TileComponents
 {
     /// <summary>
     ///     This components makes it possible to pick up a tile, perform evaluation and switching actions.

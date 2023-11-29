@@ -566,7 +566,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.92941177, g: 0.8784314, b: 0.8627451, a: 1}
+  m_Color: {r: 0.90588236, g: 0.74509805, b: 0.68235296, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -804,6 +804,7 @@ MonoBehaviour:
   levelDataScriptableObject: {fileID: 11400000, guid: d0ac5f04835968043aebd93baceb1308, type: 2}
   inventoryItem: {fileID: 5755797246983463968, guid: ac5316e86a202f446935da97b6c0591c, type: 3}
   powerUpSpritesResolverScriptableObject: {fileID: 11400000, guid: af63ca44af4a52d49b4fbc1c8b929264, type: 2}
+  tileTypes: {fileID: 11400000, guid: 6a5cac6df97d5904da6188db12aa3bd1, type: 2}
 --- !u!1 &1789630313
 GameObject:
   m_ObjectHideFlags: 0

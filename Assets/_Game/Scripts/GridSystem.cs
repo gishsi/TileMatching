@@ -421,14 +421,7 @@ namespace _Game.Scripts
                     Debug.Log("Don't need ot reposition the bottom row.");
                     continue;
                 }
-
-                var positionInGrid = ParseNameIntoVector2Int(tile.name);
-
-                // If a tile is at (0;2), it can have two tiles below. If they disappear that's how far the tile needs to fall.
-                var maximumThatTheTileCanMove = positionInGrid.y;
                 
-                // todo: Handle the sand case.
-
                 if (tile.CompareTag("Sand"))
                 {
                     // Remark: bigger matching kernels need to go first.
@@ -436,8 +429,6 @@ namespace _Game.Scripts
                     {
                         new List<Vector2Int>() { new(1, 0), new(1, -1) },           // one to te right and down
                         new List<Vector2Int>() { new(-1, 0), new(-1, -1) },         // one to the left, and down
-                        // new List<Vector2Int>() { new(-1, 0) },                          // to the left
-                        // new List<Vector2Int>() { new(1, 0) },                           // to the right
                         new List<Vector2Int>() { new(0, -1) },                          // one below
                     };
 
@@ -458,6 +449,24 @@ namespace _Game.Scripts
                             {
                                 continue;
                             }
+
+
+                            // Don't move a sand if it's in the bottom row
+                            if (tile.name.EndsWith("0"))
+                            {
+                                return;
+                            }
+                            
+                            if (tile.name.StartsWith("0") && move.x == -1)
+                            {
+                                continue;
+                            }
+                            
+                            // todo: this needs to be 
+                            if (tile.name.StartsWith("5") && move.x == 1)
+                            {
+                                continue;
+                            }
                                 
                             Debug.Log($"Else move {move}");
                             tile.name = ParseVector2IntIntoNameString(move + ParseNameIntoVector2Int(initialNameOfSande));
@@ -473,7 +482,11 @@ namespace _Game.Scripts
                         
                 }
                 
-                
+                var positionInGrid = ParseNameIntoVector2Int(tile.name);
+
+                // If a tile is at (0;2), it can have two tiles below. If they disappear that's how far the tile needs to fall.
+                var maximumThatTheTileCanMove = positionInGrid.y;
+
                 // If we start from one we will not evaluate the tile that needs to move
                 for (var i = 1; i <= maximumThatTheTileCanMove; i++)
                 {

@@ -44,7 +44,7 @@ namespace _Game.Scripts
                 {
                     var gridCoordinateOfTileInMatchZone = origin + m;
                     var nameOfTileInMatchZone =
-                        GridSystem.ParseVector2IntIntoNameString(gridCoordinateOfTileInMatchZone);
+                        GridHelpers.ParseVector2IntIntoNameString(gridCoordinateOfTileInMatchZone);
 
                     GameObject tile;
                     

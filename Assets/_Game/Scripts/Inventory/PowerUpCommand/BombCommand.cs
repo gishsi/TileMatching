@@ -29,9 +29,9 @@ namespace _Game.Scripts.Inventory.PowerUpCommand
             
             foreach (var offset in BombKernel)
             {
-                var gridCoordinateOfTileInMatchZone = GridSystem.ParseNameIntoVector2Int(_matchingJewel.name) + offset;
+                var gridCoordinateOfTileInMatchZone = GridHelpers.ParseNameIntoVector2Int(_matchingJewel.name) + offset;
                 var nameOfTileInMatchZone =
-                    GridSystem.ParseVector2IntIntoNameString(gridCoordinateOfTileInMatchZone);
+                    GridHelpers.ParseVector2IntIntoNameString(gridCoordinateOfTileInMatchZone);
 
                 GameObject tile;
                     

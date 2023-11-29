@@ -21,6 +21,10 @@ namespace _Game.Scripts
         [SerializeField]
         private PowerUpSpritesResolverScriptableObject powerUpSpritesResolverScriptableObject;
         
+        [Header("Tile types data")]
+        [SerializeField]
+        private TileTypesConfigurationScriptableObject tileTypes;
+        
         private void Awake()
         {
             var levelToPlay = levelDataScriptableObject.GetCurrentLevel();
@@ -28,8 +32,9 @@ namespace _Game.Scripts
             InitializeInventory(levelToPlay);
             
             var gridSystem = transform.Find("GridSystem").GetComponent<GridSystem>();
-            gridSystem.SetPositionOfGridBasedOnAmountOfColsAndRows(levelToPlay.rowsAmount, levelToPlay.colsAmount);
-            gridSystem.InitializeGrid(levelToPlay.rows);
+
+            var gridConfiguration = new GridConfiguration(levelToPlay, gridSystem.transform, tileTypes);
+            gridSystem.GridConfiguration = gridConfiguration;
         }
 
         

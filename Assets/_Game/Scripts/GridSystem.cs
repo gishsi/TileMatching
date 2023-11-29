@@ -2,27 +2,203 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using _Game.Scripts.Events;
 using _Game.Scripts.Inventory;
 using _Game.Scripts.Inventory.PowerUpCommand;
 using _Game.Scripts.Utils;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
 
 namespace _Game.Scripts
 {
+    [CreateAssetMenu(fileName = "Tile Types", menuName = "Tile types")]
+    public class TileTypesConfigurationScriptableObject : ScriptableObject
+    {
+        [Header("Tiles")]
+        public GameObject jewel;
+        public GameObject blocker;
+        public GameObject sandPrefab;
+        
+        [Header("Jewel alternatives")]
+        public Color blueJewelColour = new (0, 0.5381241f, 1);
+        public Color greenJewelColour = new (0, 0.4235294f, 0.3098039f);
+        
+        
+        /// <summary>
+        ///     Resolve the type of tile into a game object
+        /// </summary>
+        /// <param name="tileType">Tile type</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException">When a non existing tile type has been passed in.</exception>
+        public GameObject ResolveTileTypeIntoGameObject(Tiles tileType)
+        {
+            GameObject objectToSpawn;
+            
+            switch (tileType)
+            {
+                case Tiles.BlueTile:
+                    objectToSpawn = jewel;
+                    objectToSpawn.GetComponent<SpriteRenderer>().color = blueJewelColour;
+                    break;
+                case Tiles.GreenTile:
+                    objectToSpawn = jewel;
+                    objectToSpawn.GetComponent<SpriteRenderer>().color = greenJewelColour;
+                    break;
+                case Tiles.Blocker:
+                    objectToSpawn = blocker;
+                    break;
+                case Tiles.Sand:
+                    objectToSpawn = sandPrefab;
+                    break;
+                default:
+                    throw new ArgumentException($"There is no game object representation for type [{tileType}]", nameof(tileType));
+            }
+
+            return objectToSpawn;
+        }
+    }
+    
+    public static class GridHelpers
+    {
+        public const float TileSpawnDisplacement = 1.4f;
+        public const float SpacingBetweenTiles = 0.4f;
+        // This is so that the origin of the new sprite is aligned to the origin of parent
+        public const float MarginTopLeftOfTilesInGrid = 0.5f;
+        
+        /// <summary>
+        ///     Translates a grid coordinate into a position in the world space.
+        /// </summary>
+        /// <param name="gridCoordinate">Grid coordinate, e.g. [0, 1]</param>
+        /// <returns>
+        ///     A Vector2 that represents the position in the world space.
+        /// </returns>
+        /// <remarks>
+        ///     We need to change the local position of the tile for it to be positioned correctly in the grid.
+        /// </remarks>
+        public static Vector2 GetLocalPositionForGridCoordinate(Vector2 gridCoordinate)
+        {
+            return new Vector2((TileSpawnDisplacement * gridCoordinate.x) + MarginTopLeftOfTilesInGrid, (TileSpawnDisplacement * gridCoordinate.y) + MarginTopLeftOfTilesInGrid);
+        }
+        
+        /// <summary>
+        ///     The name of the tile represents its position in the grid.
+        /// </summary>
+        /// <param name="coordinates">Coordinates of the tile in the grid.</param>
+        public static string ParseVector2IntIntoNameString(Vector2Int coordinates)
+        {
+            return $"{coordinates.x};{coordinates.y}";
+        }
+
+        /// <summary>
+        ///     Parses the name of the tile (its coordinates in the grid) into a vector
+        /// </summary>
+        /// <param name="name">Position of the tile</param>
+        /// <returns>A vector representing the position in the grid</returns>
+        public static Vector2Int ParseNameIntoVector2Int(string name)
+        {
+            try
+            {
+                var values = name.Split(';');
+                var x = int.Parse(values[0]);
+                var y = int.Parse(values[1]);
+
+                return new Vector2Int(x, y);
+            }
+            catch
+            {
+                throw new ArgumentException("Could not parse the name of the tile into a position in a grid.",
+                    nameof(name));
+            }
+        }
+
+    }
+    
+    
+    public class GridConfiguration
+    {
+        public readonly TileTypesConfigurationScriptableObject TileTypes;
+        public readonly LevelScriptableObject LevelData;
+        public readonly Transform ParentTransform;
+
+        public GridConfiguration(LevelScriptableObject levelData, Transform transform, TileTypesConfigurationScriptableObject tileTypes)
+        {
+            LevelData = levelData;
+            ParentTransform = transform;
+            TileTypes = tileTypes;
+        }
+        
+        
+         /// <summary>
+        ///     Initialize the grid with the levels data 
+        /// </summary>
+        public void InitializeGrid()
+        {
+            // Amount of rows is columns
+            var columnsCount = LevelData.rows.Count();
+            // We have a number of rows, the length of the array of the rows represents how many columns we have
+            for (var y = 0; y < columnsCount; y++)
+            {
+                var numberOfTilesInRow = LevelData.rows[y].tilesInRow.Count();
+                
+                for (var x = 0; x < numberOfTilesInRow; x++)
+                {
+                    var tileType = LevelData.rows[y].tilesInRow[x];
+
+                    var objectToSpawn = TileTypes.ResolveTileTypeIntoGameObject(tileType);
+                    
+                    var xDisplacement = x * GridHelpers.TileSpawnDisplacement + GridHelpers.MarginTopLeftOfTilesInGrid;
+                    var yDisplacement = y * GridHelpers.TileSpawnDisplacement + GridHelpers.MarginTopLeftOfTilesInGrid;
+                    
+                    var newJewel = Object.Instantiate(objectToSpawn, ParentTransform.position + new Vector3(xDisplacement, yDisplacement, 0), Quaternion.identity);
+                    newJewel.name = GridHelpers.ParseVector2IntIntoNameString(new Vector2Int(x, y));
+                    
+                    // So that Jewels are spawned under the GridSystem gameObject in the hierarchy
+                    newJewel.transform.parent = ParentTransform;
+                }
+            }
+        }
+        
+        public void SetPositionOfGridBasedOnAmountOfColsAndRows()
+        {
+            // Needs spacing. For every tile, except the last one add .4f margin to right, if last add .2f,
+            //      so that the grid is exactly in the middle, no matter how many tiles it has.
+            var halfOfRows = LevelData.rowsAmount / 2f;
+            var fullMarginRows = (halfOfRows - 1) * GridHelpers.SpacingBetweenTiles;
+            var halfOfCols = LevelData.colsAmount / 2f;
+            var fullMarginCols = (halfOfCols - 1) * GridHelpers.SpacingBetweenTiles;
+
+            var verticalOffset = (LevelData.rowsAmount / 2f + (fullMarginRows + (GridHelpers.SpacingBetweenTiles / 2f))) * -1;
+            var horizontalOffset = (LevelData.colsAmount  / 2f + (fullMarginCols + (GridHelpers.SpacingBetweenTiles / 2f))) * -1;
+
+            ParentTransform.position = new Vector3(horizontalOffset, verticalOffset, 0);
+            
+            var background = GameObject.Find("GridBackground");
+            background.transform.localScale = new Vector3(
+                LevelData.colsAmount  + (float)Math.Floor(halfOfCols) + GridHelpers.SpacingBetweenTiles, 
+                LevelData.rowsAmount + (float)Math.Floor(halfOfRows)+ GridHelpers.SpacingBetweenTiles, 
+                1);
+        }
+    }
+    
     /// <summary>
     ///     This class represents the system that manages all tiles.
     /// </summary>
     public class GridSystem : MonoBehaviour
     {
-        // *********** Constants *********** //
-        private const float TileSpawnDisplacement = 1.4f;
-        private const float SpacingBetweenTiles = 0.4f;
-        // This is so that the origin of the new sprite is aligned to the origin of parent
-        private const float MarginTopLeftOfTilesInGrid = 0.5f;
+
+        private GridConfiguration _gridConfiguration;
+        public GridConfiguration GridConfiguration
+        {
+            get => _gridConfiguration;
+            set
+            {
+                _gridConfiguration = value;
+                _gridConfiguration.SetPositionOfGridBasedOnAmountOfColsAndRows();
+                _gridConfiguration.InitializeGrid();
+            }
+        }
         
         // *********** Events *********** //
         [Header("Events")]
@@ -37,15 +213,6 @@ namespace _Game.Scripts
         
         // *********** Private  *********** //
         private ILogger<GridSystem> _logger;
-        
-        private readonly Color _blueTileColor = new (0, 0.5381241f, 1);
-        private readonly Color _greenTileColor = new (0, 0.4235294f, 0.3098039f);
-        
-        // *********** Serializable *********** //
-        [Header("Tiles")]
-        [SerializeField] private GameObject jewel;
-        [SerializeField] private GameObject blocker;
-        [SerializeField] private GameObject sandPrefab;
         
         // **************** MonoBehaviour **************
         private void Awake()
@@ -71,60 +238,6 @@ namespace _Game.Scripts
             evaluateTrigger.EvaluateTriggerEvent.RemoveListener(EvaluateGrid);
             swipeTrigger.SwipeTriggerEvent.RemoveListener(SwitchPlaces);
             updateSwap.SwapsBelowZeroEvent.RemoveListener(IsGameOver);
-        }
-
-        // **************** Init *******************
-
-        /// <summary>
-        ///     Initialize the grid with the levels data 
-        /// </summary>
-        /// <param name="rowsArray"></param>
-        public void InitializeGrid(Rows[] rowsArray)
-        {
-            // Amount of rows is columns
-            var columnsCount = rowsArray.Count();
-            // We have a number of rows, the length of the array of the rows represents how many columns we have
-            for (var y = 0; y < columnsCount; y++)
-            {
-                var numberOfTilesInRow = rowsArray[y].tilesInRow.Count();
-                
-                for (var x = 0; x < numberOfTilesInRow; x++)
-                {
-                    var tileType = rowsArray[y].tilesInRow[x];
-
-                    var objectToSpawn = ResolveTileTypeIntoGameObject(tileType);
-                    
-                    var xDisplacement = x * TileSpawnDisplacement + MarginTopLeftOfTilesInGrid;
-                    var yDisplacement = y * TileSpawnDisplacement + MarginTopLeftOfTilesInGrid;
-                    
-                    var newJewel = Instantiate(objectToSpawn, transform.position + new Vector3(xDisplacement, yDisplacement, 0), Quaternion.identity);
-                    newJewel.name = ParseVector2IntIntoNameString(new Vector2Int(x, y));
-                    
-                    // So that Jewels are spawned under the GridSystem gameObject in the hierarchy
-                    newJewel.transform.parent = transform;
-                }
-            }
-        }
-        
-        public void SetPositionOfGridBasedOnAmountOfColsAndRows(int rows, int cols)
-        {
-            // Needs spacing. For every tile, except the last one add .4f margin to right, if last add .2f,
-            //      so that the grid is exactly in the middle, no matter how many tiles it has.
-            var halfOfRows = rows / 2f;
-            var fullMarginRows = (halfOfRows - 1) * SpacingBetweenTiles;
-            var halfOfCols = cols / 2f;
-            var fullMarginCols = (halfOfCols - 1) * SpacingBetweenTiles;
-
-            var verticalOffset = (rows / 2f + (fullMarginRows + (SpacingBetweenTiles / 2f))) * -1;
-            var horizontalOffset = (cols / 2f + (fullMarginCols + (SpacingBetweenTiles / 2f))) * -1;
-
-            transform.position = new Vector3(horizontalOffset, verticalOffset, 0);
-            
-            var background = GameObject.Find("GridBackground");
-            background.transform.localScale = new Vector3(
-                cols + (float)Math.Floor(halfOfCols) + SpacingBetweenTiles, 
-                rows + (float)Math.Floor(halfOfRows)+ SpacingBetweenTiles, 
-                1);
         }
         
         // **************** Private **************
@@ -164,45 +277,13 @@ namespace _Game.Scripts
             SceneManager.LoadScene("_Game/Scenes/PlayerLost");
         }
         
-        /// <summary>
-        ///     Resolve the type of tile into a game object
-        /// </summary>
-        /// <param name="tileType">Tile type</param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException">When a non existing tile type has been passed in.</exception>
-        private GameObject ResolveTileTypeIntoGameObject(Tiles tileType)
-        {
-            GameObject objectToSpawn;
-            
-            switch (tileType)
-            {
-                case Tiles.BlueTile:
-                    objectToSpawn = jewel;
-                    objectToSpawn.GetComponent<SpriteRenderer>().color = _blueTileColor;
-                    break;
-                case Tiles.GreenTile:
-                    objectToSpawn = jewel;
-                    objectToSpawn.GetComponent<SpriteRenderer>().color = _greenTileColor;
-                    break;
-                case Tiles.Blocker:
-                    objectToSpawn = blocker;
-                    break;
-                case Tiles.Sand:
-                    objectToSpawn = sandPrefab;
-                    break;
-                default:
-                    throw new ArgumentException($"There is no game object representation for type [{tileType}]", nameof(tileType));
-            }
-
-            return objectToSpawn;
-        }
-        
+       
         /// <summary>
         ///     Listens for an event broadcast produced by a clicked tile. If there was an event it evaluates all matching zones, removes matched jewels, and restructures the grid.
         /// </summary>
         private void EvaluateGrid(Evaluate data)
         {
-            var matchingJewels = MatchingEvaluationHelper.GetMatchingJewels(ParseNameIntoVector2Int(data.Tile.name));
+            var matchingJewels = MatchingEvaluationHelper.GetMatchingJewels(GridHelpers.ParseNameIntoVector2Int(data.Tile.name));
 
             if (matchingJewels.Count == 0)
             {
@@ -261,14 +342,14 @@ namespace _Game.Scripts
             }
             
             // Find the first tile in the direction of the swipe
-            var origin = ParseNameIntoVector2Int(swipe.TileName);
+            var origin = GridHelpers.ParseNameIntoVector2Int(swipe.TileName);
             var target = origin + swipe.DirectionOfTheSwipe;
 
             try
             {
                 // Get the object that was picked up to be swiped (from tileName + direction)
-                var targetTile = GameObject.Find(ParseVector2IntIntoNameString(new Vector2Int((int)target.x, (int)target.y)));
-                var originTile = GameObject.Find(ParseVector2IntIntoNameString(new Vector2Int(origin.x, origin.y)));
+                var targetTile = GameObject.Find(GridHelpers.ParseVector2IntIntoNameString(new Vector2Int((int)target.x, (int)target.y)));
+                var originTile = GameObject.Find(GridHelpers.ParseVector2IntIntoNameString(new Vector2Int(origin.x, origin.y)));
                 
                 // Find out if its okay to swipe (same colour)
                 var originSpriteColour = originTile.GetComponent<SpriteRenderer>().color;
@@ -287,14 +368,14 @@ namespace _Game.Scripts
                 // if we swapped a tile at 0, 0 with a tile at 1, 0 the position would be 0.5f, 0.5f, and (1 * 1.4f) + 0.5f = 1.9f, 0.5f
                 
                 // Get new positions
-                var newPositionForTarget = GetLocalPositionForGridCoordinate(origin);
-                var newPositionForOrigin = GetLocalPositionForGridCoordinate(target);
+                var newPositionForTarget = GridHelpers.GetLocalPositionForGridCoordinate(origin);
+                var newPositionForOrigin = GridHelpers.GetLocalPositionForGridCoordinate(target);
 
                 targetTile.transform.localPosition = newPositionForTarget;
                 targetTile.name = swipe.TileName;
                 
                 originTile.transform.localPosition = newPositionForOrigin;
-                originTile.name = ParseVector2IntIntoNameString(new Vector2Int((int)target.x, (int)target.y));
+                originTile.name = GridHelpers.ParseVector2IntIntoNameString(new Vector2Int((int)target.x, (int)target.y));
                 
                 updateSwap.RaiseEvent(1);
 
@@ -305,52 +386,8 @@ namespace _Game.Scripts
                 Debug.LogError($"Could not swap the tiles:\n{e}");
             }
         }
-        
-        /// <summary>
-        ///     The name of the tile represents its position in the grid.
-        /// </summary>
-        /// <param name="coordinates">Coordinates of the tile in the grid.</param>
-        public static string ParseVector2IntIntoNameString(Vector2Int coordinates)
-        {
-            return $"{coordinates.x};{coordinates.y}";
-        }
 
-        /// <summary>
-        ///     Parses the name of the tile (its coordinates in the grid) into a vector
-        /// </summary>
-        /// <param name="name">Position of the tile</param>
-        /// <returns>A vector representing the position in the grid</returns>
-        public static Vector2Int ParseNameIntoVector2Int(string name)
-        {
-            try
-            {
-                var values = name.Split(';');
-                var x = int.Parse(values[0]);
-                var y = int.Parse(values[1]);
 
-                return new Vector2Int(x, y);
-            }
-            catch
-            {
-                throw new ArgumentException("Could not parse the name of the tile into a position in a grid.",
-                    nameof(name));
-            }
-        }
-        
-        /// <summary>
-        ///     Translates a grid coordinate into a position in the world space.
-        /// </summary>
-        /// <param name="gridCoordinate">Grid coordinate, e.g. [0, 1]</param>
-        /// <returns>
-        ///     A Vector2 that represents the position in the world space.
-        /// </returns>
-        /// <remarks>
-        ///     We need to change the local position of the tile for it to be positioned correctly in the grid.
-        /// </remarks>
-        private static Vector2 GetLocalPositionForGridCoordinate(Vector2 gridCoordinate)
-        {
-            return new Vector2((TileSpawnDisplacement * gridCoordinate.x) + MarginTopLeftOfTilesInGrid, (TileSpawnDisplacement * gridCoordinate.y) + MarginTopLeftOfTilesInGrid);
-        }
         
         /// <summary>
         ///     Check if there are any tiles that the player can remove
@@ -387,7 +424,7 @@ namespace _Game.Scripts
                         continue;
                     }
                     
-                    var powerUpCommand = new ConcretionCommand(blocker, jewelToDestroy, transform);
+                    var powerUpCommand = new ConcretionCommand(_gridConfiguration.TileTypes.blocker, jewelToDestroy, transform);
 
                     powerUpCommand.Execute();
                 }
@@ -441,7 +478,7 @@ namespace _Game.Scripts
                         foreach (var move in sandMovesKernel)
                         {
                             var nameOfPossibleMoveSpace =
-                                ParseVector2IntIntoNameString(move + ParseNameIntoVector2Int(initialNameOfSande));
+                                GridHelpers.ParseVector2IntIntoNameString(move +  GridHelpers.ParseNameIntoVector2Int(initialNameOfSande));
 
                             var moveSpace = GameObject.Find(nameOfPossibleMoveSpace);
 
@@ -469,8 +506,8 @@ namespace _Game.Scripts
                             }
                                 
                             Debug.Log($"Else move {move}");
-                            tile.name = ParseVector2IntIntoNameString(move + ParseNameIntoVector2Int(initialNameOfSande));
-                            tile.transform.localPosition = GetLocalPositionForGridCoordinate(ParseNameIntoVector2Int(tile.name));
+                            tile.name =  GridHelpers.ParseVector2IntIntoNameString(move +  GridHelpers.ParseNameIntoVector2Int(initialNameOfSande));
+                            tile.transform.localPosition = GridHelpers.GetLocalPositionForGridCoordinate(GridHelpers.ParseNameIntoVector2Int(tile.name));
                             fell = true;
                         }
 
@@ -482,7 +519,7 @@ namespace _Game.Scripts
                         
                 }
                 
-                var positionInGrid = ParseNameIntoVector2Int(tile.name);
+                var positionInGrid =  GridHelpers.ParseNameIntoVector2Int(tile.name);
 
                 // If a tile is at (0;2), it can have two tiles below. If they disappear that's how far the tile needs to fall.
                 var maximumThatTheTileCanMove = positionInGrid.y;
@@ -492,7 +529,7 @@ namespace _Game.Scripts
                 {
                     // E.g.: for a tile that sits at (0;2) this will be (0;1), and (0;0)
                     var positionOfTheTileBelow = new Vector2Int(positionInGrid.x, positionInGrid.y - i);
-                    var nameOfTheTileBelow = ParseVector2IntIntoNameString(positionOfTheTileBelow);
+                    var nameOfTheTileBelow =  GridHelpers.ParseVector2IntIntoNameString(positionOfTheTileBelow);
 
                     var tileBelow = GameObject.Find(nameOfTheTileBelow);
 
@@ -519,7 +556,7 @@ namespace _Game.Scripts
                     
                     // Fall down
                     tile.name = nameOfTheTileBelow;
-                    tile.transform.localPosition = GetLocalPositionForGridCoordinate(positionOfTheTileBelow);
+                    tile.transform.localPosition = GridHelpers.GetLocalPositionForGridCoordinate(positionOfTheTileBelow);
                 }
             }
             
@@ -539,21 +576,6 @@ namespace _Game.Scripts
             foreach (Transform child in transform)
             {
                 if (child.CompareTag("Tile"))
-                {
-                    tiles.Add(child.gameObject);
-                }
-            }
-
-            return tiles.OrderBy(t => t.name).ToList();
-        }
-        
-        private List<GameObject> GetAllSandsInGrid()
-        {
-            var tiles = new List<GameObject>();
-            
-            foreach (Transform child in transform)
-            {
-                if (child.CompareTag("Sand"))
                 {
                     tiles.Add(child.gameObject);
                 }
@@ -584,7 +606,7 @@ namespace _Game.Scripts
 
             foreach (var tile in tiles)
             {
-                var jewelToMatchPosition = ParseNameIntoVector2Int(tile.name);
+                var jewelToMatchPosition =  GridHelpers.ParseNameIntoVector2Int(tile.name);
 
                 var result = MatchingEvaluationHelper.GetMatchingJewels(jewelToMatchPosition);
 

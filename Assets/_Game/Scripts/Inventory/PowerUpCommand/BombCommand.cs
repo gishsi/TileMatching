@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using _Game.Scripts.Grid;
 using UnityEngine;
 
 namespace _Game.Scripts.Inventory.PowerUpCommand

@@ -2,193 +2,23 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using _Game.Scripts.Events;
 using _Game.Scripts.Inventory;
 using _Game.Scripts.Inventory.PowerUpCommand;
 using _Game.Scripts.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Object = UnityEngine.Object;
 
-namespace _Game.Scripts
+namespace _Game.Scripts.Grid
 {
-    [CreateAssetMenu(fileName = "Tile Types", menuName = "Tile types")]
-    public class TileTypesConfigurationScriptableObject : ScriptableObject
-    {
-        [Header("Tiles")]
-        public GameObject jewel;
-        public GameObject blocker;
-        public GameObject sandPrefab;
-        
-        [Header("Jewel alternatives")]
-        public Color blueJewelColour = new (0, 0.5381241f, 1);
-        public Color greenJewelColour = new (0, 0.4235294f, 0.3098039f);
-        
-        
-        /// <summary>
-        ///     Resolve the type of tile into a game object
-        /// </summary>
-        /// <param name="tileType">Tile type</param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException">When a non existing tile type has been passed in.</exception>
-        public GameObject ResolveTileTypeIntoGameObject(Tiles tileType)
-        {
-            GameObject objectToSpawn;
-            
-            switch (tileType)
-            {
-                case Tiles.BlueTile:
-                    objectToSpawn = jewel;
-                    objectToSpawn.GetComponent<SpriteRenderer>().color = blueJewelColour;
-                    break;
-                case Tiles.GreenTile:
-                    objectToSpawn = jewel;
-                    objectToSpawn.GetComponent<SpriteRenderer>().color = greenJewelColour;
-                    break;
-                case Tiles.Blocker:
-                    objectToSpawn = blocker;
-                    break;
-                case Tiles.Sand:
-                    objectToSpawn = sandPrefab;
-                    break;
-                default:
-                    throw new ArgumentException($"There is no game object representation for type [{tileType}]", nameof(tileType));
-            }
-
-            return objectToSpawn;
-        }
-    }
-    
-    public static class GridHelpers
-    {
-        public const float TileSpawnDisplacement = 1.4f;
-        public const float SpacingBetweenTiles = 0.4f;
-        // This is so that the origin of the new sprite is aligned to the origin of parent
-        public const float MarginTopLeftOfTilesInGrid = 0.5f;
-        
-        /// <summary>
-        ///     Translates a grid coordinate into a position in the world space.
-        /// </summary>
-        /// <param name="gridCoordinate">Grid coordinate, e.g. [0, 1]</param>
-        /// <returns>
-        ///     A Vector2 that represents the position in the world space.
-        /// </returns>
-        /// <remarks>
-        ///     We need to change the local position of the tile for it to be positioned correctly in the grid.
-        /// </remarks>
-        public static Vector2 GetLocalPositionForGridCoordinate(Vector2 gridCoordinate)
-        {
-            return new Vector2((TileSpawnDisplacement * gridCoordinate.x) + MarginTopLeftOfTilesInGrid, (TileSpawnDisplacement * gridCoordinate.y) + MarginTopLeftOfTilesInGrid);
-        }
-        
-        /// <summary>
-        ///     The name of the tile represents its position in the grid.
-        /// </summary>
-        /// <param name="coordinates">Coordinates of the tile in the grid.</param>
-        public static string ParseVector2IntIntoNameString(Vector2Int coordinates)
-        {
-            return $"{coordinates.x};{coordinates.y}";
-        }
-
-        /// <summary>
-        ///     Parses the name of the tile (its coordinates in the grid) into a vector
-        /// </summary>
-        /// <param name="name">Position of the tile</param>
-        /// <returns>A vector representing the position in the grid</returns>
-        public static Vector2Int ParseNameIntoVector2Int(string name)
-        {
-            try
-            {
-                var values = name.Split(';');
-                var x = int.Parse(values[0]);
-                var y = int.Parse(values[1]);
-
-                return new Vector2Int(x, y);
-            }
-            catch
-            {
-                throw new ArgumentException("Could not parse the name of the tile into a position in a grid.",
-                    nameof(name));
-            }
-        }
-
-    }
-    
-    
-    public class GridConfiguration
-    {
-        public readonly TileTypesConfigurationScriptableObject TileTypes;
-        public readonly LevelScriptableObject LevelData;
-        public readonly Transform ParentTransform;
-
-        public GridConfiguration(LevelScriptableObject levelData, Transform transform, TileTypesConfigurationScriptableObject tileTypes)
-        {
-            LevelData = levelData;
-            ParentTransform = transform;
-            TileTypes = tileTypes;
-        }
-        
-        
-         /// <summary>
-        ///     Initialize the grid with the levels data 
-        /// </summary>
-        public void InitializeGrid()
-        {
-            // Amount of rows is columns
-            var columnsCount = LevelData.rows.Count();
-            // We have a number of rows, the length of the array of the rows represents how many columns we have
-            for (var y = 0; y < columnsCount; y++)
-            {
-                var numberOfTilesInRow = LevelData.rows[y].tilesInRow.Count();
-                
-                for (var x = 0; x < numberOfTilesInRow; x++)
-                {
-                    var tileType = LevelData.rows[y].tilesInRow[x];
-
-                    var objectToSpawn = TileTypes.ResolveTileTypeIntoGameObject(tileType);
-                    
-                    var xDisplacement = x * GridHelpers.TileSpawnDisplacement + GridHelpers.MarginTopLeftOfTilesInGrid;
-                    var yDisplacement = y * GridHelpers.TileSpawnDisplacement + GridHelpers.MarginTopLeftOfTilesInGrid;
-                    
-                    var newJewel = Object.Instantiate(objectToSpawn, ParentTransform.position + new Vector3(xDisplacement, yDisplacement, 0), Quaternion.identity);
-                    newJewel.name = GridHelpers.ParseVector2IntIntoNameString(new Vector2Int(x, y));
-                    
-                    // So that Jewels are spawned under the GridSystem gameObject in the hierarchy
-                    newJewel.transform.parent = ParentTransform;
-                }
-            }
-        }
-        
-        public void SetPositionOfGridBasedOnAmountOfColsAndRows()
-        {
-            // Needs spacing. For every tile, except the last one add .4f margin to right, if last add .2f,
-            //      so that the grid is exactly in the middle, no matter how many tiles it has.
-            var halfOfRows = LevelData.rowsAmount / 2f;
-            var fullMarginRows = (halfOfRows - 1) * GridHelpers.SpacingBetweenTiles;
-            var halfOfCols = LevelData.colsAmount / 2f;
-            var fullMarginCols = (halfOfCols - 1) * GridHelpers.SpacingBetweenTiles;
-
-            var verticalOffset = (LevelData.rowsAmount / 2f + (fullMarginRows + (GridHelpers.SpacingBetweenTiles / 2f))) * -1;
-            var horizontalOffset = (LevelData.colsAmount  / 2f + (fullMarginCols + (GridHelpers.SpacingBetweenTiles / 2f))) * -1;
-
-            ParentTransform.position = new Vector3(horizontalOffset, verticalOffset, 0);
-            
-            var background = GameObject.Find("GridBackground");
-            background.transform.localScale = new Vector3(
-                LevelData.colsAmount  + (float)Math.Floor(halfOfCols) + GridHelpers.SpacingBetweenTiles, 
-                LevelData.rowsAmount + (float)Math.Floor(halfOfRows)+ GridHelpers.SpacingBetweenTiles, 
-                1);
-        }
-    }
-    
     /// <summary>
     ///     This class represents the system that manages all tiles.
     /// </summary>
     public class GridSystem : MonoBehaviour
     {
-
+        private ILogger<GridSystem> _logger;
         private GridConfiguration _gridConfiguration;
+        
         public GridConfiguration GridConfiguration
         {
             get => _gridConfiguration;
@@ -211,17 +41,9 @@ namespace _Game.Scripts
         [SerializeField]
         private SwipeTriggerScriptableObject swipeTrigger;
         
-        // *********** Private  *********** //
-        private ILogger<GridSystem> _logger;
-        
-        // **************** MonoBehaviour **************
         private void Awake()
         {
             _logger = new Logger<GridSystem>(gameObject);
-        }
-
-        private void Start()
-        {
             updateSwap.Reset();
         }
         
@@ -240,8 +62,6 @@ namespace _Game.Scripts
             updateSwap.SwapsBelowZeroEvent.RemoveListener(IsGameOver);
         }
         
-        // **************** Private **************
-
         /// <summary>
         ///     Triggered when swipe reach below or equal 0, and when the player performs an elimination. If conditions are met, navigates to the player lost screen.
         /// </summary>
@@ -250,22 +70,20 @@ namespace _Game.Scripts
             var isLevelFinished = !DoesGridContainTilesToRemove();
             if (isLevelFinished)
             {
-                // load the level finished screen
                 SceneManager.LoadScene("_Game/Scenes/LevelFinished");
             }    
             
-            var CanPlayerEliminate = AreThereAnyMatchingSets();
+            var canPlayerEliminate = AreThereAnyMatchingSets();
             
-            if (CanPlayerEliminate)
+            if (canPlayerEliminate)
             {
-                // can still play
                 return;
             }
             
             var jewels = GetAllJewelsInGrid();
 
             // Automatic game over if there are no swaps or eliminations left.
-            var tilesLeftThatCannotBeEliminated = jewels.Count > 0 && !CanPlayerEliminate;
+            var tilesLeftThatCannotBeEliminated = jewels.Count > 0;
             
             var isGameOver = tilesLeftThatCannotBeEliminated && updateSwap.Swaps <= 0;
 
@@ -277,7 +95,6 @@ namespace _Game.Scripts
             SceneManager.LoadScene("_Game/Scenes/PlayerLost");
         }
         
-       
         /// <summary>
         ///     Listens for an event broadcast produced by a clicked tile. If there was an event it evaluates all matching zones, removes matched jewels, and restructures the grid.
         /// </summary>
@@ -386,8 +203,6 @@ namespace _Game.Scripts
                 Debug.LogError($"Could not swap the tiles:\n{e}");
             }
         }
-
-
         
         /// <summary>
         ///     Check if there are any tiles that the player can remove
@@ -409,11 +224,9 @@ namespace _Game.Scripts
         /// <summary>
         ///     Destroy jewels and perform all actions that happen afterwards: destroying jewels, moving on to the level finished scene, restructuring the grid
         /// </summary>
-        /// <param name="jewels"></param>
-        /// <remarks></remarks>
-        private IEnumerator HandleDestroyJewels(List<GameObject> jewelsToDestroys)
+        private IEnumerator HandleDestroyJewels(List<GameObject> jewelsToDestroy)
         {
-            foreach (var jewelToDestroy in jewelsToDestroys)
+            foreach (var jewelToDestroy in jewelsToDestroy)
             {
                 try
                 {
@@ -434,7 +247,7 @@ namespace _Game.Scripts
                 }
             }
             
-            jewelsToDestroys.ForEach(Destroy);
+            jewelsToDestroy.ForEach(Destroy);
 
             yield return new WaitForEndOfFrame();
             

@@ -1,12 +1,48 @@
 ﻿{
   "data": [
     {
-      "title": "How to win",
-      "text": "This is how you win the game"
+      "title": "Match'Em All!",
+      "text": "Welcome to Match'Em All! A Candy Crush inspired tile matching game. Your goal is to collect all of the gems from the board by swiping and eliminating them. If you are not someone who likes to dig through a How To Play guide, don't worry. Levels are designed in a way that facilitates incremental learning. If you do fancy a thorough read through a solid How To Play guide, hit next and find out all about the game's mechanics (I do talk about kittens quite a bit though, you can't take this pleasure away from me)!"
     },
     {
       "title": "Swiping tiles",
-      "text": "This is how you swipe the tiles"
+      "text": "To swipe a tile click and drag in the direction of the tile you want to swipe it with. Careful, you have got a swipe limit! There are some sneaky moves you can perform here! Levels Swipe and Sneaky Swipe will guide you through those basic actions."
+    },
+    {
+      "title": "Eliminating jewels",
+      "text": "Two things you need to know here. First, to eliminate a jewel, you need to click on it. Second, for the click to do anything, the jewel needs to belong to a matching set. There are a number of matching sets. You get the classic 2x2 square match. These come first during the evaluation. Then you get a horizontal, three in a row matching sets. Last, you get a vertical 3x1 matching set. If all of the jewels in a matching set are the same, they get eliminated. Remember: order matters. By design."
+    },
+    {
+      "title": "Falling",
+      "text": "Imagine you have got two kittens, stacked one on top of the other. Now imagine you want to give a big, warm hug to the kitten on the bottom. It's fluffy. It has got a squishy face. You just can't resist. What do you think will happen if you do pull the kitten out from below the other kitten? Why would jewels not do the same? See the Falling kittens level."
+    },
+    {
+      "title": "Blockers",
+      "text": "There are shields in the game, they block jewels. So that we don't get hit in the eye with them, when an angry lady has a fit."
+    },
+    {
+      "title": "Power Ups",
+      "text": "Power ups are like energy drinks you can give to a jewel. That's pretty abstract though so let me guide you through each one by one. One thing that makes them different from energy drinks is that their effects happen only after you have eliminated them. Not going to lie, it's pretty hard to find a correlation to an energy drink here. Maybe they are not like energy drinks at all?"
+    },
+    {
+      "title": "Power Ups: Bomb",
+      "text": "This one  will destroy every jewel around the jewel you attached the power up to."
+    },
+    {
+      "title": "Power Ups: Colour bomb",
+      "text": "Destroys all jewels of the same colour as the one it was attached to. Let's say you hate the colour orange (unbiased by the way). Now imagine that one of your co-workers wears only that colour to you office. A colour bomb is an equivalent of just blowing up that person's closet. Not that I would encourage."
+    },
+    {
+      "title": "Power Ups: Fragile",
+      "text": "A fragile jewel will get destroyed once it falls. This is the only power-up that doesn't happen after elimination of the jewel it is attached to. It will happen if you move stuff out from under it's feet though. Let's hope this doesn't happen to our kitten."
+    },
+    {
+      "title": "Power Ups: Blocker",
+      "text": "This power up will make the jewel leave a little surprise for you after you eliminate it. Let's...no, let's not actually."
+    },
+    {
+      "title": "Sands",
+      "text": "This one needs a little more support. From three sides in fact. This kitten needs two more friends on each side. If you have got a sand on your board, you need to be careful. It can move horizontally. Refer to the Sand levels."
     }
   ]
 }

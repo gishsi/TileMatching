@@ -3,16 +3,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-namespace _Game.UI.Components.Buttons.MainMenu
+namespace _Game.Scripts.UI.Buttons
 {
-    public class MainMenuComponent : MonoBehaviour
+    public class NavigateToMainMenu : MonoBehaviour
     {
                 
-        private ILogger<MainMenuComponent> _logger;
+        private ILogger<NavigateToMainMenu> _logger;
         
         private void OnEnable()
         {
-            _logger = new Logger<MainMenuComponent>(gameObject);
+            _logger = new Logger<NavigateToMainMenu>(gameObject);
             
             var root = GetComponent<UIDocument>().rootVisualElement;
             var mainMenuButton = root.Q<Button>("MainMenuButton");

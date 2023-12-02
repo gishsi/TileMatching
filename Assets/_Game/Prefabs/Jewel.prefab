@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 5767283580811781260}
   - component: {fileID: 3753264224216582439}
   - component: {fileID: 4624669747543325128}
-  - component: {fileID: 6540836341378441597}
   - component: {fileID: 393705547363958659}
   - component: {fileID: 6334806268213145675}
   - component: {fileID: 8695028825830560580}
-  - component: {fileID: 738339090244782032}
+  - component: {fileID: 3936345455949435647}
+  - component: {fileID: 1048545861355364106}
   m_Layer: 0
   m_Name: Jewel
   m_TagString: Jewel
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 83bb6b343c61d5846a200f1d2250afa3, type: 3}
-  m_Color: {r: 0, g: 0.62352943, b: 0.7176471, a: 1}
+  m_Color: {r: 0, g: 0.6235294, b: 0.7176471, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -165,20 +165,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &6540836341378441597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2294205601888927180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03a54f8b9c2a41db8ede0679888fe73e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  evaluateTrigger: {fileID: 11400000, guid: ab9de331293561a44b3e682513e67fe9, type: 2}
-  swipeTrigger: {fileID: 11400000, guid: edd93e3d0c06d6f47b5073db4e6ebf3f, type: 2}
 --- !u!114 &393705547363958659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,7 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e4c05cb3ea668945aed51526f850e3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &738339090244782032
+--- !u!114 &3936345455949435647
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -227,9 +213,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 2294205601888927180}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45609281a534ec74384534e565cdf8a3, type: 3}
+  m_Script: {fileID: 11500000, guid: b4c2c5fe2cf644c79ec3a077bcf42445, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  evaluateTrigger: {fileID: 11400000, guid: ab9de331293561a44b3e682513e67fe9, type: 2}
+--- !u!114 &1048545861355364106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2294205601888927180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67aa8bf0e81340009da8888e27bccb33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swipeTrigger: {fileID: 11400000, guid: edd93e3d0c06d6f47b5073db4e6ebf3f, type: 2}
 --- !u!1 &4108283811207799721
 GameObject:
   m_ObjectHideFlags: 0

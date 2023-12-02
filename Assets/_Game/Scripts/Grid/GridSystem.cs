@@ -84,7 +84,7 @@ namespace _Game.Scripts.Grid
                 return;
             }
             
-            var jewels = GetAllActionableTiles();
+            var jewels = GetAllEliminationInteractableTiles();
 
             // Automatic game over if there are no swaps or eliminations left.
             var tilesLeftThatCannotBeEliminated = jewels.Count > 0;
@@ -132,7 +132,7 @@ namespace _Game.Scripts.Grid
 
                     if (powerUp == PowerUps.ColourBomb)
                     {
-                        var allTiles = GetAllActionableTiles();
+                        var allTiles = GetAllEliminationInteractableTiles();
  
                         var powerUpCommand = new ColourBombCommand(matchingJewel, allTiles);
 
@@ -183,9 +183,9 @@ namespace _Game.Scripts.Grid
                 var targetSpriteColour = targetTile.GetComponent<SpriteRenderer>().color;
 
                 // todo: Is this really a good idea? What if we add more rules, e.g. blockers?
-                if (originSpriteColour == targetSpriteColour || targetTile.GetComponent<Actionable>() == null)
+                if (originSpriteColour == targetSpriteColour || targetTile.GetComponent<SwipeInteractable>() == null)
                 {
-                    Debug.Log("Swap not valid. Colours are different or the tile is missing the actionable component.");
+                    Debug.Log($"Swap not valid. Colours are different or the tile is missing the {nameof(SwipeInteractable)} component.");
                     
                     return;
                 }
@@ -218,17 +218,17 @@ namespace _Game.Scripts.Grid
         /// </summary>
         private bool DoesGridContainTilesToRemove()
         {
-            var actionableTiles = new List<Transform>();
+            var eliminationInteractableTiles = new List<Transform>();
             foreach (Transform child in transform)
             {
-                if(child.GetComponent<CanBeEliminated>() == null)
+                if(child.GetComponent<EliminationInteractable>() == null)
                 {
                     continue;
                 }
-                actionableTiles.Add(child);
+                eliminationInteractableTiles.Add(child);
             }
             
-            return actionableTiles.Count > 0;
+            return eliminationInteractableTiles.Count > 0;
         }
         
         /// <summary>
@@ -398,13 +398,13 @@ namespace _Game.Scripts.Grid
             yield return new WaitForEndOfFrame();
         }
         
-        private List<GameObject> GetAllActionableTiles()
+        private List<GameObject> GetAllEliminationInteractableTiles()
         {
             var tiles = new List<GameObject>();
             
             foreach (Transform child in transform)
             {
-                if (child.GetComponent<Actionable>() == null)
+                if (child.GetComponent<EliminationInteractable>() == null)
                 {
                     continue;
                 }
@@ -420,7 +420,7 @@ namespace _Game.Scripts.Grid
             
             foreach (Transform child in transform)
             {
-                if (child.GetComponent<CanFall>() == null)
+                if (child.GetComponent<FallingAbility>() == null)
                 {
                     continue;
                 }
@@ -437,7 +437,7 @@ namespace _Game.Scripts.Grid
         /// <returns>True if there are matching sets, false otherwise</returns>
         private bool AreThereAnyMatchingSets()
         {
-            var tiles = GetAllActionableTiles();
+            var tiles = GetAllEliminationInteractableTiles();
 
             foreach (var tile in tiles)
             {

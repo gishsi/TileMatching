@@ -14,7 +14,7 @@ namespace _Game.Scripts
         /// <remarks>
         ///     The lists themselves need to be ordered by columns descending.
         /// </remarks>
-        private static readonly List<List<Vector2Int>> MatchZones = new ()
+        private static readonly List<List<Vector2Int>> MatchKernels = new ()
         {
             new List<Vector2Int>() { new(0, 0), new(1, 0), new(0, -1), new(1, -1) }, // 2x2 top-left
             new List<Vector2Int>() { new(-1, 0), new(0, 0), new(-1, -1), new(0, -1) }, // 2x2 top-right
@@ -29,13 +29,13 @@ namespace _Game.Scripts
         };
 
         /// <summary>
-        ///     Iterates over all possible match zones <see cref="MatchZones"/> and returns a list of game objects if there is a match.
+        ///     Iterates over all possible match zones <see cref="MatchKernels"/> and returns a list of game objects if there is a match.
         /// </summary>
         /// <param name="origin">Tile that is being evaluated</param>
         /// <returns>list of game objects if there is a match, empty list otherwise.</returns>
         public static List<GameObject> GetMatchingJewels(Vector2Int origin)
         {
-            foreach (var matchZone in MatchZones)
+            foreach (var matchZone in MatchKernels)
             {
                 // Find all tiles that belong to a given matching set
                 var amountOfTilesToMatch = matchZone.Count;

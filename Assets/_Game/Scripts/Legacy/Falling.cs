@@ -31,7 +31,7 @@ namespace _Game.Scripts.Legacy
             _rigidbody2D = GetComponent<Rigidbody2D>();
         }
 
-        // TODO: ONLY TEMPORARY, HAVE THIS SUBSCRIBE TO THE MATCHING EVENT (GRID EVALUATION, WHATEVER)
+        // ONLY TEMPORARY, HAVE THIS SUBSCRIBE TO THE MATCHING EVENT (GRID EVALUATION, WHATEVER)
         private void OnEnable()
         {
             SwitchPlacesOfPickedUp.OnSwitch += Fall;
@@ -55,7 +55,7 @@ namespace _Game.Scripts.Legacy
             
             for (var i = 0; i < size; i++)
             {
-                // todo: consider putting this code somewhere top-level (it's only a couple of lines, but might be worth)
+                // consider putting this code somewhere top-level (it's only a couple of lines, but might be worth)
                 var isItself = results[i].collider.gameObject == gameObject;
             
                 // This means there are no tiles (blockers, other tiles) so we can disable the freeze position constraint

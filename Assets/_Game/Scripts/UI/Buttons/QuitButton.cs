@@ -1,16 +1,20 @@
-﻿using _Game.Scripts.Utils;
+﻿using System.Runtime.InteropServices;
+using _Game.Scripts.Utils;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace _Game.UI.Components.Buttons.Quit
+namespace _Game.Scripts.UI.Buttons
 {
-    public class QuitComponent : MonoBehaviour
+    public class QuitButton : MonoBehaviour
     {
-        private ILogger<QuitComponent> _logger;
+        private ILogger<QuitButton> _logger;
+        
+        [DllImport("__Internal")]
+        private static extern void CloseGame();
         
         private void OnEnable()
         {
-            _logger = new Logger<QuitComponent>(gameObject);
+            _logger = new Logger<QuitButton>(gameObject);
             
             var root = GetComponent<UIDocument>().rootVisualElement;
             
@@ -24,9 +28,11 @@ namespace _Game.UI.Components.Buttons.Quit
             _logger.Log("Quiting the game.");
             
 #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
+        UnityEditor.EditorApplication.isPlaying = false;
+#elif UNITY_WEBGL
+        CloseGame();
 #else
-                Application.Quit();
+        Application.Quit();
 #endif
         }   
     }

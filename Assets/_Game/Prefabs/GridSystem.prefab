@@ -44,7 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 600b70f719ce6a140858146cae49d99a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jewel: {fileID: 2294205601888927180, guid: 07aa417bce9147e45a582c089e74ea8b, type: 3}
-  blocker: {fileID: 2294205601888927180, guid: df0e575aa88780743b7ac904cff50657, type: 3}
-  rows: 6
-  cols: 4
+  updateSwap: {fileID: 11400000, guid: b141624e996f7b94abb02c1e738bb7c7, type: 2}
+  evaluateTrigger: {fileID: 11400000, guid: ab9de331293561a44b3e682513e67fe9, type: 2}
+  swipeTrigger: {fileID: 11400000, guid: edd93e3d0c06d6f47b5073db4e6ebf3f, type: 2}

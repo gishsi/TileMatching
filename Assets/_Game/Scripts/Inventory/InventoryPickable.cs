@@ -1,8 +1,6 @@
-using System;
 using _Game.Scripts.Events;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 
 namespace _Game.Scripts.Inventory
 {

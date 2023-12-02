@@ -4,30 +4,26 @@ using UnityEngine;
 namespace _Game.Scripts.TileComponents
 {
     /// <summary>
-    ///     This components makes it possible to pick up a tile, perform evaluation and switching actions.
+    ///     Adds the ability to be swiped to the tile
     /// </summary>
-    public class Actionable : MonoBehaviour
+    public class SwipeInteractable : MonoBehaviour
     {
-        // *********** Private variables *********** //
         private bool _hasBeenPickedUp;
-        
-        // *********** Events *********** //
-        [SerializeField]
-        private EvaluateTriggerScriptableObject evaluateTrigger;
-        
+
         [SerializeField]
         private SwipeTriggerScriptableObject swipeTrigger;
         
-        // *********** Mouse events *********** //
         private void OnMouseDown()
         {
             _hasBeenPickedUp = true;
-     
-            evaluateTrigger.RaiseEvent(new Evaluate(gameObject));
         }
 
+        /// <summary>
+        ///     Calculates the vector between the game object and the mouse. The normalized vector is the direction of the swipe.
+        /// </summary>
         private void OnMouseUp()
         {
+            // Tile must be picked up in order to be swiped
             if (!_hasBeenPickedUp)
             {
                 return;
@@ -45,8 +41,8 @@ namespace _Game.Scripts.TileComponents
             }
             
             // Vector2Int wil result in a vector whose values are only 1, 0, or -1
-            var direction = Vector2Int.RoundToInt(difference.normalized);
-            
+            var direction =Vector2Int.RoundToInt(difference.normalized);
+
             // Send an event to the Grid system that an evaluation should take place.
             // The name of the tile is the position in the grid.
             swipeTrigger.RaiseEvent(new Swipe(gameObject.name, direction));

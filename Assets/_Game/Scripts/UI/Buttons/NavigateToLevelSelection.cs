@@ -2,9 +2,9 @@
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-namespace _Game.UI.Components.Buttons.LevelSelection
+namespace _Game.Scripts.UI.Buttons
 {
-    public class LevelSelectionComponent : MonoBehaviour
+    public class NavigateToLevelSelection : MonoBehaviour
     {
         private void OnEnable()
         {

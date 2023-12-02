@@ -1,18 +1,17 @@
-﻿using _Game.Scripts;
-using _Game.Scripts.Utils;
+﻿using _Game.Scripts.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-namespace _Game.UI.Components.Buttons.Restart
+namespace _Game.Scripts.UI.Buttons
 {
-    public class RestartComponent: MonoBehaviour 
+    public class RestartButton: MonoBehaviour 
     {
-        private ILogger<RestartComponent> _logger;
+        private ILogger<RestartButton> _logger;
         
         private void OnEnable()
         {
-            _logger = new Logger<RestartComponent>(gameObject);
+            _logger = new Logger<RestartButton>(gameObject);
             
             var root = GetComponent<UIDocument>().rootVisualElement;
             

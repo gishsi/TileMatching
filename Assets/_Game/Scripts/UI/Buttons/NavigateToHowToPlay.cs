@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-namespace _Game.UI.Components.Buttons.HowToPlay
+namespace _Game.Scripts.UI.Buttons
 {
     public class NavigateToHowToPlay : MonoBehaviour
     {

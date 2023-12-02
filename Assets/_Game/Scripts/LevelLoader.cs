@@ -67,7 +67,7 @@ namespace _Game.Scripts
 
                     item.GetComponent<Image>().sprite = powerUpSpritesResolverScriptableObject.GetSpriteForPowerUpType(powerUp);
             
-                    item.transform.parent = inventoryContainer.transform;
+                    item.transform.SetParent(inventoryContainer.transform, worldPositionStays: false);
                 }
                 catch (Exception e)
                 {

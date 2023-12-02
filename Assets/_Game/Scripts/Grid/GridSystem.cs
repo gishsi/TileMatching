@@ -181,8 +181,7 @@ namespace _Game.Scripts.Grid
                 // Find out if its okay to swipe (same colour)
                 var originSpriteColour = originTile.GetComponent<SpriteRenderer>().color;
                 var targetSpriteColour = targetTile.GetComponent<SpriteRenderer>().color;
-
-                // todo: Is this really a good idea? What if we add more rules, e.g. blockers?
+                
                 if (originSpriteColour == targetSpriteColour || targetTile.GetComponent<SwipeInteractable>() == null)
                 {
                     Debug.Log($"Swap not valid. Colours are different or the tile is missing the {nameof(SwipeInteractable)} component.");
@@ -294,6 +293,7 @@ namespace _Game.Scripts.Grid
 
                     var fell = false;
 
+                    // todo: Rework this.
                     var initialNameOfSande = tile.name;
                     
                     foreach (var sandMovesKernel in sandMovesKernels)
@@ -310,7 +310,6 @@ namespace _Game.Scripts.Grid
                                 continue;
                             }
 
-
                             // Don't move a sand if it's in the bottom row
                             if (tile.name.EndsWith("0"))
                             {
@@ -322,7 +321,6 @@ namespace _Game.Scripts.Grid
                                 continue;
                             }
                             
-                            // todo: this needs to be 
                             if (tile.name.StartsWith("5") && move.x == 1)
                             {
                                 continue;

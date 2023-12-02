@@ -59,7 +59,6 @@ namespace _Game.Scripts
                         return;
                     }
          
-                    // todo: Consider putting tiles into a layer or checking for tag and checking for that here
                     if (tile == null)
                     {
                         return;

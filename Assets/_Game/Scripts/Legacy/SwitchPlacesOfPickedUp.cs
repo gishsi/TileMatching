@@ -24,7 +24,7 @@ namespace _Game.Scripts.Legacy
         private void Awake()
         {
             _logger = new Logger<SwitchPlacesOfPickedUp>(gameObject);
-            initialPosition = transform.position; // todo: use local position instead
+            initialPosition = transform.position; // use local position instead
         }
 
         private void Update()
@@ -45,7 +45,6 @@ namespace _Game.Scripts.Legacy
 
         private void OnMouseDown()
         {
-            // todo: coupling, rework
             // e.g. have an event from Falling emit that this component could listen to, disable all mouse interaction.
             var fallingComponent = gameObject.GetComponent<Falling>();
             if (fallingComponent != null && fallingComponent.canFall)
@@ -85,7 +84,7 @@ namespace _Game.Scripts.Legacy
                 var isItself = raycastHit2D.collider.gameObject == gameObject;
                 var isHitAJewel = raycastHit2D.collider.gameObject.CompareTag(targetObjectTag);
                 
-                // todo: from colour matching this should compare sprites
+                // from colour matching this should compare sprites
                 var colourOfPickedUp = GetComponent<SpriteRenderer>().color;
                 var colourOfDroppedOn = raycastHit2D.collider.gameObject.GetComponent<SpriteRenderer>().color;
                 var areColoursMatching = colourOfPickedUp.Equals(colourOfDroppedOn);
@@ -116,12 +115,12 @@ namespace _Game.Scripts.Legacy
                 initialPosition = transform.position;
 
                 swapped = true;
-                // todo: send an event that some objects have switched places (e.g. re-evaluate rows)
+                // send an event that some objects have switched places (e.g. re-evaluate rows)
                 
                 // send the event here
                 OnSwitch?.Invoke();
                 
-                // todo: cast a ray between the two tiles a player tries to swap, if there is a tile between, break.
+                // cast a ray between the two tiles a player tries to swap, if there is a tile between, break.
                 _logger.Log("New position of picked up: " + hitGameObjectPosition);
                 _logger.Log("New position of dropped " + detectComponent.gameObject.name + " on: "  + detectComponent.initialPosition);
             }

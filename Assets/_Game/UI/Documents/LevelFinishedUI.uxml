@@ -1,17 +1,17 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:Template name="MainMenuButton" src="project://database/Assets/_Game/UI/Components/Buttons/MainMenu/MainMenuButton.uxml?fileID=9197481963319205126&amp;guid=53878f702fc87be4dba29229b69282a3&amp;type=3#MainMenuButton" />
-    <ui:Template name="QuitButton" src="project://database/Assets/_Game/UI/Components/Buttons/Quit/QuitButton.uxml?fileID=9197481963319205126&amp;guid=9a20fcdb93258b0478df4f4103a32035&amp;type=3#QuitButton" />
+    <ui:Template name="MainMenuButton" src="project://database/Assets/_Game/UI/Components/Buttons/MainMenuButton.uxml?fileID=9197481963319205126&amp;guid=53878f702fc87be4dba29229b69282a3&amp;type=3#MainMenuButton" />
+    <ui:Template name="QuitButton" src="project://database/Assets/_Game/UI/Components/Buttons/QuitButton.uxml?fileID=9197481963319205126&amp;guid=9a20fcdb93258b0478df4f4103a32035&amp;type=3#QuitButton" />
     <Style src="project://database/Assets/_Game/UI/Theme.uss?fileID=7433441132597879392&amp;guid=925e3dd8059d66b40b89b7a8ea4cbf55&amp;type=3#Theme" />
     <ui:VisualElement style="justify-content: center; align-items: center; align-self: center; height: 100%; width: 100%;">
         <ui:VisualElement name="Container" style="max-width: 600px;">
             <ui:Label tabindex="-1" text="Level finished" parse-escape-sequences="true" display-tooltip-when-elided="true" name="LevelFinishedLabel" style="font-size: 96px; -unity-font-style: bold; -unity-text-align: upper-center; justify-content: center; align-self: center; margin-bottom: 32px; color: rgb(237, 224, 220); max-width: none; flex-wrap: wrap; white-space: normal; -unity-font-definition: url(&apos;project://database/Assets/_Game/Art/m5x7%20SDF.asset?fileID=11400000&amp;guid=8450b22f617731e42b77b710ede9e668&amp;type=2#m5x7 SDF&apos;);" />
-            <ui:Button text="Next level" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GoToNextLevelButton" class="secondary-button" />
-            <ui:Button text="Play from beginning" parse-escape-sequences="true" display-tooltip-when-elided="true" name="PlayFromBeginningButton" class="secondary-button" />
-            <ui:VisualElement name="RestartButton">
+            <ui:Button text="Next level" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GoToNextLevelButton" class="secondary-button" style="cursor: url(&apos;project://database/Assets/_Game/Art/cursor_select.png?fileID=2800000&amp;guid=27ff32675e2684b4b93b467f5bc5cbfb&amp;type=3#cursor_select&apos;);" />
+            <ui:Button text="Play from beginning" parse-escape-sequences="true" display-tooltip-when-elided="true" name="PlayFromBeginningButton" class="secondary-button" style="cursor: url(&apos;project://database/Assets/_Game/Art/cursor_select.png?fileID=2800000&amp;guid=27ff32675e2684b4b93b467f5bc5cbfb&amp;type=3#cursor_select&apos;);" />
+            <ui:VisualElement name="RestartButton" style="cursor: url(&apos;project://database/Assets/_Game/Art/cursor_select.png?fileID=2800000&amp;guid=27ff32675e2684b4b93b467f5bc5cbfb&amp;type=3#cursor_select&apos;);">
                 <ui:Button text="Replay last level" parse-escape-sequences="true" display-tooltip-when-elided="true" name="RestartButton" class="secondary-button" />
             </ui:VisualElement>
-            <ui:Instance template="MainMenuButton" name="MainMenuButton" />
-            <ui:Instance template="QuitButton" name="QuitButton" />
+            <ui:Instance template="MainMenuButton" name="MainMenuButton" style="cursor: url(&apos;project://database/Assets/_Game/Art/cursor_select.png?fileID=2800000&amp;guid=27ff32675e2684b4b93b467f5bc5cbfb&amp;type=3#cursor_select&apos;);" />
+            <ui:Instance template="QuitButton" name="QuitButton" style="cursor: url(&apos;project://database/Assets/_Game/Art/cursor_select.png?fileID=2800000&amp;guid=27ff32675e2684b4b93b467f5bc5cbfb&amp;type=3#cursor_select&apos;);" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

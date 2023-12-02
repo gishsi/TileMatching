@@ -13,8 +13,8 @@ namespace _Game.Scripts
     [CreateAssetMenu(fileName = "New level", menuName = "Levels/New Level")]
     public class LevelScriptableObject : ScriptableObject
     {
-        private const int MaxRows = 4;
-        private const int MaxColumns = 6;
+        private const int MaxRows = 5;
+        private const int MaxColumns = 7;
         
         [Header("Level")]
         [SerializeField] public string levelName;

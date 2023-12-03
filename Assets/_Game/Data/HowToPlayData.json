@@ -38,11 +38,11 @@
     },
     {
       "title": "Power Ups: Blocker",
-      "text": "This power up will make the jewel leave a little surprise for you after you eliminate it. Let's...no, let's not actually."
+      "text": "This power up will make the jewel leave a blocker in its place after being eliminated."
     },
     {
       "title": "Sands",
-      "text": "This one needs a little more support. From three sides in fact. This kitten needs two more friends on each side. If you have got a sand on your board, you need to be careful. It can move horizontally. Refer to the Sand levels."
+      "text": "This one needs a little more support. From three sides in fact. This kitten needs two more friends on each side. If you have got a sand on your board, you need to be careful. It can move vertically AND move horizontally. Refer to the Sand levels."
     }
   ]
 }

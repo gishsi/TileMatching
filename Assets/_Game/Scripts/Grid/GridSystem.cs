@@ -293,7 +293,6 @@ namespace _Game.Scripts.Grid
 
                     var fell = false;
 
-                    // todo: Rework this.
                     var initialNameOfSande = tile.name;
                     
                     foreach (var sandMovesKernel in sandMovesKernels)
@@ -316,17 +315,18 @@ namespace _Game.Scripts.Grid
                                 return;
                             }
                             
+                            // Is the sand on the far left side?
                             if (tile.name.StartsWith("0") && move.x == -1)
                             {
                                 continue;
                             }
                             
-                            if (tile.name.StartsWith("5") && move.x == 1)
+                            // Is the sand on the far right side?
+                            if (tile.name.StartsWith((_gridConfiguration.LevelData.colsAmount - 1).ToString()) && move.x == 1)
                             {
                                 continue;
                             }
                                 
-                            Debug.Log($"Else move {move}");
                             tile.name =  GridHelpers.ParseVector2IntIntoNameString(move +  GridHelpers.ParseNameIntoVector2Int(initialNameOfSande));
                             tile.transform.localPosition = GridHelpers.GetLocalPositionForGridCoordinate(GridHelpers.ParseNameIntoVector2Int(tile.name));
                             fell = true;
@@ -373,8 +373,11 @@ namespace _Game.Scripts.Grid
                             continue;
                         }
                     }
-                    catch (Exception e) {}
-                    
+                    catch (Exception e)
+                    {
+                        // ignored
+                    }
+
                     // Fall down
                     tile.name = nameOfTheTileBelow;
                     tile.transform.localPosition = GridHelpers.GetLocalPositionForGridCoordinate(positionOfTheTileBelow);
